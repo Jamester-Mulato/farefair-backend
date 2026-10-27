@@ -1,12 +1,19 @@
-# IT 110 Activity 10 — Backend Evidence
+# Backend Evidence
 
-This folder stores the laboratory evidence report for **FareFair: Fare Overcharging
+This folder stores the laboratory evidence reports for **FareFair: Fare Overcharging
 Detection Using Machine Learning Based on Trip Distance, Route, and Fare Patterns**
-(Synova, IT 110 — Web Systems and Technologies).
+(Synova).
 
 | Artifact | Description |
 | --- | --- |
-| [`FastAPI_Evidence_Report_40.docx`](FastAPI_Evidence_Report_40.docx) | The filled evidence report: health check, Swagger UI inventory, per-endpoint results, error log, checkpoint and rubric. |
+| [`FastAPI_Evidence_Report_40.docx`](FastAPI_Evidence_Report_40.docx) | IT 110 Activity 10: health check, Swagger UI inventory, per-endpoint results, error log, checkpoint and rubric. |
+| [`IT108_Activity_7_Security_Report.docx`](IT108_Activity_7_Security_Report.docx) | IT 108 Activity 7: roles, access-control matrix, GRANT/REVOKE tests, RLS decision, credential protection and SQL-injection review. |
+
+The narrative and reproducible artifacts behind the IT 108 report live in
+[`docs/SECURITY.md`](../SECURITY.md), [`db/002_security.sql`](../../db/002_security.sql)
+and [`src/scripts/security-check.js`](../../src/scripts/security-check.js).
+
+## IT 110 Activity 10 — API evidence
 
 ## Tested build
 
