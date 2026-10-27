@@ -3,15 +3,16 @@ services:
     image: postgres:17-alpine
     container_name: farefair-postgres
     environment:
-      POSTGRES_USER: farefair
-      POSTGRES_PASSWORD: farefair
-      POSTGRES_DB: farefair
+      POSTGRES_USER: ${POSTGRES_USER:-farefair}
+      # Required: set POSTGRES_PASSWORD in a local .env file (never commit it).
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env before starting Docker Compose}
+      POSTGRES_DB: ${POSTGRES_DB:-farefair}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - farefair_pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U farefair -d farefair"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-farefair} -d ${POSTGRES_DB:-farefair}"]
       interval: 5s
       timeout: 5s
       retries: 10

@@ -21,6 +21,9 @@ The schema targets **PostgreSQL 15+**. For zero-setup development and tests it r
 > **IT 110 Activity 10 evidence:** the health check, 40-feature endpoint inventory and
 > tested responses are in [`docs/evidence/`](docs/evidence/README.md), including the
 > filled report `FastAPI_Evidence_Report_40.docx`.
+>
+> **IT 108 Activity 7 security evidence:** roles, GRANT/REVOKE tests, the RLS
+> decision and the SQL-injection review are in [`docs/SECURITY.md`](docs/SECURITY.md).
 
 ---
 
@@ -39,7 +42,7 @@ Open <http://localhost:4000/admin/> for the admin console, <http://localhost:400
 Swagger UI, or <http://localhost:4000/health>.
 
 The console is served by the API itself, so its fetches are same-origin and write endpoints run
-exactly as deployed. Sign in with a seeded account (password `farefair` for all three):
+exactly as deployed. Sign in with a seeded account (password `farefair` for all three unless `SEED_DEMO_PASSWORD` was set before `npm run db:reset`):
 
 | Login | Role | City scope |
 | --- | --- | --- |
@@ -62,7 +65,7 @@ docker compose up -d
 cp .env.example .env
 # edit .env:
 #   DB_DRIVER=pg
-#   DATABASE_URL=postgres://farefair:farefair@localhost:5432/farefair
+#   DATABASE_URL=postgres://farefair:your-local-password@localhost:5432/farefair
 npm run db:reset:pg
 npm start
 ```

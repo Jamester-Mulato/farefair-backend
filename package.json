@@ -18,6 +18,7 @@
     "docs:examples": "node src/scripts/enrich-openapi.js",
     "docs:inputs": "node src/scripts/build-api-inputs-doc.js",
     "seed": "node src/scripts/reset-db.js",
+    "security:check": "node src/scripts/security-check.js",
     "train": "node src/scripts/train.js",
     "test": "node --test --test-concurrency=1"
   },

@@ -13,6 +13,15 @@ import { mulberry32, pick, weighted } from './lib/mulberry32.js';
 
 const MODEL_KEY = 'fare-fair-linear';
 
+/**
+ * Demo accounts created by `npm run db:reset`. The password is fixture data,
+ * not a production credential: it can be overridden with SEED_DEMO_PASSWORD
+ * and must be set explicitly when NODE_ENV=production.
+ */
+const DEMO_PASSWORD =
+  process.env.SEED_DEMO_PASSWORD ??
+  (process.env.NODE_ENV === 'production' ? null : 'farefair');
+
 const here = path.dirname(fileURLToPath(import.meta.url));
 const DATASET_PATH = path.resolve(
   here,
@@ -285,6 +294,11 @@ export async function seed(db, { now = new Date(), tripDays = 21, log = () => {}
       ['analyst@farefair.local', 'FareFair Analyst', 'analyst', []],
       ['lgu@farefair.local', 'Cabadbaran LGU Editor', 'lgu_editor', [city.id]],
     ];
+    if (!DEMO_PASSWORD) {
+      throw new Error(
+        'SEED_DEMO_PASSWORD must be set when seeding demo accounts with NODE_ENV=production.',
+      );
+    }
     const adminIds = [];
     for (const [email, displayName, role, cityScope] of adminUsers) {
       const result = await tx.query(
@@ -292,7 +306,7 @@ export async function seed(db, { now = new Date(), tripDays = 21, log = () => {}
            (email, display_name, role, password_hash, city_scope)
          VALUES ($1,$2,$3::admin_role,$4,$5::text[])
          RETURNING id`,
-        [email, displayName, role, hashPassword('farefair'), cityScope],
+        [email, displayName, role, hashPassword(DEMO_PASSWORD), cityScope],
       );
       adminIds.push(result.rows[0].id);
     }
