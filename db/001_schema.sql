@@ -1,0 +1,1022 @@
+-- ===========================================================================
+-- FareFair PostgreSQL schema
+-- ---------------------------------------------------------------------------
+-- Target: PostgreSQL 15+ (works on the embedded PGlite / PostgreSQL 17 build).
+--
+-- The API executes this file after resetting the `farefair` schema:
+--   DROP SCHEMA IF EXISTS farefair CASCADE;
+--   CREATE SCHEMA farefair;
+--
+-- Design notes
+--  * City datasets are versioned (fare policy + fare matrix), so an LGU can
+--    publish a new ordinance without destroying the history of old trips.
+--  * Money is NUMERIC(10,2); distances are NUMERIC(7,2).
+--  * The fare engine lives in SQL (fn_calculate_fare) so every client uses
+--    exactly the same arithmetic as the Flutter app.
+--  * The ML model registry is first-class: models, versions, coefficients,
+--    metrics, training samples and predictions are all queryable.
+-- ===========================================================================
+
+SET search_path TO farefair, public;
+
+-- ---------------------------------------------------------------------------
+-- Enumerations
+-- ---------------------------------------------------------------------------
+CREATE TYPE city_status AS ENUM ('active', 'candidate', 'retired');
+CREATE TYPE publication_status AS ENUM ('draft', 'active', 'retired');
+CREATE TYPE ordinance_status AS ENUM ('pending', 'enacted', 'amended', 'repealed');
+CREATE TYPE discount_code AS ENUM ('none', 'student', 'senior', 'pwd');
+CREATE TYPE trip_status AS ENUM ('completed', 'flagged', 'disputed');
+CREATE TYPE recorded_via AS ENUM ('fare_estimate', 'live_trip_recording', 'import');
+CREATE TYPE model_status AS ENUM ('candidate', 'active', 'retired');
+CREATE TYPE model_task AS ENUM ('fare_regression', 'anomaly_detection');
+CREATE TYPE anomaly_severity AS ENUM ('low', 'medium', 'high');
+CREATE TYPE admin_role AS ENUM ('viewer', 'analyst', 'admin', 'lgu_editor');
+
+-- ---------------------------------------------------------------------------
+-- Geography & city identity
+-- ---------------------------------------------------------------------------
+CREATE TABLE cities (
+  id            TEXT PRIMARY KEY,
+  display_name  TEXT NOT NULL,
+  province      TEXT NOT NULL DEFAULT '',
+  region        TEXT NOT NULL DEFAULT '',
+  status        city_status NOT NULL DEFAULT 'candidate',
+  centro_label  TEXT NOT NULL DEFAULT '',
+  center_lat    NUMERIC(9,6) NOT NULL CHECK (center_lat BETWEEN -90 AND 90),
+  center_lng    NUMERIC(9,6) NOT NULL CHECK (center_lng BETWEEN -180 AND 180),
+  timezone      TEXT NOT NULL DEFAULT 'Asia/Manila',
+  is_focus      BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Only one city can be the app's focus city.
+CREATE UNIQUE INDEX cities_one_focus_idx ON cities (is_focus) WHERE is_focus;
+
+CREATE TABLE city_provenance (
+  city_id       TEXT PRIMARY KEY REFERENCES cities(id) ON DELETE CASCADE,
+  provisional   BOOLEAN NOT NULL DEFAULT TRUE,
+  source        TEXT NOT NULL DEFAULT '',
+  last_verified DATE,
+  verified_by   TEXT,
+  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- ---------------------------------------------------------------------------
+-- Vehicle catalog (global; city-specific prices live in fare matrices)
+-- ---------------------------------------------------------------------------
+CREATE TABLE vehicle_types (
+  id                     TEXT PRIMARY KEY,
+  category               TEXT NOT NULL,
+  name                   TEXT NOT NULL,
+  tag                    TEXT NOT NULL DEFAULT '',
+  description            TEXT NOT NULL DEFAULT '',
+  icon                   TEXT NOT NULL DEFAULT '',
+  default_base_fare      NUMERIC(10,2) NOT NULL CHECK (default_base_fare >= 0),
+  default_base_distance_km NUMERIC(7,2) NOT NULL CHECK (default_base_distance_km >= 0),
+  default_per_km_rate    NUMERIC(10,2) NOT NULL CHECK (default_per_km_rate >= 0),
+  default_min_fare       NUMERIC(10,2) NOT NULL CHECK (default_min_fare >= 0),
+  default_max_customary  NUMERIC(10,2) NOT NULL CHECK (default_max_customary >= 0),
+  typical_capacity       SMALLINT NOT NULL CHECK (typical_capacity > 0),
+  regulation_note        TEXT NOT NULL DEFAULT '',
+  sort_order             SMALLINT NOT NULL DEFAULT 0,
+  created_at             TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at             TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- ---------------------------------------------------------------------------
+-- Statutory discount programs (student / senior / PWD)
+-- ---------------------------------------------------------------------------
+CREATE TABLE discount_programs (
+  code         TEXT PRIMARY KEY,
+  label        TEXT NOT NULL,
+  rate         NUMERIC(5,4) NOT NULL CHECK (rate BETWEEN 0 AND 1),
+  legal_basis  TEXT NOT NULL DEFAULT '',
+  description  TEXT NOT NULL DEFAULT '',
+  is_active    BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+-- ---------------------------------------------------------------------------
+-- Ordinances / regulatory issuances
+-- ---------------------------------------------------------------------------
+CREATE TABLE ordinances (
+  id                    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  external_id           TEXT NOT NULL,
+  slug                  TEXT NOT NULL UNIQUE,
+  city_id               TEXT NOT NULL REFERENCES cities(id) ON DELETE CASCADE,
+  title                 TEXT NOT NULL,
+  municipality          TEXT NOT NULL DEFAULT '',
+  ordinance_number      TEXT NOT NULL DEFAULT '',
+  status                ordinance_status NOT NULL DEFAULT 'pending',
+  date_enacted_label    TEXT NOT NULL DEFAULT '',
+  date_enacted          DATE,
+  effective_from        DATE,
+  effective_to          DATE,
+  summary               TEXT NOT NULL DEFAULT '',
+  vehicle_applicability TEXT NOT NULL DEFAULT '',
+  base_fare             NUMERIC(10,2) CHECK (base_fare IS NULL OR base_fare >= 0),
+  succeeding_km_rate    NUMERIC(10,2) CHECK (succeeding_km_rate IS NULL OR succeeding_km_rate >= 0),
+  discount_terms        TEXT NOT NULL DEFAULT '',
+  document_url          TEXT,
+  document_sha256       TEXT,
+  created_at            TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at            TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE (city_id, external_id)
+);
+
+CREATE INDEX ordinances_city_idx ON ordinances (city_id);
+
+CREATE TABLE ordinance_vehicle_applicability (
+  ordinance_id    UUID NOT NULL REFERENCES ordinances(id) ON DELETE CASCADE,
+  vehicle_type_id TEXT NOT NULL REFERENCES vehicle_types(id) ON DELETE CASCADE,
+  PRIMARY KEY (ordinance_id, vehicle_type_id)
+);
+
+-- ---------------------------------------------------------------------------
+-- Versioned fare policies (discount rate, leeway, passenger bounds, pakyaw)
+-- ---------------------------------------------------------------------------
+CREATE TABLE fare_policy_versions (
+  id                    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  city_id               TEXT NOT NULL REFERENCES cities(id) ON DELETE CASCADE,
+  version               INTEGER NOT NULL CHECK (version > 0),
+  status                publication_status NOT NULL DEFAULT 'draft',
+  discount_rate         NUMERIC(5,4) NOT NULL DEFAULT 0.20 CHECK (discount_rate BETWEEN 0 AND 1),
+  customary_leeway_min  NUMERIC(5,4) NOT NULL DEFAULT 0.92 CHECK (customary_leeway_min > 0),
+  customary_leeway_max  NUMERIC(5,4) NOT NULL DEFAULT 1.12,
+  min_passengers        SMALLINT NOT NULL DEFAULT 1 CHECK (min_passengers >= 1),
+  max_passengers        SMALLINT NOT NULL DEFAULT 6,
+  pakyaw_seat_cap       SMALLINT NOT NULL DEFAULT 4 CHECK (pakyaw_seat_cap >= 1),
+  effective_from        DATE,
+  effective_to          DATE,
+  ordinance_id          UUID REFERENCES ordinances(id) ON DELETE SET NULL,
+  notes                 TEXT NOT NULL DEFAULT '',
+  created_at            TIMESTAMPTZ NOT NULL DEFAULT now(),
+  activated_at          TIMESTAMPTZ,
+  UNIQUE (city_id, version),
+  CHECK (customary_leeway_max >= customary_leeway_min),
+  CHECK (max_passengers >= min_passengers)
+);
+
+CREATE UNIQUE INDEX fare_policy_one_active_idx
+  ON fare_policy_versions (city_id) WHERE status = 'active';
+
+-- ---------------------------------------------------------------------------
+-- Versioned fare matrices
+-- ---------------------------------------------------------------------------
+CREATE TABLE fare_matrix_versions (
+  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  city_id           TEXT NOT NULL REFERENCES cities(id) ON DELETE CASCADE,
+  version           INTEGER NOT NULL CHECK (version > 0),
+  status            publication_status NOT NULL DEFAULT 'draft',
+  policy_version_id UUID REFERENCES fare_policy_versions(id) ON DELETE SET NULL,
+  ordinance_id      UUID REFERENCES ordinances(id) ON DELETE SET NULL,
+  effective_from    DATE,
+  effective_to      DATE,
+  provisional       BOOLEAN NOT NULL DEFAULT TRUE,
+  source            TEXT NOT NULL DEFAULT '',
+  notes             TEXT NOT NULL DEFAULT '',
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
+  activated_at      TIMESTAMPTZ,
+  UNIQUE (city_id, version)
+);
+
+CREATE UNIQUE INDEX fare_matrix_one_active_idx
+  ON fare_matrix_versions (city_id) WHERE status = 'active';
+
+CREATE TABLE fare_matrix_entries (
+  matrix_version_id  UUID NOT NULL REFERENCES fare_matrix_versions(id) ON DELETE CASCADE,
+  vehicle_type_id    TEXT NOT NULL REFERENCES vehicle_types(id) ON DELETE CASCADE,
+  ordinance_id       UUID REFERENCES ordinances(id) ON DELETE SET NULL,
+  active             BOOLEAN NOT NULL DEFAULT TRUE,
+  base_fare          NUMERIC(10,2) NOT NULL CHECK (base_fare >= 0),
+  base_distance_km   NUMERIC(7,2) NOT NULL CHECK (base_distance_km >= 0),
+  per_km_rate        NUMERIC(10,2) NOT NULL CHECK (per_km_rate >= 0),
+  min_fare           NUMERIC(10,2) NOT NULL CHECK (min_fare >= 0),
+  max_customary      NUMERIC(10,2) NOT NULL CHECK (max_customary >= 0),
+  typical_capacity   SMALLINT NOT NULL CHECK (typical_capacity > 0),
+  regulation_matrix  TEXT NOT NULL DEFAULT '',
+  PRIMARY KEY (matrix_version_id, vehicle_type_id)
+);
+
+CREATE INDEX fare_matrix_entries_vehicle_idx
+  ON fare_matrix_entries (vehicle_type_id);
+
+-- ---------------------------------------------------------------------------
+-- Official point-to-point fare routes
+--
+-- The LGU publishes a fixed per-passenger fare for named origins and
+-- destinations. Those rows are the authoritative tariff for the city; the
+-- per-kilometre matrix above remains the fallback for places that are not in
+-- the published table.
+-- ---------------------------------------------------------------------------
+CREATE TABLE fare_matrix_routes (
+  matrix_version_id  UUID NOT NULL REFERENCES fare_matrix_versions(id) ON DELETE CASCADE,
+  vehicle_type_id    TEXT NOT NULL REFERENCES vehicle_types(id) ON DELETE CASCADE,
+  row_number         SMALLINT NOT NULL CHECK (row_number > 0),
+  from_label         TEXT NOT NULL,
+  to_label           TEXT NOT NULL,
+  via                TEXT NOT NULL DEFAULT '',
+  regular_fare       NUMERIC(10,2) NOT NULL CHECK (regular_fare >= 0),
+  discounted_fare    NUMERIC(10,2) NOT NULL CHECK (discounted_fare >= 0),
+  remark             TEXT NOT NULL DEFAULT '',
+  bidirectional      BOOLEAN NOT NULL DEFAULT TRUE,
+  PRIMARY KEY (matrix_version_id, vehicle_type_id, row_number),
+  CHECK (discounted_fare <= regular_fare)
+);
+
+CREATE INDEX fare_matrix_routes_vehicle_idx
+  ON fare_matrix_routes (vehicle_type_id);
+
+-- Normalised spellings that resolve to the same published place. The city
+-- scope keeps two LGUs from sharing aliases accidentally.
+CREATE TABLE fare_place_aliases (
+  city_id    TEXT NOT NULL REFERENCES cities(id) ON DELETE CASCADE,
+  place_key  TEXT NOT NULL,
+  alias_key  TEXT NOT NULL,
+  PRIMARY KEY (city_id, alias_key)
+);
+
+CREATE INDEX fare_place_aliases_place_idx
+  ON fare_place_aliases (city_id, place_key);
+
+-- Lower-case, punctuation-free lookup key shared by the API and the seed.
+CREATE OR REPLACE FUNCTION fn_place_key(p_text TEXT)
+RETURNS TEXT
+LANGUAGE sql IMMUTABLE AS $$
+  SELECT btrim(
+    regexp_replace(
+      regexp_replace(lower(coalesce(p_text, '')), '[^a-z0-9]+', ' ', 'g'),
+      '\s+', ' ', 'g'
+    )
+  )
+$$;
+
+-- Resolve one origin/destination pair against the active official matrix.
+-- Handles the "Poblacion or Terminal" rows, the reverse (vice versa) direction
+-- and alias spellings. Returns zero rows when the pair is not published.
+CREATE OR REPLACE FUNCTION fn_lookup_fare_route(
+  p_city_id     TEXT,
+  p_vehicle_id  TEXT,
+  p_origin      TEXT,
+  p_destination TEXT
+)
+RETURNS TABLE (
+  matrix_version_id   UUID,
+  vehicle_id          TEXT,
+  row_number          SMALLINT,
+  from_label          TEXT,
+  to_label            TEXT,
+  matched_origin      TEXT,
+  matched_destination TEXT,
+  via                 TEXT,
+  regular_fare        NUMERIC,
+  discounted_fare     NUMERIC,
+  remark              TEXT,
+  reversed            BOOLEAN
+)
+LANGUAGE sql STABLE AS $$
+WITH active_route AS (
+  SELECT r.*
+  FROM fare_matrix_routes r
+  JOIN fare_matrix_versions mv ON mv.id = r.matrix_version_id
+  WHERE mv.city_id = p_city_id
+    AND mv.status = 'active'
+    AND r.vehicle_type_id = p_vehicle_id
+),
+resolved AS (
+  SELECT
+    COALESCE(
+      (SELECT a.place_key FROM fare_place_aliases a
+        WHERE a.city_id = p_city_id
+          AND a.alias_key = fn_place_key(p_origin)),
+      fn_place_key(p_origin)
+    ) AS origin_key,
+    COALESCE(
+      (SELECT a.place_key FROM fare_place_aliases a
+        WHERE a.city_id = p_city_id
+          AND a.alias_key = fn_place_key(p_destination)),
+      fn_place_key(p_destination)
+    ) AS destination_key
+),
+legs AS (
+  SELECT
+    r.*,
+    btrim(origin_part) AS origin_label,
+    btrim(destination_part) AS destination_label,
+    COALESCE(oa.place_key, fn_place_key(origin_part)) AS origin_key,
+    COALESCE(da.place_key, fn_place_key(destination_part)) AS destination_key
+  FROM active_route r
+  CROSS JOIN LATERAL regexp_split_to_table(r.from_label, '\s+or\s+', 'i') AS origin_part
+  CROSS JOIN LATERAL regexp_split_to_table(r.to_label, '\s+or\s+', 'i') AS destination_part
+  LEFT JOIN fare_place_aliases oa
+    ON oa.city_id = p_city_id AND oa.alias_key = fn_place_key(origin_part)
+  LEFT JOIN fare_place_aliases da
+    ON da.city_id = p_city_id AND da.alias_key = fn_place_key(destination_part)
+)
+SELECT
+  l.matrix_version_id,
+  l.vehicle_type_id,
+  l.row_number,
+  l.from_label,
+  l.to_label,
+  l.origin_label,
+  l.destination_label,
+  l.via,
+  l.regular_fare,
+  l.discounted_fare,
+  l.remark,
+  (l.origin_key <> (SELECT origin_key FROM resolved)) AS reversed
+FROM legs l
+CROSS JOIN resolved
+WHERE (l.origin_key = resolved.origin_key AND l.destination_key = resolved.destination_key)
+   OR (
+     l.bidirectional
+     AND l.origin_key = resolved.destination_key
+     AND l.destination_key = resolved.origin_key
+   )
+ORDER BY (l.origin_key = resolved.origin_key) DESC, l.row_number
+LIMIT 1
+$$;
+
+-- ---------------------------------------------------------------------------
+-- Demo route + simulator corridor
+-- ---------------------------------------------------------------------------
+CREATE TABLE city_demo_routes (
+  id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  city_id          TEXT NOT NULL REFERENCES cities(id) ON DELETE CASCADE,
+  origin_name      TEXT NOT NULL,
+  destination_name TEXT NOT NULL,
+  distance_km      NUMERIC(7,2) NOT NULL CHECK (distance_km >= 0),
+  is_primary       BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE UNIQUE INDEX city_demo_routes_one_primary_idx
+  ON city_demo_routes (city_id) WHERE is_primary;
+
+CREATE TABLE city_corridor_points (
+  city_id TEXT NOT NULL REFERENCES cities(id) ON DELETE CASCADE,
+  seq     SMALLINT NOT NULL CHECK (seq >= 0),
+  lat     NUMERIC(9,6) NOT NULL CHECK (lat BETWEEN -90 AND 90),
+  lng     NUMERIC(9,6) NOT NULL CHECK (lng BETWEEN -180 AND 180),
+  PRIMARY KEY (city_id, seq)
+);
+
+-- ---------------------------------------------------------------------------
+-- Admin identities + sessions + audit trail
+-- ---------------------------------------------------------------------------
+CREATE TABLE admin_users (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email         TEXT NOT NULL,
+  display_name  TEXT NOT NULL,
+  role          admin_role NOT NULL DEFAULT 'viewer',
+  password_hash TEXT NOT NULL,
+  -- Empty array means "all cities". A non-empty array scopes the account to
+  -- those city ids (used by lgu_editor accounts).
+  city_scope    TEXT[] NOT NULL DEFAULT '{}',
+  is_active     BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  last_login_at TIMESTAMPTZ
+);
+
+CREATE UNIQUE INDEX admin_users_email_idx ON admin_users (lower(email));
+
+CREATE TABLE admin_sessions (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id     UUID NOT NULL REFERENCES admin_users(id) ON DELETE CASCADE,
+  token_hash  TEXT NOT NULL UNIQUE,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+  expires_at  TIMESTAMPTZ NOT NULL,
+  revoked_at  TIMESTAMPTZ
+);
+
+CREATE TABLE audit_events (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  occurred_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  actor_id    UUID REFERENCES admin_users(id) ON DELETE SET NULL,
+  actor_name  TEXT NOT NULL DEFAULT 'System',
+  role        TEXT NOT NULL DEFAULT 'system',
+  action      TEXT NOT NULL,
+  entity_type TEXT NOT NULL DEFAULT '',
+  entity_id   TEXT,
+  city_id     TEXT REFERENCES cities(id) ON DELETE SET NULL,
+  detail      JSONB NOT NULL DEFAULT '{}'::jsonb
+);
+
+CREATE INDEX audit_events_occurred_idx ON audit_events (occurred_at DESC);
+CREATE INDEX audit_events_city_idx ON audit_events (city_id);
+
+-- ---------------------------------------------------------------------------
+-- Trip records + GPS breadcrumbs
+-- ---------------------------------------------------------------------------
+CREATE SEQUENCE trip_reference_seq START WITH 4820;
+
+CREATE TABLE trips (
+  id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  reference           TEXT NOT NULL UNIQUE,
+  city_id             TEXT NOT NULL REFERENCES cities(id) ON DELETE RESTRICT,
+  vehicle_type_id     TEXT NOT NULL REFERENCES vehicle_types(id) ON DELETE RESTRICT,
+  matrix_version_id   UUID NOT NULL REFERENCES fare_matrix_versions(id) ON DELETE RESTRICT,
+  policy_version_id   UUID NOT NULL REFERENCES fare_policy_versions(id) ON DELETE RESTRICT,
+  origin              TEXT NOT NULL,
+  destination         TEXT NOT NULL,
+  distance_km         NUMERIC(7,2) NOT NULL CHECK (distance_km >= 0),
+  duration_seconds    INTEGER NOT NULL CHECK (duration_seconds >= 0),
+  passengers          SMALLINT NOT NULL CHECK (passengers >= 1),
+  is_pakyaw           BOOLEAN NOT NULL DEFAULT FALSE,
+  discount_code       discount_code NOT NULL DEFAULT 'none',
+  exact_fare          NUMERIC(10,2) NOT NULL CHECK (exact_fare >= 0),
+  fare_min            NUMERIC(10,2) NOT NULL CHECK (fare_min >= 0),
+  fare_max            NUMERIC(10,2) NOT NULL CHECK (fare_max >= 0),
+  fare_source         TEXT NOT NULL DEFAULT 'distance_matrix',
+  route_row_number    SMALLINT,
+  status              trip_status NOT NULL DEFAULT 'completed',
+  flag_reason         TEXT NOT NULL DEFAULT '',
+  recorded_via        recorded_via NOT NULL DEFAULT 'fare_estimate',
+  recorded_at         TIMESTAMPTZ NOT NULL,
+  created_at          TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX trips_city_recorded_idx ON trips (city_id, recorded_at DESC);
+CREATE INDEX trips_vehicle_idx ON trips (vehicle_type_id);
+CREATE INDEX trips_status_idx ON trips (status);
+CREATE INDEX trips_discount_idx ON trips (discount_code);
+CREATE INDEX trips_recorded_idx ON trips (recorded_at DESC);
+
+CREATE TABLE trip_points (
+  trip_id     UUID NOT NULL REFERENCES trips(id) ON DELETE CASCADE,
+  seq         SMALLINT NOT NULL CHECK (seq >= 0),
+  recorded_at TIMESTAMPTZ NOT NULL,
+  lat         NUMERIC(9,6) NOT NULL CHECK (lat BETWEEN -90 AND 90),
+  lng         NUMERIC(9,6) NOT NULL CHECK (lng BETWEEN -180 AND 180),
+  PRIMARY KEY (trip_id, seq)
+);
+
+-- ---------------------------------------------------------------------------
+-- Machine-learning model registry
+-- ---------------------------------------------------------------------------
+CREATE TABLE ml_models (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  model_key   TEXT NOT NULL UNIQUE,
+  name        TEXT NOT NULL,
+  task        model_task NOT NULL DEFAULT 'fare_regression',
+  target      TEXT NOT NULL DEFAULT 'exact_fare',
+  description TEXT NOT NULL DEFAULT '',
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE ml_model_versions (
+  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  model_id          UUID NOT NULL REFERENCES ml_models(id) ON DELETE CASCADE,
+  version           INTEGER NOT NULL CHECK (version > 0),
+  status            model_status NOT NULL DEFAULT 'candidate',
+  algorithm         TEXT NOT NULL,
+  feature_names     TEXT[] NOT NULL,
+  coefficients      JSONB NOT NULL,
+  hyperparameters   JSONB NOT NULL DEFAULT '{}'::jsonb,
+  metrics           JSONB NOT NULL DEFAULT '{}'::jsonb,
+  residual_stddev   NUMERIC(12,4),
+  training_rows     INTEGER NOT NULL DEFAULT 0,
+  trained_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
+  activated_at      TIMESTAMPTZ,
+  artifact_uri      TEXT NOT NULL DEFAULT 'inline://coefficients',
+  checksum          TEXT NOT NULL DEFAULT '',
+  UNIQUE (model_id, version)
+);
+
+CREATE UNIQUE INDEX ml_model_one_active_idx
+  ON ml_model_versions (model_id) WHERE status = 'active';
+
+-- ---------------------------------------------------------------------------
+-- Fare quotes (every estimate can be persisted for auditing / training)
+-- ---------------------------------------------------------------------------
+CREATE TABLE fare_quotes (
+  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  city_id           TEXT NOT NULL REFERENCES cities(id) ON DELETE RESTRICT,
+  vehicle_type_id   TEXT NOT NULL REFERENCES vehicle_types(id) ON DELETE RESTRICT,
+  matrix_version_id UUID NOT NULL REFERENCES fare_matrix_versions(id) ON DELETE RESTRICT,
+  policy_version_id UUID NOT NULL REFERENCES fare_policy_versions(id) ON DELETE RESTRICT,
+  trip_id           UUID REFERENCES trips(id) ON DELETE CASCADE,
+  model_version_id  UUID REFERENCES ml_model_versions(id) ON DELETE SET NULL,
+  origin            TEXT,
+  destination       TEXT,
+  route_row_number  SMALLINT,
+  distance_km       NUMERIC(7,2) NOT NULL CHECK (distance_km >= 0),
+  passengers        SMALLINT NOT NULL CHECK (passengers >= 1),
+  is_pakyaw         BOOLEAN NOT NULL DEFAULT FALSE,
+  discount_code     discount_code NOT NULL DEFAULT 'none',
+  base_rate         NUMERIC(10,2) NOT NULL CHECK (base_rate >= 0),
+  seat_units        SMALLINT NOT NULL CHECK (seat_units >= 1),
+  exact_fare        NUMERIC(10,2) NOT NULL CHECK (exact_fare >= 0),
+  fare_min          NUMERIC(10,2) NOT NULL CHECK (fare_min >= 0),
+  fare_max          NUMERIC(10,2) NOT NULL CHECK (fare_max >= 0),
+  fare_source       TEXT NOT NULL DEFAULT 'distance_matrix',
+  source            TEXT NOT NULL DEFAULT 'api',
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX fare_quotes_trip_idx ON fare_quotes (trip_id);
+CREATE INDEX fare_quotes_created_idx ON fare_quotes (created_at DESC);
+
+-- ---------------------------------------------------------------------------
+-- ML training samples (feature store derived from trips)
+-- ---------------------------------------------------------------------------
+CREATE TABLE ml_training_samples (
+  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  trip_id           UUID UNIQUE REFERENCES trips(id) ON DELETE CASCADE,
+  city_id           TEXT NOT NULL REFERENCES cities(id) ON DELETE CASCADE,
+  vehicle_type_id   TEXT NOT NULL REFERENCES vehicle_types(id) ON DELETE CASCADE,
+  feature_set       TEXT NOT NULL DEFAULT 'fare-fair-v1',
+  features          JSONB NOT NULL,
+  label_fare        NUMERIC(10,2) NOT NULL CHECK (label_fare >= 0),
+  split             TEXT NOT NULL DEFAULT 'train' CHECK (split IN ('train', 'validation', 'test')),
+  sample_weight     NUMERIC(6,3) NOT NULL DEFAULT 1,
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX ml_training_samples_split_idx ON ml_training_samples (split);
+CREATE INDEX ml_training_samples_city_idx ON ml_training_samples (city_id);
+
+-- ---------------------------------------------------------------------------
+-- ML predictions
+-- ---------------------------------------------------------------------------
+CREATE TABLE ml_predictions (
+  id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  model_version_id UUID NOT NULL REFERENCES ml_model_versions(id) ON DELETE CASCADE,
+  trip_id          UUID REFERENCES trips(id) ON DELETE SET NULL,
+  quote_id         UUID REFERENCES fare_quotes(id) ON DELETE SET NULL,
+  features         JSONB NOT NULL,
+  predicted_fare   NUMERIC(10,2) NOT NULL,
+  lower_bound      NUMERIC(10,2) NOT NULL,
+  upper_bound      NUMERIC(10,2) NOT NULL,
+  confidence       NUMERIC(5,4) NOT NULL CHECK (confidence BETWEEN 0 AND 1),
+  latency_ms       INTEGER NOT NULL DEFAULT 0,
+  created_at       TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX ml_predictions_model_idx ON ml_predictions (model_version_id);
+CREATE INDEX ml_predictions_trip_idx ON ml_predictions (trip_id);
+
+-- ---------------------------------------------------------------------------
+-- Fare anomalies / flags
+-- ---------------------------------------------------------------------------
+CREATE TABLE fare_anomalies (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  trip_id         UUID NOT NULL REFERENCES trips(id) ON DELETE CASCADE,
+  city_id         TEXT NOT NULL REFERENCES cities(id) ON DELETE CASCADE,
+  kind            TEXT NOT NULL,
+  severity        anomaly_severity NOT NULL DEFAULT 'medium',
+  detail          TEXT NOT NULL DEFAULT '',
+  detected_at     TIMESTAMPTZ NOT NULL DEFAULT now(),
+  resolved_at     TIMESTAMPTZ,
+  resolution_note TEXT NOT NULL DEFAULT ''
+);
+
+CREATE INDEX fare_anomalies_trip_idx ON fare_anomalies (trip_id);
+CREATE INDEX fare_anomalies_open_idx ON fare_anomalies (city_id) WHERE resolved_at IS NULL;
+
+-- ---------------------------------------------------------------------------
+-- updated_at triggers
+-- ---------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION fn_touch_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER cities_touch BEFORE UPDATE ON cities
+  FOR EACH ROW EXECUTE FUNCTION fn_touch_updated_at();
+CREATE TRIGGER city_provenance_touch BEFORE UPDATE ON city_provenance
+  FOR EACH ROW EXECUTE FUNCTION fn_touch_updated_at();
+CREATE TRIGGER vehicle_types_touch BEFORE UPDATE ON vehicle_types
+  FOR EACH ROW EXECUTE FUNCTION fn_touch_updated_at();
+CREATE TRIGGER ordinances_touch BEFORE UPDATE ON ordinances
+  FOR EACH ROW EXECUTE FUNCTION fn_touch_updated_at();
+CREATE TRIGGER admin_users_touch BEFORE UPDATE ON admin_users
+  FOR EACH ROW EXECUTE FUNCTION fn_touch_updated_at();
+
+-- ===========================================================================
+-- Fare engine (single source of truth for the app + API + training data)
+-- ===========================================================================
+CREATE OR REPLACE FUNCTION fn_calculate_fare(
+  p_city_id       TEXT,
+  p_vehicle_id    TEXT,
+  p_distance_km   NUMERIC,
+  p_passengers    SMALLINT DEFAULT 1,
+  p_pakyaw        BOOLEAN DEFAULT FALSE,
+  p_discount_code discount_code DEFAULT 'none'
+)
+RETURNS TABLE (
+  city_id            TEXT,
+  vehicle_id         TEXT,
+  matrix_version_id  UUID,
+  policy_version_id  UUID,
+  base_fare          NUMERIC,
+  base_distance_km   NUMERIC,
+  per_km_rate        NUMERIC,
+  distance_component NUMERIC,
+  base_rate          NUMERIC,
+  seat_units         SMALLINT,
+  subtotal           NUMERIC,
+  discount_code      discount_code,
+  discount_rate      NUMERIC,
+  discount_amount    NUMERIC,
+  exact_fare         NUMERIC,
+  fare_min           NUMERIC,
+  fare_max           NUMERIC,
+  currency           TEXT,
+  provisional        BOOLEAN
+)
+LANGUAGE plpgsql STABLE AS $$
+DECLARE
+  v_matrix_id       UUID;
+  v_policy_id       UUID;
+  v_base_fare       NUMERIC;
+  v_base_distance   NUMERIC;
+  v_per_km          NUMERIC;
+  v_min_fare        NUMERIC;
+  v_capacity        SMALLINT;
+  v_provisional     BOOLEAN;
+  v_discount_rate   NUMERIC;
+  v_leeway_min      NUMERIC;
+  v_leeway_max      NUMERIC;
+  v_pakyaw_cap      SMALLINT;
+  v_seat_units      SMALLINT;
+  v_distance_comp   NUMERIC;
+  v_base_rate       NUMERIC;
+  v_subtotal        NUMERIC;
+  v_rate            NUMERIC;
+  v_exact           NUMERIC;
+  v_min             NUMERIC;
+  v_max             NUMERIC;
+BEGIN
+  IF p_distance_km IS NULL OR p_distance_km < 0 THEN
+    RAISE EXCEPTION 'distanceKm must be a non-negative number' USING ERRCODE = '22023';
+  END IF;
+  IF p_passengers IS NULL OR p_passengers < 1 THEN
+    RAISE EXCEPTION 'passengers must be at least 1' USING ERRCODE = '22023';
+  END IF;
+
+  SELECT mv.id, mv.policy_version_id, e.base_fare, e.base_distance_km,
+         e.per_km_rate, e.min_fare, e.typical_capacity, mv.provisional
+    INTO v_matrix_id, v_policy_id, v_base_fare, v_base_distance,
+         v_per_km, v_min_fare, v_capacity, v_provisional
+  FROM fare_matrix_versions mv
+  JOIN fare_matrix_entries e
+    ON e.matrix_version_id = mv.id
+   AND e.vehicle_type_id = p_vehicle_id
+   AND e.active
+  WHERE mv.city_id = p_city_id
+    AND mv.status = 'active'
+  LIMIT 1;
+
+  IF v_matrix_id IS NULL THEN
+    RAISE EXCEPTION 'No active fare matrix entry for city % and vehicle %', p_city_id, p_vehicle_id
+      USING ERRCODE = 'P0002';
+  END IF;
+
+  SELECT pv.id, pv.discount_rate, pv.customary_leeway_min,
+         pv.customary_leeway_max, pv.pakyaw_seat_cap
+    INTO v_policy_id, v_discount_rate, v_leeway_min, v_leeway_max, v_pakyaw_cap
+  FROM fare_policy_versions pv
+  WHERE pv.city_id = p_city_id
+    AND pv.status = 'active'
+  LIMIT 1;
+
+  IF v_policy_id IS NULL THEN
+    RAISE EXCEPTION 'No active fare policy for city %', p_city_id USING ERRCODE = 'P0002';
+  END IF;
+
+  v_distance_comp := GREATEST(p_distance_km - v_base_distance, 0) * v_per_km;
+  v_base_rate := v_base_fare + v_distance_comp;
+
+  IF p_pakyaw THEN
+    v_seat_units := LEAST(v_capacity, v_pakyaw_cap);
+  ELSE
+    v_seat_units := p_passengers;
+  END IF;
+
+  v_subtotal := v_base_rate * v_seat_units;
+
+  IF p_discount_code <> 'none' THEN
+    v_rate := v_discount_rate;
+  ELSE
+    v_rate := 0;
+  END IF;
+
+  v_exact := v_subtotal * (1 - v_rate);
+
+  -- Mirrors TripState.calculateFareRange in the Flutter app.
+  v_min := LEAST(9999, GREATEST(ROUND(v_exact * v_leeway_min), v_min_fare));
+  v_max := LEAST(9999, GREATEST(ROUND(v_exact * v_leeway_max), v_min + 5));
+
+  city_id            := p_city_id;
+  vehicle_id         := p_vehicle_id;
+  matrix_version_id  := v_matrix_id;
+  policy_version_id  := v_policy_id;
+  base_fare          := v_base_fare;
+  base_distance_km   := v_base_distance;
+  per_km_rate        := v_per_km;
+  distance_component := v_distance_comp;
+  base_rate          := v_base_rate;
+  seat_units         := v_seat_units;
+  subtotal           := v_subtotal;
+  discount_code      := p_discount_code;
+  discount_rate      := v_rate;
+  discount_amount    := v_subtotal - v_exact;
+  exact_fare         := v_exact;
+  fare_min           := v_min;
+  fare_max           := v_max;
+  currency           := 'PHP';
+  provisional        := v_provisional;
+  RETURN NEXT;
+END;
+$$;
+
+-- ===========================================================================
+-- Fare prediction (active ML model, features engineered in SQL)
+-- ===========================================================================
+CREATE OR REPLACE FUNCTION fn_predict_fare(
+  p_city_id       TEXT,
+  p_vehicle_id    TEXT,
+  p_distance_km   NUMERIC,
+  p_passengers    SMALLINT DEFAULT 1,
+  p_pakyaw        BOOLEAN DEFAULT FALSE,
+  p_discount_code discount_code DEFAULT 'none',
+  p_model_key     TEXT DEFAULT 'fare-fair-linear'
+)
+RETURNS TABLE (
+  model_version_id UUID,
+  model_key        TEXT,
+  model_version    INTEGER,
+  algorithm        TEXT,
+  predicted_fare   NUMERIC,
+  lower_bound      NUMERIC,
+  upper_bound      NUMERIC,
+  confidence       NUMERIC,
+  features         JSONB,
+  currency         TEXT
+)
+LANGUAGE plpgsql STABLE AS $$
+DECLARE
+  cf             RECORD;
+  v_model_id     UUID;
+  v_model_key    TEXT;
+  v_model_ver    INTEGER;
+  v_algorithm    TEXT;
+  v_coef         JSONB;
+  v_sigma        NUMERIC;
+  v_features     JSONB;
+  v_pred         NUMERIC;
+  v_margin       NUMERIC;
+  v_lower        NUMERIC;
+  v_upper        NUMERIC;
+  v_conf         NUMERIC;
+  v_discount     INTEGER;
+  v_billable     NUMERIC;
+  v_distance_comp NUMERIC;
+BEGIN
+  SELECT * INTO cf
+  FROM fn_calculate_fare(p_city_id, p_vehicle_id, p_distance_km, p_passengers, p_pakyaw, p_discount_code);
+
+  SELECT v.id, m.model_key, v.version, v.algorithm, v.coefficients, v.residual_stddev
+    INTO v_model_id, v_model_key, v_model_ver, v_algorithm, v_coef, v_sigma
+  FROM ml_model_versions v
+  JOIN ml_models m ON m.id = v.model_id
+  WHERE m.model_key = p_model_key
+    AND v.status = 'active'
+  LIMIT 1;
+
+  IF v_model_id IS NULL THEN
+    RAISE EXCEPTION 'No active model version for model key %', p_model_key USING ERRCODE = 'P0002';
+  END IF;
+
+  v_discount := CASE WHEN p_discount_code <> 'none' THEN 1 ELSE 0 END;
+  v_distance_comp := cf.distance_component;
+  v_billable := CASE WHEN cf.per_km_rate = 0 THEN 0 ELSE v_distance_comp / cf.per_km_rate END;
+  v_sigma := COALESCE(v_sigma, 0);
+
+  v_features := jsonb_build_object(
+    'distance_km', p_distance_km,
+    'passengers', p_passengers,
+    'seat_units', cf.seat_units,
+    'base_fare', cf.base_fare,
+    'per_km_rate', cf.per_km_rate,
+    'billable_distance_km', v_billable,
+    'base_fare_x_seat', cf.base_fare * cf.seat_units,
+    'per_km_x_distance_x_seat', v_distance_comp * cf.seat_units,
+    'discount', v_discount,
+    'discount_x_base_x_seat', v_discount * cf.base_fare * cf.seat_units,
+    'discount_x_per_km_distance_x_seat', v_discount * v_distance_comp * cf.seat_units
+  );
+
+  v_pred := COALESCE((v_coef->>'intercept')::NUMERIC, 0)
+    + COALESCE((v_coef->>'distance_km')::NUMERIC, 0) * (v_features->>'distance_km')::NUMERIC
+    + COALESCE((v_coef->>'passengers')::NUMERIC, 0) * (v_features->>'passengers')::NUMERIC
+    + COALESCE((v_coef->>'seat_units')::NUMERIC, 0) * (v_features->>'seat_units')::NUMERIC
+    + COALESCE((v_coef->>'base_fare')::NUMERIC, 0) * (v_features->>'base_fare')::NUMERIC
+    + COALESCE((v_coef->>'per_km_rate')::NUMERIC, 0) * (v_features->>'per_km_rate')::NUMERIC
+    + COALESCE((v_coef->>'billable_distance_km')::NUMERIC, 0) * (v_features->>'billable_distance_km')::NUMERIC
+    + COALESCE((v_coef->>'base_fare_x_seat')::NUMERIC, 0) * (v_features->>'base_fare_x_seat')::NUMERIC
+    + COALESCE((v_coef->>'per_km_x_distance_x_seat')::NUMERIC, 0) * (v_features->>'per_km_x_distance_x_seat')::NUMERIC
+    + COALESCE((v_coef->>'discount')::NUMERIC, 0) * (v_features->>'discount')::NUMERIC
+    + COALESCE((v_coef->>'discount_x_base_x_seat')::NUMERIC, 0) * (v_features->>'discount_x_base_x_seat')::NUMERIC
+    + COALESCE((v_coef->>'discount_x_per_km_distance_x_seat')::NUMERIC, 0) * (v_features->>'discount_x_per_km_distance_x_seat')::NUMERIC;
+
+  v_margin := 1.96 * v_sigma;
+  v_lower := GREATEST(0, v_pred - v_margin);
+  v_upper := GREATEST(v_lower, v_pred + v_margin);
+  v_conf := CASE
+    WHEN v_pred > 0 THEN GREATEST(0, LEAST(1, 1 - (v_sigma / v_pred)))
+    ELSE 0
+  END;
+
+  model_version_id := v_model_id;
+  model_key        := v_model_key;
+  model_version    := v_model_ver;
+  algorithm        := v_algorithm;
+  predicted_fare   := ROUND(v_pred, 2);
+  lower_bound      := ROUND(v_lower, 2);
+  upper_bound      := ROUND(v_upper, 2);
+  confidence       := ROUND(v_conf, 4);
+  features         := v_features;
+  currency         := 'PHP';
+  RETURN NEXT;
+END;
+$$;
+
+-- ===========================================================================
+-- Read models (views)
+-- ===========================================================================
+CREATE VIEW v_city_catalog AS
+SELECT
+  c.id,
+  c.display_name,
+  c.province,
+  c.region,
+  c.status,
+  c.centro_label,
+  c.center_lat,
+  c.center_lng,
+  c.is_focus,
+  COALESCE(p.provisional, TRUE) AS provisional,
+  COALESCE(p.source, '') AS source,
+  p.last_verified,
+  fp.id AS fare_policy_version_id,
+  fp.version AS fare_policy_version,
+  fm.id AS fare_matrix_version_id,
+  fm.version AS fare_matrix_version,
+  (
+    SELECT COUNT(*)::int
+    FROM fare_matrix_entries e
+    WHERE e.matrix_version_id = fm.id AND e.active
+  ) AS active_vehicle_count,
+  (
+    SELECT COUNT(*)::int
+    FROM fare_matrix_routes r
+    WHERE r.matrix_version_id = fm.id
+  ) AS fare_route_count,
+  (
+    SELECT COUNT(*)::int FROM ordinances o WHERE o.city_id = c.id
+  ) AS ordinance_count
+FROM cities c
+LEFT JOIN city_provenance p ON p.city_id = c.id
+LEFT JOIN fare_policy_versions fp ON fp.city_id = c.id AND fp.status = 'active'
+LEFT JOIN fare_matrix_versions fm ON fm.city_id = c.id AND fm.status = 'active';
+
+CREATE VIEW v_active_fare_matrix AS
+SELECT
+  c.id AS city_id,
+  c.display_name AS city_name,
+  mv.id AS matrix_version_id,
+  mv.version AS matrix_version,
+  mv.effective_from,
+  mv.provisional,
+  mv.source,
+  e.vehicle_type_id,
+  vt.name AS vehicle_name,
+  vt.category,
+  vt.sort_order,
+  e.active,
+  e.base_fare,
+  e.base_distance_km,
+  e.per_km_rate,
+  e.min_fare,
+  e.max_customary,
+  e.typical_capacity,
+  e.regulation_matrix
+FROM cities c
+JOIN fare_matrix_versions mv ON mv.city_id = c.id AND mv.status = 'active'
+JOIN fare_matrix_entries e ON e.matrix_version_id = mv.id
+JOIN vehicle_types vt ON vt.id = e.vehicle_type_id;
+
+CREATE VIEW v_official_fare_routes AS
+SELECT
+  c.id AS city_id,
+  c.display_name AS city_name,
+  mv.id AS matrix_version_id,
+  mv.version AS matrix_version,
+  mv.effective_from,
+  mv.provisional,
+  mv.source,
+  r.vehicle_type_id,
+  vt.name AS vehicle_name,
+  r.row_number,
+  r.from_label,
+  r.to_label,
+  r.via,
+  r.regular_fare,
+  r.discounted_fare,
+  r.remark,
+  r.bidirectional
+FROM fare_matrix_routes r
+JOIN fare_matrix_versions mv ON mv.id = r.matrix_version_id
+JOIN cities c ON c.id = mv.city_id
+JOIN vehicle_types vt ON vt.id = r.vehicle_type_id;
+
+CREATE VIEW v_ordinance_catalog AS
+SELECT
+  o.*,
+  c.display_name AS city_name,
+  (
+    SELECT COALESCE(array_agg(a.vehicle_type_id ORDER BY a.vehicle_type_id), '{}'::text[])
+    FROM ordinance_vehicle_applicability a
+    WHERE a.ordinance_id = o.id
+  ) AS vehicle_ids
+FROM ordinances o
+JOIN cities c ON c.id = o.city_id;
+
+CREATE VIEW v_trip_enriched AS
+SELECT
+  t.*,
+  c.display_name AS city_name,
+  c.region AS city_region,
+  vt.name AS vehicle_name,
+  vt.category AS vehicle_category,
+  dp.label AS discount_label,
+  (
+    SELECT COUNT(*)::int
+    FROM fare_anomalies a
+    WHERE a.trip_id = t.id AND a.resolved_at IS NULL
+  ) AS open_anomalies
+FROM trips t
+JOIN cities c ON c.id = t.city_id
+JOIN vehicle_types vt ON vt.id = t.vehicle_type_id
+LEFT JOIN discount_programs dp ON dp.code = t.discount_code::text;
+
+CREATE VIEW v_fare_compliance AS
+SELECT
+  t.id AS trip_id,
+  t.reference,
+  t.city_id,
+  t.vehicle_type_id,
+  t.exact_fare,
+  e.max_customary,
+  t.exact_fare > e.max_customary AS above_customary_cap,
+  ROUND(
+    CASE WHEN e.max_customary = 0 THEN 0
+         ELSE ((t.exact_fare - e.max_customary) / e.max_customary) * 100
+    END, 2
+  ) AS percent_over_cap
+FROM trips t
+JOIN fare_matrix_entries e
+  ON e.matrix_version_id = t.matrix_version_id
+ AND e.vehicle_type_id = t.vehicle_type_id;
+
+CREATE VIEW v_model_leaderboard AS
+SELECT
+  m.id AS model_id,
+  m.model_key,
+  m.name,
+  m.task,
+  m.target,
+  v.id AS version_id,
+  v.version,
+  v.status,
+  v.algorithm,
+  v.metrics,
+  v.residual_stddev,
+  v.training_rows,
+  v.trained_at,
+  v.activated_at
+FROM ml_models m
+JOIN ml_model_versions v ON v.model_id = m.id;
+
+-- ===========================================================================
+-- Grants (optional; the API connects as the database owner)
+-- ===========================================================================
+COMMENT ON TABLE cities IS 'Deployable city identity and geography.';
+COMMENT ON TABLE fare_matrix_versions IS 'Versioned per-city fare matrices; exactly one active matrix per city.';
+COMMENT ON TABLE fare_matrix_entries IS 'Per-vehicle tariff entry inside a fare matrix version.';
+COMMENT ON TABLE fare_matrix_routes IS 'Official point-to-point per-passenger fares published by the LGU.';
+COMMENT ON TABLE fare_place_aliases IS 'Normalised place spellings resolved to one official fare destination.';
+COMMENT ON TABLE ordinances IS 'LGU / LTFRB fare ordinances and provisional rate guides.';
+COMMENT ON TABLE trips IS 'Fare estimates and live-recorded trips with the fare engine output.';
+COMMENT ON TABLE ml_models IS 'ML model registry (fare regression, anomaly detection).';
+COMMENT ON TABLE ml_model_versions IS 'Immutable model versions with coefficients and evaluation metrics.';
+COMMENT ON TABLE ml_training_samples IS 'Feature store derived from trips, split into train/validation/test.';
+COMMENT ON TABLE ml_predictions IS 'Predictions produced by a specific model version.';
+COMMENT ON TABLE fare_quotes IS 'Persisted fare estimates from the API or app.';

@@ -1,0 +1,560 @@
+{
+  "baseUrl": "http://localhost:4000",
+  "description": "Success-path inputs that exercise every FareFair API operation against a running server. Values with a 'from' object are resolved from an earlier response; the 'example' value is the current live value used by Swagger. Every ACTUAL status in api-inputs.resolved.json is the real HTTP response, not a fabricated one.",
+  "notes": [
+    "GET operations return 200.",
+    "POST /v1/trips and POST /v1/fare/models/train return 201 because they create resources.",
+    "Dynamic UUIDs change after npm run db:reset; refresh the examples with npm run api:inputs.",
+    "Use cityId=cabadbaran, vehicleId=tricycle, and modelKey=fare-fair-linear for the focus dataset.",
+    "Official Cabadbaran routes can be quoted with origin/destination alone; distanceKm is derived from the published fare.",
+    "Auth operations sign in first and reuse the bearer token; the matrix signs out at the end."
+  ],
+  "currentExamples": {
+    "cityId": "cabadbaran",
+    "vehicleId": "tricycle",
+    "slug": "cabadbaran-cabadbaran-tricycle-fare-matrix-2026",
+    "modelKey": "fare-fair-linear",
+    "versionId": "132d87ea-6c2a-4469-bf33-43722f6658cf",
+    "quoteId": "984aeed6-2da6-44bc-8f6b-e2e8e0c31358",
+    "tripId": "d9cab424-e233-4f99-98b2-38213ed6ed31",
+    "anomalyId": "7daefbf5-bbe8-4006-a5aa-ba50c59f4412"
+  },
+  "operations": [
+    {
+      "id": "health",
+      "method": "GET",
+      "path": "/health",
+      "expect": 200,
+      "inputs": {}
+    },
+    {
+      "id": "login",
+      "method": "POST",
+      "path": "/v1/auth/login",
+      "expect": 200,
+      "body": {
+        "login": "admin@farefair.local",
+        "password": "farefair"
+      }
+    },
+    {
+      "id": "auth-me",
+      "method": "GET",
+      "path": "/v1/auth/me",
+      "expect": 200,
+      "auth": {
+        "from": "login",
+        "field": "token"
+      }
+    },
+    {
+      "id": "auth-accounts",
+      "method": "GET",
+      "path": "/v1/auth/accounts",
+      "expect": 200,
+      "auth": {
+        "from": "login",
+        "field": "token"
+      }
+    },
+    {
+      "id": "admin-fare-matrix-put",
+      "method": "PUT",
+      "path": "/v1/admin/cities/{cityId}/fare-matrix/{vehicleId}",
+      "expect": 200,
+      "pathParams": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle"
+      },
+      "body": {
+        "baseFare": 13,
+        "baseDistanceKm": 1,
+        "perKmRate": 2,
+        "minFare": 13,
+        "maxCustomary": 75,
+        "typicalCapacity": 4,
+        "active": true
+      },
+      "auth": {
+        "from": "login",
+        "field": "token"
+      }
+    },
+    {
+      "id": "admin-fare-matrix-patch",
+      "method": "PATCH",
+      "path": "/v1/admin/cities/{cityId}/fare-matrix/{vehicleId}",
+      "expect": 200,
+      "pathParams": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle"
+      },
+      "body": {
+        "baseFare": 13,
+        "baseDistanceKm": 1,
+        "perKmRate": 2,
+        "minFare": 13,
+        "maxCustomary": 75,
+        "typicalCapacity": 4,
+        "active": true
+      },
+      "auth": {
+        "from": "login",
+        "field": "token"
+      }
+    },
+    {
+      "id": "admin-fare-route-put",
+      "method": "PUT",
+      "path": "/v1/admin/cities/{cityId}/fare-routes/{rowNumber}",
+      "expect": 200,
+      "pathParams": {
+        "cityId": "cabadbaran",
+        "rowNumber": 4
+      },
+      "query": {
+        "vehicleId": "tricycle"
+      },
+      "body": {
+        "regularFare": 50,
+        "discountedFare": 40,
+        "remark": "",
+        "bidirectional": true
+      },
+      "auth": {
+        "from": "login",
+        "field": "token"
+      }
+    },
+    {
+      "id": "admin-activate-city",
+      "method": "POST",
+      "path": "/v1/admin/cities/{cityId}/activate",
+      "expect": 200,
+      "pathParams": {
+        "cityId": "cabadbaran"
+      },
+      "body": {},
+      "auth": {
+        "from": "login",
+        "field": "token"
+      }
+    },
+    {
+      "id": "admin-audit",
+      "method": "POST",
+      "path": "/v1/admin/audit",
+      "expect": 201,
+      "body": {
+        "action": "console.check",
+        "detail": "Executed by the API input matrix",
+        "cityId": "cabadbaran",
+        "entityType": "console"
+      },
+      "auth": {
+        "from": "login",
+        "field": "token"
+      }
+    },
+    {
+      "id": "meta",
+      "method": "GET",
+      "path": "/v1/meta",
+      "expect": 200,
+      "inputs": {}
+    },
+    {
+      "id": "cities",
+      "method": "GET",
+      "path": "/v1/cities",
+      "expect": 200,
+      "query": {
+        "status": "active",
+        "provisional": "false"
+      }
+    },
+    {
+      "id": "city",
+      "method": "GET",
+      "path": "/v1/cities/{cityId}",
+      "expect": 200,
+      "pathParams": {
+        "cityId": "cabadbaran"
+      }
+    },
+    {
+      "id": "fare-matrix",
+      "method": "GET",
+      "path": "/v1/cities/{cityId}/fare-matrix",
+      "expect": 200,
+      "pathParams": {
+        "cityId": "cabadbaran"
+      },
+      "query": {
+        "version": 1,
+        "includeInactive": "true"
+      }
+    },
+    {
+      "id": "fare-routes",
+      "method": "GET",
+      "path": "/v1/cities/{cityId}/fare-routes",
+      "expect": 200,
+      "pathParams": {
+        "cityId": "cabadbaran"
+      },
+      "query": {
+        "vehicleId": "tricycle"
+      }
+    },
+    {
+      "id": "fare-policy",
+      "method": "GET",
+      "path": "/v1/cities/{cityId}/fare-policy",
+      "expect": 200,
+      "pathParams": {
+        "cityId": "cabadbaran"
+      },
+      "query": {
+        "includeHistory": "true"
+      }
+    },
+    {
+      "id": "vehicles",
+      "method": "GET",
+      "path": "/v1/vehicles",
+      "expect": 200,
+      "inputs": {}
+    },
+    {
+      "id": "all-fare-routes",
+      "method": "GET",
+      "path": "/v1/fare/routes",
+      "expect": 200,
+      "query": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle",
+        "search": "Poblacion"
+      }
+    },
+    {
+      "id": "vehicle",
+      "method": "GET",
+      "path": "/v1/vehicles/{vehicleId}",
+      "expect": 200,
+      "pathParams": {
+        "vehicleId": "tricycle"
+      }
+    },
+    {
+      "id": "ordinances",
+      "method": "GET",
+      "path": "/v1/ordinances",
+      "expect": 200,
+      "query": {
+        "cityId": "cabadbaran",
+        "status": "enacted",
+        "vehicleId": "tricycle"
+      }
+    },
+    {
+      "id": "ordinance",
+      "method": "GET",
+      "path": "/v1/ordinances/{slug}",
+      "expect": 200,
+      "pathParams": {
+        "slug": "cabadbaran-cabadbaran-tricycle-fare-matrix-2026"
+      }
+    },
+    {
+      "id": "estimate",
+      "method": "POST",
+      "path": "/v1/fare/estimate",
+      "expect": 200,
+      "body": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle",
+        "origin": "Poblacion",
+        "destination": "Bayabas",
+        "passengers": 1,
+        "pakyaw": false,
+        "discountCode": "none",
+        "persist": true
+      }
+    },
+    {
+      "id": "quote",
+      "method": "GET",
+      "path": "/v1/fare/quotes/{quoteId}",
+      "expect": 200,
+      "pathParams": {
+        "quoteId": {
+          "from": "estimate",
+          "field": "quoteId",
+          "example": "984aeed6-2da6-44bc-8f6b-e2e8e0c31358"
+        }
+      }
+    },
+    {
+      "id": "predict",
+      "method": "POST",
+      "path": "/v1/fare/predict",
+      "expect": 200,
+      "body": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle",
+        "distanceKm": 4.2,
+        "passengers": 2,
+        "pakyaw": false,
+        "discountCode": "none",
+        "modelKey": "fare-fair-linear",
+        "persist": true
+      }
+    },
+    {
+      "id": "predictions",
+      "method": "GET",
+      "path": "/v1/fare/predictions",
+      "expect": 200,
+      "query": {
+        "limit": 50
+      }
+    },
+    {
+      "id": "models",
+      "method": "GET",
+      "path": "/v1/fare/models",
+      "expect": 200,
+      "inputs": {}
+    },
+    {
+      "id": "model",
+      "method": "GET",
+      "path": "/v1/fare/models/{idOrKey}",
+      "expect": 200,
+      "pathParams": {
+        "idOrKey": "fare-fair-linear"
+      }
+    },
+    {
+      "id": "model-version",
+      "method": "GET",
+      "path": "/v1/fare/models/versions/{versionId}",
+      "expect": 200,
+      "pathParams": {
+        "versionId": {
+          "from": "model",
+          "field": "activeVersionId",
+          "example": "132d87ea-6c2a-4469-bf33-43722f6658cf"
+        }
+      }
+    },
+    {
+      "id": "train",
+      "method": "POST",
+      "path": "/v1/fare/models/train",
+      "expect": 201,
+      "body": {
+        "modelKey": "fare-fair-linear",
+        "activate": true,
+        "actorName": "api-inputs",
+        "role": "system"
+      }
+    },
+    {
+      "id": "activate",
+      "method": "POST",
+      "path": "/v1/fare/models/versions/{versionId}/activate",
+      "expect": 200,
+      "pathParams": {
+        "versionId": {
+          "from": "train",
+          "field": "id",
+          "example": "132d87ea-6c2a-4469-bf33-43722f6658cf"
+        }
+      },
+      "body": {
+        "actorName": "api-inputs",
+        "role": "system"
+      }
+    },
+    {
+      "id": "trips",
+      "method": "GET",
+      "path": "/v1/trips",
+      "expect": 200,
+      "query": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle",
+        "status": "completed",
+        "discountCode": "none",
+        "recordedVia": "live_trip_recording",
+        "from": "2020-01-01T00:00:00Z",
+        "to": "2030-12-31T23:59:59Z",
+        "search": "FF-",
+        "limit": 50,
+        "offset": 0
+      }
+    },
+    {
+      "id": "create-trip",
+      "method": "POST",
+      "path": "/v1/trips",
+      "expect": 201,
+      "body": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle",
+        "origin": "Poblacion",
+        "destination": "Bayabas",
+        "durationSeconds": 900,
+        "passengers": 2,
+        "pakyaw": false,
+        "discountCode": "none",
+        "recordedVia": "live_trip_recording",
+        "recordedAt": "2026-10-26T08:00:00Z",
+        "routePoints": [
+          {
+            "lat": 9.1157,
+            "lng": 125.5345,
+            "recordedAt": "2026-10-26T08:00:00Z"
+          },
+          {
+            "lat": 9.1201,
+            "lng": 125.5402,
+            "recordedAt": "2026-10-26T08:10:00Z"
+          }
+        ],
+        "runPrediction": true
+      }
+    },
+    {
+      "id": "trip",
+      "method": "GET",
+      "path": "/v1/trips/{tripId}",
+      "expect": 200,
+      "pathParams": {
+        "tripId": {
+          "from": "create-trip",
+          "field": "id",
+          "example": "d9cab424-e233-4f99-98b2-38213ed6ed31"
+        }
+      }
+    },
+    {
+      "id": "flag-trip",
+      "method": "PATCH",
+      "path": "/v1/trips/{tripId}/status",
+      "expect": 200,
+      "pathParams": {
+        "tripId": {
+          "from": "create-trip",
+          "field": "id",
+          "example": "d9cab424-e233-4f99-98b2-38213ed6ed31"
+        }
+      },
+      "body": {
+        "status": "flagged",
+        "flagReason": "API input example",
+        "severity": "low",
+        "actorName": "api-inputs"
+      }
+    },
+    {
+      "id": "trips-csv",
+      "method": "GET",
+      "path": "/v1/trips.csv",
+      "expect": 200,
+      "query": {
+        "cityId": "cabadbaran",
+        "status": "completed"
+      }
+    },
+    {
+      "id": "analytics-overview",
+      "method": "GET",
+      "path": "/v1/analytics/overview",
+      "expect": 200,
+      "query": {
+        "cityId": "cabadbaran",
+        "days": 30
+      }
+    },
+    {
+      "id": "analytics-fares",
+      "method": "GET",
+      "path": "/v1/analytics/fares",
+      "expect": 200,
+      "query": {
+        "cityId": "cabadbaran",
+        "days": 30
+      }
+    },
+    {
+      "id": "anomalies",
+      "method": "GET",
+      "path": "/v1/anomalies",
+      "expect": 200,
+      "query": {
+        "cityId": "cabadbaran",
+        "resolved": "false",
+        "severity": "low",
+        "kind": "manual_flag",
+        "limit": 50,
+        "offset": 0
+      }
+    },
+    {
+      "id": "resolve-anomaly",
+      "method": "PATCH",
+      "path": "/v1/anomalies/{anomalyId}/resolve",
+      "expect": 200,
+      "pathParams": {
+        "anomalyId": {
+          "from": "anomalies",
+          "field": "data.0.id",
+          "example": "7daefbf5-bbe8-4006-a5aa-ba50c59f4412"
+        }
+      },
+      "body": {
+        "resolutionNote": "Verified by API input example",
+        "actorName": "api-inputs"
+      }
+    },
+    {
+      "id": "audit",
+      "method": "GET",
+      "path": "/v1/audit",
+      "expect": 200,
+      "query": {
+        "cityId": "cabadbaran",
+        "action": "trip.status_changed",
+        "limit": 50,
+        "offset": 0
+      }
+    },
+    {
+      "id": "openapi",
+      "method": "GET",
+      "path": "/openapi.json",
+      "expect": 200,
+      "inputs": {}
+    },
+    {
+      "id": "docs",
+      "method": "GET",
+      "path": "/docs",
+      "expect": 200,
+      "inputs": {}
+    },
+    {
+      "id": "logout",
+      "method": "POST",
+      "path": "/v1/auth/logout",
+      "expect": 200,
+      "auth": {
+        "from": "login",
+        "field": "token"
+      }
+    }
+  ]
+}

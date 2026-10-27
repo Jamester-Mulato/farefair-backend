@@ -1,0 +1,2637 @@
+{
+  "baseUrl": "http://localhost:4000",
+  "generatedAt": "2026-10-26T17:17:16.594Z",
+  "results": [
+    {
+      "id": "health",
+      "method": "GET",
+      "path": "/health",
+      "url": "/health",
+      "inputs": "-",
+      "query": {},
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "status": "ok",
+        "service": "farefair-api",
+        "version": "1.0.0",
+        "database": "pglite",
+        "at": "2026-10-26T17:17:15.283Z"
+      }
+    },
+    {
+      "id": "login",
+      "method": "POST",
+      "path": "/v1/auth/login",
+      "url": "/v1/auth/login",
+      "inputs": "body={\"login\":\"admin@farefair.local\",\"password\":\"farefair\"}",
+      "query": {},
+      "pathParams": {},
+      "body": {
+        "login": "admin@farefair.local",
+        "password": "farefair"
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "token": "ff_example_token_redacted",
+        "tokenType": "Bearer",
+        "expiresAt": "2026-10-27T01:17:15.430Z",
+        "user": {
+          "id": "090bb77f-0d76-4be7-8f00-c1c1acaac7bb",
+          "email": "admin@farefair.local",
+          "username": "admin",
+          "displayName": "FareFair Administrator",
+          "name": "FareFair Administrator",
+          "role": "admin",
+          "title": "Transport Administrator",
+          "cityScope": [],
+          "isActive": true,
+          "lastLoginAt": null
+        }
+      }
+    },
+    {
+      "id": "auth-me",
+      "method": "GET",
+      "path": "/v1/auth/me",
+      "url": "/v1/auth/me",
+      "inputs": "-",
+      "query": {},
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "user": {
+          "id": "090bb77f-0d76-4be7-8f00-c1c1acaac7bb",
+          "email": "admin@farefair.local",
+          "username": "admin",
+          "displayName": "FareFair Administrator",
+          "name": "FareFair Administrator",
+          "role": "admin",
+          "title": "Transport Administrator",
+          "cityScope": [],
+          "isActive": true,
+          "lastLoginAt": "2026-10-26T17:17:15.484Z"
+        }
+      }
+    },
+    {
+      "id": "auth-accounts",
+      "method": "GET",
+      "path": "/v1/auth/accounts",
+      "url": "/v1/auth/accounts",
+      "inputs": "-",
+      "query": {},
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "data": [
+          {
+            "id": "090bb77f-0d76-4be7-8f00-c1c1acaac7bb",
+            "email": "admin@farefair.local",
+            "username": "admin",
+            "displayName": "FareFair Administrator",
+            "name": "FareFair Administrator",
+            "role": "admin",
+            "title": "Transport Administrator",
+            "cityScope": [],
+            "isActive": true,
+            "lastLoginAt": "2026-10-26T17:17:15.484Z"
+          },
+          {
+            "id": "e56a1a80-a48e-4daf-8117-1c072e94f808",
+            "email": "analyst@farefair.local",
+            "username": "analyst",
+            "displayName": "FareFair Analyst",
+            "name": "FareFair Analyst",
+            "role": "analyst",
+            "title": "Fare Data Analyst",
+            "cityScope": [],
+            "isActive": true,
+            "lastLoginAt": null
+          },
+          {
+            "id": "1c809195-4fe2-4951-a705-0c070ed0af34",
+            "email": "lgu@farefair.local",
+            "username": "lgu",
+            "displayName": "Cabadbaran LGU Editor",
+            "name": "Cabadbaran LGU Editor",
+            "role": "lgu_editor",
+            "title": "City Data Steward",
+            "cityScope": [
+              "cabadbaran"
+            ],
+            "isActive": true,
+            "lastLoginAt": null
+          }
+        ],
+        "count": 3
+      }
+    },
+    {
+      "id": "admin-fare-matrix-put",
+      "method": "PUT",
+      "path": "/v1/admin/cities/cabadbaran/fare-matrix/tricycle",
+      "url": "/v1/admin/cities/cabadbaran/fare-matrix/tricycle",
+      "inputs": "path={\"cityId\":\"cabadbaran\",\"vehicleId\":\"tricycle\"} body={\"baseFare\":13,\"baseDistanceKm\":1,\"perKmRate\":2,\"minFare\":13,\"maxCustomary\":75,\"typicalCapacity\":4,\"active\":true}",
+      "query": {},
+      "pathParams": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle"
+      },
+      "body": {
+        "baseFare": 13,
+        "baseDistanceKm": 1,
+        "perKmRate": 2,
+        "minFare": 13,
+        "maxCustomary": 75,
+        "typicalCapacity": 4,
+        "active": true
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "vehicleId": "tricycle",
+        "name": "Tricycle",
+        "category": "tricycle",
+        "active": true,
+        "baseFare": 13,
+        "baseDistanceKm": 1,
+        "perKmRate": 2,
+        "minFare": 13,
+        "maxCustomary": 75,
+        "typicalCapacity": 4,
+        "regulationMatrix": "Official Cabadbaran City tricycle fare matrix effective 24 September 2026",
+        "ordinanceId": "68cd9e5a-0116-4d64-9362-202d30af9c97",
+        "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+        "cityId": "cabadbaran",
+        "updatedBy": "FareFair Administrator"
+      }
+    },
+    {
+      "id": "admin-fare-matrix-patch",
+      "method": "PATCH",
+      "path": "/v1/admin/cities/cabadbaran/fare-matrix/tricycle",
+      "url": "/v1/admin/cities/cabadbaran/fare-matrix/tricycle",
+      "inputs": "path={\"cityId\":\"cabadbaran\",\"vehicleId\":\"tricycle\"} body={\"baseFare\":13,\"baseDistanceKm\":1,\"perKmRate\":2,\"minFare\":13,\"maxCustomary\":75,\"typicalCapacity\":4,\"active\":true}",
+      "query": {},
+      "pathParams": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle"
+      },
+      "body": {
+        "baseFare": 13,
+        "baseDistanceKm": 1,
+        "perKmRate": 2,
+        "minFare": 13,
+        "maxCustomary": 75,
+        "typicalCapacity": 4,
+        "active": true
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "vehicleId": "tricycle",
+        "name": "Tricycle",
+        "category": "tricycle",
+        "active": true,
+        "baseFare": 13,
+        "baseDistanceKm": 1,
+        "perKmRate": 2,
+        "minFare": 13,
+        "maxCustomary": 75,
+        "typicalCapacity": 4,
+        "regulationMatrix": "Official Cabadbaran City tricycle fare matrix effective 24 September 2026",
+        "ordinanceId": "68cd9e5a-0116-4d64-9362-202d30af9c97",
+        "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+        "cityId": "cabadbaran",
+        "updatedBy": "FareFair Administrator"
+      }
+    },
+    {
+      "id": "admin-fare-route-put",
+      "method": "PUT",
+      "path": "/v1/admin/cities/cabadbaran/fare-routes/4",
+      "url": "/v1/admin/cities/cabadbaran/fare-routes/4?vehicleId=tricycle",
+      "inputs": "path={\"cityId\":\"cabadbaran\",\"rowNumber\":4} query={\"vehicleId\":\"tricycle\"} body={\"regularFare\":50,\"discountedFare\":40,\"remark\":\"\",\"bidirectional\":true}",
+      "query": {
+        "vehicleId": "tricycle"
+      },
+      "pathParams": {
+        "cityId": "cabadbaran",
+        "rowNumber": 4
+      },
+      "body": {
+        "regularFare": 50,
+        "discountedFare": 40,
+        "remark": "",
+        "bidirectional": true
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "rowNumber": 4,
+        "vehicleId": "tricycle",
+        "vehicleName": "Tricycle",
+        "from": "Poblacion or Terminal",
+        "to": "Bayabas",
+        "via": null,
+        "regularFare": 50,
+        "discountedFare": 40,
+        "remark": null,
+        "bidirectional": true,
+        "cityId": "cabadbaran",
+        "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+        "updatedBy": "FareFair Administrator"
+      }
+    },
+    {
+      "id": "admin-activate-city",
+      "method": "POST",
+      "path": "/v1/admin/cities/cabadbaran/activate",
+      "url": "/v1/admin/cities/cabadbaran/activate",
+      "inputs": "path={\"cityId\":\"cabadbaran\"} body={}",
+      "query": {},
+      "pathParams": {
+        "cityId": "cabadbaran"
+      },
+      "body": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "activeCityId": "cabadbaran",
+        "activeCityName": "Cabadbaran City, Caraga",
+        "activatedBy": "FareFair Administrator"
+      }
+    },
+    {
+      "id": "admin-audit",
+      "method": "POST",
+      "path": "/v1/admin/audit",
+      "url": "/v1/admin/audit",
+      "inputs": "body={\"action\":\"console.check\",\"detail\":\"Executed by the API input matrix\",\"cityId\":\"cabadbaran\",\"entityType\":\"console\"}",
+      "query": {},
+      "pathParams": {},
+      "body": {
+        "action": "console.check",
+        "detail": "Executed by the API input matrix",
+        "cityId": "cabadbaran",
+        "entityType": "console"
+      },
+      "expect": 201,
+      "actual": 201,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "ok": true
+      }
+    },
+    {
+      "id": "meta",
+      "method": "GET",
+      "path": "/v1/meta",
+      "url": "/v1/meta",
+      "inputs": "-",
+      "query": {},
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "name": "FareFair API",
+        "version": "1.0.0",
+        "database": "pglite",
+        "activeCityId": "cabadbaran",
+        "activeCityName": "Cabadbaran City, Caraga",
+        "counts": {
+          "cities": 1,
+          "vehicles": 9,
+          "ordinances": 1,
+          "fare_matrix_entries": 1,
+          "fare_routes": 68,
+          "fare_place_aliases": 133,
+          "trips": 226,
+          "fare_quotes": 226,
+          "active_models": 1,
+          "training_samples": 226,
+          "predictions": 80,
+          "open_anomalies": 38,
+          "audit_events": 10
+        },
+        "endpoints": {
+          "health": "/health",
+          "meta": "/v1/meta",
+          "cities": "/v1/cities",
+          "cityDetail": "/v1/cities/:cityId",
+          "fareMatrix": "/v1/cities/:cityId/fare-matrix",
+          "farePolicy": "/v1/cities/:cityId/fare-policy",
+          "fareRoutes": "/v1/cities/:cityId/fare-routes",
+          "allFareRoutes": "/v1/fare/routes",
+          "vehicles": "/v1/vehicles",
+          "ordinances": "/v1/ordinances",
+          "estimate": "POST /v1/fare/estimate",
+          "predict": "POST /v1/fare/predict",
+          "models": "/v1/fare/models",
+          "train": "POST /v1/fare/models/train",
+          "trips": "/v1/trips",
+          "tripCsv": "/v1/trips.csv",
+          "analytics": "/v1/analytics/overview",
+          "fareAnalytics": "/v1/analytics/fares",
+          "anomalies": "/v1/anomalies",
+          "audit": "/v1/audit",
+          "login": "POST /v1/auth/login",
+          "me": "/v1/auth/me",
+          "logout": "POST /v1/auth/logout",
+          "accounts": "/v1/auth/accounts",
+          "adminFareUpdate": "PATCH /v1/admin/cities/:cityId/fare-matrix/:vehicleId",
+          "adminFareRouteUpdate": "PUT /v1/admin/cities/:cityId/fare-routes/:rowNumber",
+          "adminActivateCity": "POST /v1/admin/cities/:cityId/activate",
+          "adminAudit": "POST /v1/admin/audit",
+          "adminConsole": "/admin/",
+          "openapi": "/openapi.json",
+          "docs": "/docs"
+        },
+        "generatedAt": "2026-10-26T17:17:15.833Z"
+      }
+    },
+    {
+      "id": "cities",
+      "method": "GET",
+      "path": "/v1/cities",
+      "url": "/v1/cities?status=active&provisional=false",
+      "inputs": "query={\"status\":\"active\",\"provisional\":\"false\"}",
+      "query": {
+        "status": "active",
+        "provisional": "false"
+      },
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "data": [
+          {
+            "id": "cabadbaran",
+            "displayName": "Cabadbaran City, Caraga",
+            "province": "Agusan del Norte",
+            "region": "Caraga (Region XIII)",
+            "status": "active",
+            "centroLabel": "Cabadbaran Poblacion",
+            "center": {
+              "lat": 9.1157,
+              "lng": 125.5427
+            },
+            "isFocus": true,
+            "provisional": false,
+            "source": "Cabadbaran City Tricycle Fare Regulatory Board â€” Official rates effective 24 September 2026",
+            "lastVerified": "2026-09-24",
+            "farePolicyVersionId": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+            "farePolicyVersion": 1,
+            "fareMatrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+            "fareMatrixVersion": 1,
+            "activeVehicleCount": 1,
+            "fareRouteCount": 68,
+            "ordinanceCount": 1
+          }
+        ],
+        "count": 1,
+        "activeCityId": "cabadbaran"
+      }
+    },
+    {
+      "id": "city",
+      "method": "GET",
+      "path": "/v1/cities/cabadbaran",
+      "url": "/v1/cities/cabadbaran",
+      "inputs": "path={\"cityId\":\"cabadbaran\"}",
+      "query": {},
+      "pathParams": {
+        "cityId": "cabadbaran"
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "id": "cabadbaran",
+        "displayName": "Cabadbaran City, Caraga",
+        "province": "Agusan del Norte",
+        "region": "Caraga (Region XIII)",
+        "status": "active",
+        "centroLabel": "Cabadbaran Poblacion",
+        "isFocus": true,
+        "center": {
+          "lat": 9.1157,
+          "lng": 125.5427
+        },
+        "provenance": {
+          "provisional": false,
+          "source": "Cabadbaran City Tricycle Fare Regulatory Board â€” Official rates effective 24 September 2026",
+          "lastVerified": "2026-09-24",
+          "verifiedBy": "Cabadbaran City Tricycle Fare Regulatory Board"
+        },
+        "farePolicy": {
+          "id": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+          "cityId": "cabadbaran",
+          "version": 1,
+          "status": "active",
+          "discountRate": 0.2,
+          "customaryLeewayMin": 1,
+          "customaryLeewayMax": 1,
+          "minPassengers": 1,
+          "maxPassengers": 4,
+          "pakyawSeatCap": 4,
+          "effectiveFrom": "2026-09-24",
+          "effectiveTo": null,
+          "notes": "Official Cabadbaran City tricycle fare policy.",
+          "activatedAt": "2026-10-26T17:16:40.728Z",
+          "createdAt": "2026-10-26T17:16:40.728Z"
+        },
+        "demoRoute": {
+          "originName": "Poblacion",
+          "destinationName": "Land Transport Terminal",
+          "distanceKm": 1
+        },
+        "vehicles": [
+          {
+            "vehicleId": "tricycle",
+            "name": "Tricycle",
+            "category": "tricycle",
+            "active": true,
+            "baseFare": 13,
+            "baseDistanceKm": 1,
+            "perKmRate": 2,
+            "minFare": 13,
+            "maxCustomary": 75,
+            "typicalCapacity": 4,
+            "regulationMatrix": "Official Cabadbaran City tricycle fare matrix effective 24 September 2026",
+            "ordinanceId": "68cd9e5a-0116-4d64-9362-202d30af9c97"
+          }
+        ],
+        "ordinances": [
+          {
+            "id": "68cd9e5a-0116-4d64-9362-202d30af9c97",
+            "externalId": "cabadbaran-tricycle-fare-matrix-2026",
+            "slug": "cabadbaran-cabadbaran-tricycle-fare-matrix-2026",
+            "cityId": "cabadbaran",
+            "cityName": "Cabadbaran City, Caraga",
+            "title": "Cabadbaran City Tricycle Fare Matrix",
+            "municipality": "Cabadbaran City, Agusan del Norte",
+            "ordinanceNumber": "",
+            "status": "enacted",
+            "dateEnactedLabel": "2026-09-24",
+            "dateEnacted": "2026-09-24",
+            "effectiveFrom": "2026-09-24",
+            "effectiveTo": null,
+            "summary": "Official per-passenger tricycle fares for Poblacion and barangay routes, issued by the Cabadbaran City Tricycle Fare Regulatory Board and effective 24 September 2026. Fares apply both ways unless a different origin is named.",
+            "vehicleApplicability": "Tricycle",
+            "vehicleIds": [
+              "tricycle"
+            ],
+            "baseFare": 13,
+            "succeedingKmRate": 2,
+            "discountTerms": "20% discount for students, senior citizens and persons with disability presenting a valid ID. Minimum fare â‚±13 regular / â‚±11 discounted.",
+            "documentUrl": null
+          }
+        ],
+        "simulatorCorridor": [
+          [
+            9.1157,
+            125.5427
+          ],
+          [
+            9.1171,
+            125.5443
+          ],
+          [
+            9.1143,
+            125.5495
+          ]
+        ],
+        "fareMatrix": {
+          "id": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+          "cityId": "cabadbaran",
+          "version": 1,
+          "status": "active",
+          "effectiveFrom": "2026-09-24",
+          "effectiveTo": null,
+          "provisional": false,
+          "source": "Cabadbaran City Tricycle Fare Matrix â€” Official rates effective 24 September 2026",
+          "notes": "Published per-passenger fares for tricycles. Rates apply both ways unless a different origin is named. Discounted fare is 20% off regular for students, senior citizens and PWDs with a valid ID. Add â‚±2.00 per kilometer or fraction of a kilometer beyond the Poblacion area.",
+          "activatedAt": "2026-10-26T17:16:40.728Z",
+          "createdAt": "2026-10-26T17:16:40.728Z",
+          "entries": [
+            {
+              "vehicleId": "tricycle",
+              "name": "Tricycle",
+              "category": "tricycle",
+              "active": true,
+              "baseFare": 13,
+              "baseDistanceKm": 1,
+              "perKmRate": 2,
+              "minFare": 13,
+              "maxCustomary": 75,
+              "typicalCapacity": 4,
+              "regulationMatrix": "Official Cabadbaran City tricycle fare matrix effective 24 September 2026",
+              "ordinanceId": "68cd9e5a-0116-4d64-9362-202d30af9c97"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "fare-matrix",
+      "method": "GET",
+      "path": "/v1/cities/cabadbaran/fare-matrix",
+      "url": "/v1/cities/cabadbaran/fare-matrix?version=1&includeInactive=true",
+      "inputs": "path={\"cityId\":\"cabadbaran\"} query={\"version\":1,\"includeInactive\":\"true\"}",
+      "query": {
+        "version": 1,
+        "includeInactive": "true"
+      },
+      "pathParams": {
+        "cityId": "cabadbaran"
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "id": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+        "cityId": "cabadbaran",
+        "version": 1,
+        "status": "active",
+        "effectiveFrom": "2026-09-24",
+        "effectiveTo": null,
+        "provisional": false,
+        "source": "Cabadbaran City Tricycle Fare Matrix â€” Official rates effective 24 September 2026",
+        "notes": "Published per-passenger fares for tricycles. Rates apply both ways unless a different origin is named. Discounted fare is 20% off regular for students, senior citizens and PWDs with a valid ID. Add â‚±2.00 per kilometer or fraction of a kilometer beyond the Poblacion area.",
+        "activatedAt": "2026-10-26T17:16:40.728Z",
+        "createdAt": "2026-10-26T17:16:40.728Z",
+        "entries": [
+          {
+            "vehicleId": "tricycle",
+            "name": "Tricycle",
+            "category": "tricycle",
+            "active": true,
+            "baseFare": 13,
+            "baseDistanceKm": 1,
+            "perKmRate": 2,
+            "minFare": 13,
+            "maxCustomary": 75,
+            "typicalCapacity": 4,
+            "regulationMatrix": "Official Cabadbaran City tricycle fare matrix effective 24 September 2026",
+            "ordinanceId": "68cd9e5a-0116-4d64-9362-202d30af9c97"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fare-routes",
+      "method": "GET",
+      "path": "/v1/cities/cabadbaran/fare-routes",
+      "url": "/v1/cities/cabadbaran/fare-routes?vehicleId=tricycle",
+      "inputs": "path={\"cityId\":\"cabadbaran\"} query={\"vehicleId\":\"tricycle\"}",
+      "query": {
+        "vehicleId": "tricycle"
+      },
+      "pathParams": {
+        "cityId": "cabadbaran"
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "cityId": "cabadbaran",
+        "cityName": "Cabadbaran City, Caraga",
+        "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+        "vehicleId": "tricycle",
+        "effectiveFrom": "2026-09-24",
+        "provisional": false,
+        "source": "Cabadbaran City Tricycle Fare Matrix â€” Official rates effective 24 September 2026",
+        "count": 68,
+        "data": [
+          {
+            "rowNumber": 1,
+            "vehicleId": "tricycle",
+            "vehicleName": "Tricycle",
+            "from": "Anywhere in Poblacion",
+            "to": "Anywhere in Poblacion",
+            "via": null,
+            "regularFare": 13,
+            "discountedFare": 11,
+            "remark": "Minimum/ local ply",
+            "bidirectional": true
+          },
+          {
+            "rowNumber": 2,
+            "vehicleId": "tricycle",
+            "vehicleName": "Tricycle",
+            "from": "Poblacion",
+            "to": "Land Transport Terminal",
+            "via": null,
+            "regularFare": 13,
+            "discountedFare": 11,
+            "remark": "Same both ways",
+            "bidirectional": true
+          },
+          {
+            "rowNumber": 3,
+            "vehicleId": "tricycle",
+            "vehicleName": "Tricycle",
+            "from": "Poblacion or Terminal",
+            "to": "Antonio Luna",
+            "via": null,
+            "regularFare": 40,
+            "discountedFare": 32,
+            "remark": null,
+            "bidirectional": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "fare-policy",
+      "method": "GET",
+      "path": "/v1/cities/cabadbaran/fare-policy",
+      "url": "/v1/cities/cabadbaran/fare-policy?includeHistory=true",
+      "inputs": "path={\"cityId\":\"cabadbaran\"} query={\"includeHistory\":\"true\"}",
+      "query": {
+        "includeHistory": "true"
+      },
+      "pathParams": {
+        "cityId": "cabadbaran"
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "current": {
+          "id": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+          "cityId": "cabadbaran",
+          "version": 1,
+          "status": "active",
+          "discountRate": 0.2,
+          "customaryLeewayMin": 1,
+          "customaryLeewayMax": 1,
+          "minPassengers": 1,
+          "maxPassengers": 4,
+          "pakyawSeatCap": 4,
+          "effectiveFrom": "2026-09-24",
+          "effectiveTo": null,
+          "notes": "Official Cabadbaran City tricycle fare policy.",
+          "activatedAt": "2026-10-26T17:16:40.728Z",
+          "createdAt": "2026-10-26T17:16:40.728Z"
+        },
+        "history": [
+          {
+            "id": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+            "cityId": "cabadbaran",
+            "version": 1,
+            "status": "active",
+            "discountRate": 0.2,
+            "customaryLeewayMin": 1,
+            "customaryLeewayMax": 1,
+            "minPassengers": 1,
+            "maxPassengers": 4,
+            "pakyawSeatCap": 4,
+            "effectiveFrom": "2026-09-24",
+            "effectiveTo": null,
+            "notes": "Official Cabadbaran City tricycle fare policy.",
+            "activatedAt": "2026-10-26T17:16:40.728Z",
+            "createdAt": "2026-10-26T17:16:40.728Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "vehicles",
+      "method": "GET",
+      "path": "/v1/vehicles",
+      "url": "/v1/vehicles",
+      "inputs": "-",
+      "query": {},
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "data": [
+          {
+            "id": "tricycle",
+            "category": "tricycle",
+            "name": "Tricycle",
+            "tag": "Motorized",
+            "description": "Standard Davao & Mindanao urban motorized sidecar tricycle",
+            "icon": "electric_rickshaw",
+            "defaults": {
+              "baseFare": 15,
+              "baseDistanceKm": 1,
+              "perKmRate": 2.5,
+              "minFare": 12,
+              "maxCustomary": 65,
+              "typicalCapacity": 4,
+              "regulationNote": "Davao City Ordinance No. 0334-12 / CDO Ord. 2023-14A"
+            },
+            "sortOrder": 1,
+            "cityCount": 1
+          },
+          {
+            "id": "habal-habal",
+            "category": "habal_habal",
+            "name": "Habal-habal",
+            "tag": "Single Motorcycle",
+            "description": "Hinterland, mountain routes & point-to-point motorcycle taxi",
+            "icon": "two_wheeler",
+            "defaults": {
+              "baseFare": 25,
+              "baseDistanceKm": 2,
+              "perKmRate": 10,
+              "minFare": 20,
+              "maxCustomary": 90,
+              "typicalCapacity": 2,
+              "regulationNote": "Mindanao Customary Barangay Mountain Guideline"
+            },
+            "sortOrder": 2,
+            "cityCount": 0
+          },
+          {
+            "id": "skylab",
+            "category": "skylab",
+            "name": "Extended habal-habal",
+            "tag": "Skylab",
+            "description": "Motorcycle with wooden wing plank extensions for heavy payloads",
+            "icon": "motorcycle",
+            "defaults": {
+              "baseFare": 35,
+              "baseDistanceKm": 2,
+              "perKmRate": 12,
+              "minFare": 30,
+              "maxCustomary": 140,
+              "typicalCapacity": 6,
+              "regulationNote": "Upland Barangay Council Resolution Matrix"
+            },
+            "sortOrder": 3,
+            "cityCount": 0
+          }
+        ],
+        "count": 9
+      }
+    },
+    {
+      "id": "all-fare-routes",
+      "method": "GET",
+      "path": "/v1/fare/routes",
+      "url": "/v1/fare/routes?cityId=cabadbaran&vehicleId=tricycle&search=Poblacion",
+      "inputs": "query={\"cityId\":\"cabadbaran\",\"vehicleId\":\"tricycle\",\"search\":\"Poblacion\"}",
+      "query": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle",
+        "search": "Poblacion"
+      },
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "cityId": "cabadbaran",
+        "cityName": "Cabadbaran City, Caraga",
+        "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+        "vehicleId": "tricycle",
+        "effectiveFrom": "2026-09-24",
+        "provisional": false,
+        "source": "Cabadbaran City Tricycle Fare Matrix â€” Official rates effective 24 September 2026",
+        "count": 61,
+        "data": [
+          {
+            "rowNumber": 1,
+            "vehicleId": "tricycle",
+            "vehicleName": "Tricycle",
+            "from": "Anywhere in Poblacion",
+            "to": "Anywhere in Poblacion",
+            "via": null,
+            "regularFare": 13,
+            "discountedFare": 11,
+            "remark": "Minimum/ local ply",
+            "bidirectional": true
+          },
+          {
+            "rowNumber": 2,
+            "vehicleId": "tricycle",
+            "vehicleName": "Tricycle",
+            "from": "Poblacion",
+            "to": "Land Transport Terminal",
+            "via": null,
+            "regularFare": 13,
+            "discountedFare": 11,
+            "remark": "Same both ways",
+            "bidirectional": true
+          },
+          {
+            "rowNumber": 3,
+            "vehicleId": "tricycle",
+            "vehicleName": "Tricycle",
+            "from": "Poblacion or Terminal",
+            "to": "Antonio Luna",
+            "via": null,
+            "regularFare": 40,
+            "discountedFare": 32,
+            "remark": null,
+            "bidirectional": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "vehicle",
+      "method": "GET",
+      "path": "/v1/vehicles/tricycle",
+      "url": "/v1/vehicles/tricycle",
+      "inputs": "path={\"vehicleId\":\"tricycle\"}",
+      "query": {},
+      "pathParams": {
+        "vehicleId": "tricycle"
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "id": "tricycle",
+        "category": "tricycle",
+        "name": "Tricycle",
+        "tag": "Motorized",
+        "description": "Standard Davao & Mindanao urban motorized sidecar tricycle",
+        "icon": "electric_rickshaw",
+        "defaults": {
+          "baseFare": 15,
+          "baseDistanceKm": 1,
+          "perKmRate": 2.5,
+          "minFare": 12,
+          "maxCustomary": 65,
+          "typicalCapacity": 4,
+          "regulationNote": "Davao City Ordinance No. 0334-12 / CDO Ord. 2023-14A"
+        },
+        "sortOrder": 1,
+        "cityCount": 1,
+        "cities": [
+          {
+            "cityId": "cabadbaran",
+            "baseFare": 13,
+            "baseDistanceKm": 1,
+            "perKmRate": 2,
+            "minFare": 13,
+            "maxCustomary": 75,
+            "typicalCapacity": 4
+          }
+        ]
+      }
+    },
+    {
+      "id": "ordinances",
+      "method": "GET",
+      "path": "/v1/ordinances",
+      "url": "/v1/ordinances?cityId=cabadbaran&status=enacted&vehicleId=tricycle",
+      "inputs": "query={\"cityId\":\"cabadbaran\",\"status\":\"enacted\",\"vehicleId\":\"tricycle\"}",
+      "query": {
+        "cityId": "cabadbaran",
+        "status": "enacted",
+        "vehicleId": "tricycle"
+      },
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "data": [
+          {
+            "id": "68cd9e5a-0116-4d64-9362-202d30af9c97",
+            "externalId": "cabadbaran-tricycle-fare-matrix-2026",
+            "slug": "cabadbaran-cabadbaran-tricycle-fare-matrix-2026",
+            "cityId": "cabadbaran",
+            "cityName": "Cabadbaran City, Caraga",
+            "title": "Cabadbaran City Tricycle Fare Matrix",
+            "municipality": "Cabadbaran City, Agusan del Norte",
+            "ordinanceNumber": "",
+            "status": "enacted",
+            "dateEnactedLabel": "2026-09-24",
+            "dateEnacted": "2026-09-24",
+            "effectiveFrom": "2026-09-24",
+            "effectiveTo": null,
+            "summary": "Official per-passenger tricycle fares for Poblacion and barangay routes, issued by the Cabadbaran City Tricycle Fare Regulatory Board and effective 24 September 2026. Fares apply both ways unless a different origin is named.",
+            "vehicleApplicability": "Tricycle",
+            "vehicleIds": [
+              "tricycle"
+            ],
+            "baseFare": 13,
+            "succeedingKmRate": 2,
+            "discountTerms": "20% discount for students, senior citizens and persons with disability presenting a valid ID. Minimum fare â‚±13 regular / â‚±11 discounted.",
+            "documentUrl": null
+          }
+        ],
+        "count": 1
+      }
+    },
+    {
+      "id": "ordinance",
+      "method": "GET",
+      "path": "/v1/ordinances/cabadbaran-cabadbaran-tricycle-fare-matrix-2026",
+      "url": "/v1/ordinances/cabadbaran-cabadbaran-tricycle-fare-matrix-2026",
+      "inputs": "path={\"slug\":\"cabadbaran-cabadbaran-tricycle-fare-matrix-2026\"}",
+      "query": {},
+      "pathParams": {
+        "slug": "cabadbaran-cabadbaran-tricycle-fare-matrix-2026"
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "id": "68cd9e5a-0116-4d64-9362-202d30af9c97",
+        "externalId": "cabadbaran-tricycle-fare-matrix-2026",
+        "slug": "cabadbaran-cabadbaran-tricycle-fare-matrix-2026",
+        "cityId": "cabadbaran",
+        "cityName": "Cabadbaran City, Caraga",
+        "title": "Cabadbaran City Tricycle Fare Matrix",
+        "municipality": "Cabadbaran City, Agusan del Norte",
+        "ordinanceNumber": "",
+        "status": "enacted",
+        "dateEnactedLabel": "2026-09-24",
+        "dateEnacted": "2026-09-24",
+        "effectiveFrom": "2026-09-24",
+        "effectiveTo": null,
+        "summary": "Official per-passenger tricycle fares for Poblacion and barangay routes, issued by the Cabadbaran City Tricycle Fare Regulatory Board and effective 24 September 2026. Fares apply both ways unless a different origin is named.",
+        "vehicleApplicability": "Tricycle",
+        "vehicleIds": [
+          "tricycle"
+        ],
+        "baseFare": 13,
+        "succeedingKmRate": 2,
+        "discountTerms": "20% discount for students, senior citizens and persons with disability presenting a valid ID. Minimum fare â‚±13 regular / â‚±11 discounted.",
+        "documentUrl": null
+      }
+    },
+    {
+      "id": "estimate",
+      "method": "POST",
+      "path": "/v1/fare/estimate",
+      "url": "/v1/fare/estimate",
+      "inputs": "body={\"cityId\":\"cabadbaran\",\"vehicleId\":\"tricycle\",\"origin\":\"Poblacion\",\"destination\":\"Bayabas\",\"passengers\":1,\"pakyaw\":false,\"discountCode\":\"none\",\"persist\":true}",
+      "query": {},
+      "pathParams": {},
+      "body": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle",
+        "origin": "Poblacion",
+        "destination": "Bayabas",
+        "passengers": 1,
+        "pakyaw": false,
+        "discountCode": "none",
+        "persist": true
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle",
+        "distanceKm": 19.5,
+        "distanceKmSource": "derived_from_published_fare",
+        "passengers": 1,
+        "pakyaw": false,
+        "discountCode": "none",
+        "origin": "Poblacion",
+        "destination": "Bayabas",
+        "fareSource": "official_matrix",
+        "routeRowNumber": 4,
+        "route": {
+          "rowNumber": 4,
+          "from": "Poblacion or Terminal",
+          "to": "Bayabas",
+          "matchedOrigin": "Poblacion",
+          "matchedDestination": "Bayabas",
+          "via": null,
+          "remark": null,
+          "reversed": false,
+          "regularFare": 50,
+          "discountedFare": 40
+        },
+        "fare": {
+          "currency": "PHP",
+          "exact": 50,
+          "min": 50,
+          "max": 50
+        },
+        "breakdown": {
+          "baseFare": 50,
+          "baseDistanceKm": 0,
+          "perKmRate": 0,
+          "distanceComponent": 0,
+          "baseRate": 50,
+          "seatUnits": 1,
+          "subtotal": 50,
+          "discountRate": 0,
+          "discountAmount": 0
+        },
+        "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+        "policyVersionId": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+        "provisional": false,
+        "quoteId": "15f4b27c-871c-4b05-b236-4e0eeeef7f01"
+      }
+    },
+    {
+      "id": "quote",
+      "method": "GET",
+      "path": "/v1/fare/quotes/15f4b27c-871c-4b05-b236-4e0eeeef7f01",
+      "url": "/v1/fare/quotes/15f4b27c-871c-4b05-b236-4e0eeeef7f01",
+      "inputs": "path={\"quoteId\":\"15f4b27c-871c-4b05-b236-4e0eeeef7f01\"}",
+      "query": {},
+      "pathParams": {
+        "quoteId": "15f4b27c-871c-4b05-b236-4e0eeeef7f01"
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "id": "15f4b27c-871c-4b05-b236-4e0eeeef7f01",
+        "cityId": "cabadbaran",
+        "cityName": "Cabadbaran City, Caraga",
+        "vehicleId": "tricycle",
+        "vehicleName": "Tricycle",
+        "tripId": null,
+        "modelVersionId": null,
+        "origin": "Poblacion",
+        "destination": "Bayabas",
+        "routeRowNumber": 4,
+        "distanceKm": 19.5,
+        "passengers": 1,
+        "pakyaw": false,
+        "discountCode": "none",
+        "baseRate": 50,
+        "seatUnits": 1,
+        "fare": {
+          "currency": "PHP",
+          "exact": 50,
+          "min": 50,
+          "max": 50
+        },
+        "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+        "policyVersionId": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+        "fareSource": "official_matrix",
+        "source": "api",
+        "createdAt": "2026-10-26T17:17:16.100Z"
+      }
+    },
+    {
+      "id": "predict",
+      "method": "POST",
+      "path": "/v1/fare/predict",
+      "url": "/v1/fare/predict",
+      "inputs": "body={\"cityId\":\"cabadbaran\",\"vehicleId\":\"tricycle\",\"distanceKm\":4.2,\"passengers\":2,\"pakyaw\":false,\"discountCode\":\"none\",\"modelKey\":\"fare-fair-linear\",\"persist\":true}",
+      "query": {},
+      "pathParams": {},
+      "body": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle",
+        "distanceKm": 4.2,
+        "passengers": 2,
+        "pakyaw": false,
+        "discountCode": "none",
+        "modelKey": "fare-fair-linear",
+        "persist": true
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle",
+        "distanceKm": 4.2,
+        "passengers": 2,
+        "pakyaw": false,
+        "discountCode": "none",
+        "model": {
+          "key": "fare-fair-linear",
+          "versionId": "5df9cefe-d433-4180-bc41-076421586cdd",
+          "version": 1,
+          "algorithm": "ordinary_least_squares_ridge"
+        },
+        "prediction": {
+          "currency": "PHP",
+          "fare": 38.8,
+          "lowerBound": 38.19,
+          "upperBound": 39.4,
+          "confidence": 0.992
+        },
+        "features": {
+          "discount": 0,
+          "base_fare": 13,
+          "passengers": 2,
+          "seat_units": 2,
+          "distance_km": 4.2,
+          "per_km_rate": 2,
+          "base_fare_x_seat": 26,
+          "billable_distance_km": 3.2,
+          "discount_x_base_x_seat": 0,
+          "per_km_x_distance_x_seat": 12.8,
+          "discount_x_per_km_distance_x_seat": 0
+        },
+        "predictionId": "a425f51f-82d2-435a-bda2-0182073eb29e"
+      }
+    },
+    {
+      "id": "predictions",
+      "method": "GET",
+      "path": "/v1/fare/predictions",
+      "url": "/v1/fare/predictions?limit=50",
+      "inputs": "query={\"limit\":50}",
+      "query": {
+        "limit": 50
+      },
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "data": [
+          {
+            "id": "a425f51f-82d2-435a-bda2-0182073eb29e",
+            "modelKey": "fare-fair-linear",
+            "modelVersion": 1,
+            "modelVersionId": "5df9cefe-d433-4180-bc41-076421586cdd",
+            "tripId": null,
+            "tripReference": null,
+            "features": {
+              "discount": 0,
+              "base_fare": 13,
+              "passengers": 2,
+              "seat_units": 2,
+              "distance_km": 4.2,
+              "per_km_rate": 2,
+              "base_fare_x_seat": 26,
+              "billable_distance_km": 3.2,
+              "discount_x_base_x_seat": 0,
+              "per_km_x_distance_x_seat": 12.8,
+              "discount_x_per_km_distance_x_seat": 0
+            },
+            "predictedFare": 38.8,
+            "lowerBound": 38.19,
+            "upperBound": 39.4,
+            "confidence": 0.992,
+            "latencyMs": 36,
+            "createdAt": "2026-10-26T17:17:16.179Z"
+          },
+          {
+            "id": "d6d56715-dba6-4853-8603-43030518cfb1",
+            "modelKey": "fare-fair-linear",
+            "modelVersion": 1,
+            "modelVersionId": "5df9cefe-d433-4180-bc41-076421586cdd",
+            "tripId": "156c8a00-b927-42a6-abfe-d2d8138bc9e2",
+            "tripReference": "FF-4821",
+            "features": {
+              "discount": 0,
+              "base_fare": 13,
+              "passengers": 2,
+              "seat_units": 2,
+              "distance_km": 14.5,
+              "per_km_rate": 2,
+              "base_fare_x_seat": 26,
+              "billable_distance_km": 13.5,
+              "discount_x_base_x_seat": 0,
+              "per_km_x_distance_x_seat": 54,
+              "discount_x_per_km_distance_x_seat": 0
+            },
+            "predictedFare": 80.01,
+            "lowerBound": 79.4,
+            "upperBound": 80.61,
+            "confidence": 0.9961,
+            "latencyMs": 13,
+            "createdAt": "2026-10-26T17:16:40.728Z"
+          },
+          {
+            "id": "1cbd6d39-34d4-44ca-80ca-6283cb449826",
+            "modelKey": "fare-fair-linear",
+            "modelVersion": 1,
+            "modelVersionId": "5df9cefe-d433-4180-bc41-076421586cdd",
+            "tripId": "581514d3-bdce-494a-896c-8fa931e38bf1",
+            "tripReference": "FF-4822",
+            "features": {
+              "discount": 0,
+              "base_fare": 13,
+              "passengers": 1,
+              "seat_units": 1,
+              "distance_km": 24.5,
+              "per_km_rate": 2,
+              "base_fare_x_seat": 13,
+              "billable_distance_km": 23.5,
+              "discount_x_base_x_seat": 0,
+              "per_km_x_distance_x_seat": 47,
+              "discount_x_per_km_distance_x_seat": 0
+            },
+            "predictedFare": 60.03,
+            "lowerBound": 59.42,
+            "upperBound": 60.63,
+            "confidence": 0.9949,
+            "latencyMs": 19,
+            "createdAt": "2026-10-26T17:16:40.728Z"
+          }
+        ],
+        "count": 50
+      }
+    },
+    {
+      "id": "models",
+      "method": "GET",
+      "path": "/v1/fare/models",
+      "url": "/v1/fare/models",
+      "inputs": "-",
+      "query": {},
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "data": [
+          {
+            "modelKey": "fare-fair-linear",
+            "name": "FareFair Linear Fare Baseline",
+            "task": "fare_regression",
+            "target": "exact_fare",
+            "description": "Ridge linear regression over engineered fare-matrix features. Retrained from official Cabadbaran trip history through POST /v1/fare/models/train.",
+            "versions": [
+              {
+                "id": "5df9cefe-d433-4180-bc41-076421586cdd",
+                "modelId": "59ee2785-911e-45f0-9e55-79e57e6d658f",
+                "modelKey": "fare-fair-linear",
+                "name": "FareFair Linear Fare Baseline",
+                "task": "fare_regression",
+                "target": "exact_fare",
+                "version": 1,
+                "status": "active",
+                "algorithm": "ordinary_least_squares_ridge",
+                "featureNames": [
+                  "distance_km",
+                  "passengers",
+                  "seat_units"
+                ],
+                "coefficients": {
+                  "discount": -0.10651393947006227,
+                  "base_fare": -9.39285724011412e-7,
+                  "intercept": -0.060032977709497004,
+                  "passengers": 0.05703521028676661,
+                  "seat_units": 0.07626742102073425,
+                  "distance_km": 0.002031745089121406,
+                  "per_km_rate": 0.000001925190465333161,
+                  "base_fare_x_seat": 0.9916294592605022,
+                  "billable_distance_km": 0.0020286834175791135,
+                  "discount_x_base_x_seat": -0.183508573361709,
+                  "per_km_x_distance_x_seat": 0.9993039452478722,
+                  "discount_x_per_km_distance_x_seat": -0.20662341585531077
+                },
+                "hyperparameters": {
+                  "ridge": 0.000001,
+                  "testRows": 23,
+                  "trainRows": 180,
+                  "featureSet": "fare-fair-v1",
+                  "validationRows": 23
+                },
+                "metrics": {
+                  "test": {
+                    "r2": 1,
+                    "mae": 0.1103,
+                    "rmse": 0.2153,
+                    "rows": 23
+                  },
+                  "train": {
+                    "r2": 1,
+                    "mae": 0.1291,
+                    "rmse": 0.3086,
+                    "rows": 180
+                  },
+                  "validation": {
+                    "r2": 1,
+                    "mae": 0.1069,
+                    "rmse": 0.2008,
+                    "rows": 23
+                  }
+                },
+                "residualStddev": 0.3086,
+                "trainingRows": 180,
+                "trainedAt": "2026-10-26T17:16:40.722Z",
+                "activatedAt": "2026-10-26T17:16:40.728Z",
+                "artifactUri": "inline://coefficients",
+                "checksum": "70ced6b6218db1de221abda06bc91108e3bccff73a76c4d87358f5754e099c9f",
+                "isActive": true,
+                "predictionCount": 81
+              }
+            ],
+            "activeVersionId": "5df9cefe-d433-4180-bc41-076421586cdd"
+          }
+        ],
+        "count": 1
+      }
+    },
+    {
+      "id": "model",
+      "method": "GET",
+      "path": "/v1/fare/models/fare-fair-linear",
+      "url": "/v1/fare/models/fare-fair-linear",
+      "inputs": "path={\"idOrKey\":\"fare-fair-linear\"}",
+      "query": {},
+      "pathParams": {
+        "idOrKey": "fare-fair-linear"
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "id": "59ee2785-911e-45f0-9e55-79e57e6d658f",
+        "modelKey": "fare-fair-linear",
+        "name": "FareFair Linear Fare Baseline",
+        "task": "fare_regression",
+        "target": "exact_fare",
+        "description": "Ridge linear regression over engineered fare-matrix features. Retrained from official Cabadbaran trip history through POST /v1/fare/models/train.",
+        "createdAt": "2026-10-26T17:16:40.728Z",
+        "activeVersionId": "5df9cefe-d433-4180-bc41-076421586cdd",
+        "versions": [
+          {
+            "id": "5df9cefe-d433-4180-bc41-076421586cdd",
+            "modelId": "59ee2785-911e-45f0-9e55-79e57e6d658f",
+            "modelKey": "fare-fair-linear",
+            "name": "FareFair Linear Fare Baseline",
+            "task": "fare_regression",
+            "target": "exact_fare",
+            "version": 1,
+            "status": "active",
+            "algorithm": "ordinary_least_squares_ridge",
+            "featureNames": [
+              "distance_km",
+              "passengers",
+              "seat_units"
+            ],
+            "coefficients": {
+              "discount": -0.10651393947006227,
+              "base_fare": -9.39285724011412e-7,
+              "intercept": -0.060032977709497004,
+              "passengers": 0.05703521028676661,
+              "seat_units": 0.07626742102073425,
+              "distance_km": 0.002031745089121406,
+              "per_km_rate": 0.000001925190465333161,
+              "base_fare_x_seat": 0.9916294592605022,
+              "billable_distance_km": 0.0020286834175791135,
+              "discount_x_base_x_seat": -0.183508573361709,
+              "per_km_x_distance_x_seat": 0.9993039452478722,
+              "discount_x_per_km_distance_x_seat": -0.20662341585531077
+            },
+            "hyperparameters": {
+              "ridge": 0.000001,
+              "testRows": 23,
+              "trainRows": 180,
+              "featureSet": "fare-fair-v1",
+              "validationRows": 23
+            },
+            "metrics": {
+              "test": {
+                "r2": 1,
+                "mae": 0.1103,
+                "rmse": 0.2153,
+                "rows": 23
+              },
+              "train": {
+                "r2": 1,
+                "mae": 0.1291,
+                "rmse": 0.3086,
+                "rows": 180
+              },
+              "validation": {
+                "r2": 1,
+                "mae": 0.1069,
+                "rmse": 0.2008,
+                "rows": 23
+              }
+            },
+            "residualStddev": 0.3086,
+            "trainingRows": 180,
+            "trainedAt": "2026-10-26T17:16:40.722Z",
+            "activatedAt": "2026-10-26T17:16:40.728Z",
+            "artifactUri": "inline://coefficients",
+            "checksum": "70ced6b6218db1de221abda06bc91108e3bccff73a76c4d87358f5754e099c9f",
+            "isActive": true,
+            "predictionCount": 81
+          }
+        ]
+      }
+    },
+    {
+      "id": "model-version",
+      "method": "GET",
+      "path": "/v1/fare/models/versions/5df9cefe-d433-4180-bc41-076421586cdd",
+      "url": "/v1/fare/models/versions/5df9cefe-d433-4180-bc41-076421586cdd",
+      "inputs": "path={\"versionId\":\"5df9cefe-d433-4180-bc41-076421586cdd\"}",
+      "query": {},
+      "pathParams": {
+        "versionId": "5df9cefe-d433-4180-bc41-076421586cdd"
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "id": "5df9cefe-d433-4180-bc41-076421586cdd",
+        "modelId": "59ee2785-911e-45f0-9e55-79e57e6d658f",
+        "modelKey": "fare-fair-linear",
+        "name": "FareFair Linear Fare Baseline",
+        "task": "fare_regression",
+        "target": "exact_fare",
+        "version": 1,
+        "status": "active",
+        "algorithm": "ordinary_least_squares_ridge",
+        "featureNames": [
+          "distance_km",
+          "passengers",
+          "seat_units"
+        ],
+        "coefficients": {
+          "discount": -0.10651393947006227,
+          "base_fare": -9.39285724011412e-7,
+          "intercept": -0.060032977709497004,
+          "passengers": 0.05703521028676661,
+          "seat_units": 0.07626742102073425,
+          "distance_km": 0.002031745089121406,
+          "per_km_rate": 0.000001925190465333161,
+          "base_fare_x_seat": 0.9916294592605022,
+          "billable_distance_km": 0.0020286834175791135,
+          "discount_x_base_x_seat": -0.183508573361709,
+          "per_km_x_distance_x_seat": 0.9993039452478722,
+          "discount_x_per_km_distance_x_seat": -0.20662341585531077
+        },
+        "hyperparameters": {
+          "ridge": 0.000001,
+          "testRows": 23,
+          "trainRows": 180,
+          "featureSet": "fare-fair-v1",
+          "validationRows": 23
+        },
+        "metrics": {
+          "test": {
+            "r2": 1,
+            "mae": 0.1103,
+            "rmse": 0.2153,
+            "rows": 23
+          },
+          "train": {
+            "r2": 1,
+            "mae": 0.1291,
+            "rmse": 0.3086,
+            "rows": 180
+          },
+          "validation": {
+            "r2": 1,
+            "mae": 0.1069,
+            "rmse": 0.2008,
+            "rows": 23
+          }
+        },
+        "residualStddev": 0.3086,
+        "trainingRows": 180,
+        "trainedAt": "2026-10-26T17:16:40.722Z",
+        "activatedAt": "2026-10-26T17:16:40.728Z",
+        "artifactUri": "inline://coefficients",
+        "checksum": "70ced6b6218db1de221abda06bc91108e3bccff73a76c4d87358f5754e099c9f",
+        "isActive": true,
+        "predictionStats": {
+          "count": 81,
+          "avgLatencyMs": 11.7,
+          "avgConfidence": 0.9926
+        }
+      }
+    },
+    {
+      "id": "train",
+      "method": "POST",
+      "path": "/v1/fare/models/train",
+      "url": "/v1/fare/models/train",
+      "inputs": "body={\"modelKey\":\"fare-fair-linear\",\"activate\":true,\"actorName\":\"api-inputs\",\"role\":\"system\"}",
+      "query": {},
+      "pathParams": {},
+      "body": {
+        "modelKey": "fare-fair-linear",
+        "activate": true,
+        "actorName": "api-inputs",
+        "role": "system"
+      },
+      "expect": 201,
+      "actual": 201,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "id": "659e1eee-bd25-46e1-b31b-f2ffd1793eed",
+        "modelId": "59ee2785-911e-45f0-9e55-79e57e6d658f",
+        "modelKey": "fare-fair-linear",
+        "name": "FareFair Linear Fare Baseline",
+        "task": "fare_regression",
+        "target": "exact_fare",
+        "version": 2,
+        "status": "active",
+        "algorithm": "ordinary_least_squares_ridge",
+        "featureNames": [
+          "distance_km",
+          "passengers",
+          "seat_units"
+        ],
+        "coefficients": {
+          "discount": -0.10651393947006227,
+          "base_fare": -9.39285724011412e-7,
+          "intercept": -0.060032977709497004,
+          "passengers": 0.05703521028676661,
+          "seat_units": 0.07626742102073425,
+          "distance_km": 0.002031745089121406,
+          "per_km_rate": 0.000001925190465333161,
+          "base_fare_x_seat": 0.9916294592605022,
+          "billable_distance_km": 0.0020286834175791135,
+          "discount_x_base_x_seat": -0.183508573361709,
+          "per_km_x_distance_x_seat": 0.9993039452478722,
+          "discount_x_per_km_distance_x_seat": -0.20662341585531077
+        },
+        "hyperparameters": {
+          "ridge": 0.000001,
+          "testRows": 23,
+          "trainRows": 180,
+          "featureSet": "fare-fair-v1",
+          "validationRows": 23
+        },
+        "metrics": {
+          "test": {
+            "r2": 1,
+            "mae": 0.1103,
+            "rmse": 0.2153,
+            "rows": 23
+          },
+          "train": {
+            "r2": 1,
+            "mae": 0.1291,
+            "rmse": 0.3086,
+            "rows": 180
+          },
+          "validation": {
+            "r2": 1,
+            "mae": 0.1069,
+            "rmse": 0.2008,
+            "rows": 23
+          }
+        },
+        "residualStddev": 0.3086,
+        "trainingRows": 180,
+        "trainedAt": "2026-10-26T17:17:16.252Z",
+        "activatedAt": "2026-10-26T17:17:16.256Z",
+        "artifactUri": "inline://coefficients",
+        "checksum": "70ced6b6218db1de221abda06bc91108e3bccff73a76c4d87358f5754e099c9f",
+        "isActive": true
+      }
+    },
+    {
+      "id": "activate",
+      "method": "POST",
+      "path": "/v1/fare/models/versions/659e1eee-bd25-46e1-b31b-f2ffd1793eed/activate",
+      "url": "/v1/fare/models/versions/659e1eee-bd25-46e1-b31b-f2ffd1793eed/activate",
+      "inputs": "path={\"versionId\":\"659e1eee-bd25-46e1-b31b-f2ffd1793eed\"} body={\"actorName\":\"api-inputs\",\"role\":\"system\"}",
+      "query": {},
+      "pathParams": {
+        "versionId": "659e1eee-bd25-46e1-b31b-f2ffd1793eed"
+      },
+      "body": {
+        "actorName": "api-inputs",
+        "role": "system"
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "id": "659e1eee-bd25-46e1-b31b-f2ffd1793eed",
+        "modelId": "59ee2785-911e-45f0-9e55-79e57e6d658f",
+        "modelKey": "fare-fair-linear",
+        "name": "FareFair Linear Fare Baseline",
+        "task": "fare_regression",
+        "target": "exact_fare",
+        "version": 2,
+        "status": "active",
+        "algorithm": "ordinary_least_squares_ridge",
+        "featureNames": [
+          "distance_km",
+          "passengers",
+          "seat_units"
+        ],
+        "coefficients": {
+          "discount": -0.10651393947006227,
+          "base_fare": -9.39285724011412e-7,
+          "intercept": -0.060032977709497004,
+          "passengers": 0.05703521028676661,
+          "seat_units": 0.07626742102073425,
+          "distance_km": 0.002031745089121406,
+          "per_km_rate": 0.000001925190465333161,
+          "base_fare_x_seat": 0.9916294592605022,
+          "billable_distance_km": 0.0020286834175791135,
+          "discount_x_base_x_seat": -0.183508573361709,
+          "per_km_x_distance_x_seat": 0.9993039452478722,
+          "discount_x_per_km_distance_x_seat": -0.20662341585531077
+        },
+        "hyperparameters": {
+          "ridge": 0.000001,
+          "testRows": 23,
+          "trainRows": 180,
+          "featureSet": "fare-fair-v1",
+          "validationRows": 23
+        },
+        "metrics": {
+          "test": {
+            "r2": 1,
+            "mae": 0.1103,
+            "rmse": 0.2153,
+            "rows": 23
+          },
+          "train": {
+            "r2": 1,
+            "mae": 0.1291,
+            "rmse": 0.3086,
+            "rows": 180
+          },
+          "validation": {
+            "r2": 1,
+            "mae": 0.1069,
+            "rmse": 0.2008,
+            "rows": 23
+          }
+        },
+        "residualStddev": 0.3086,
+        "trainingRows": 180,
+        "trainedAt": "2026-10-26T17:17:16.252Z",
+        "activatedAt": "2026-10-26T17:17:16.283Z",
+        "artifactUri": "inline://coefficients",
+        "checksum": "70ced6b6218db1de221abda06bc91108e3bccff73a76c4d87358f5754e099c9f",
+        "isActive": true
+      }
+    },
+    {
+      "id": "trips",
+      "method": "GET",
+      "path": "/v1/trips",
+      "url": "/v1/trips?cityId=cabadbaran&vehicleId=tricycle&status=completed&discountCode=none&recordedVia=live_trip_recording&from=2020-01-01T00%3A00%3A00Z&to=2030-12-31T23%3A59%3A59Z&search=FF-&limit=50&offset=0",
+      "inputs": "query={\"cityId\":\"cabadbaran\",\"vehicleId\":\"tricycle\",\"status\":\"completed\",\"discountCode\":\"none\",\"recordedVia\":\"live_trip_recording\",\"from\":\"2020-01-01T00:00:00Z\",\"to\":\"2030-12-31T23:59:59Z\",\"search\":\"FF-\",\"limit\":50,\"offset\":0}",
+      "query": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle",
+        "status": "completed",
+        "discountCode": "none",
+        "recordedVia": "live_trip_recording",
+        "from": "2020-01-01T00:00:00Z",
+        "to": "2030-12-31T23:59:59Z",
+        "search": "FF-",
+        "limit": 50,
+        "offset": 0
+      },
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "data": [
+          {
+            "id": "01f6ea2d-5c44-454b-8131-bd4cb3e152c9",
+            "reference": "FF-5037",
+            "cityId": "cabadbaran",
+            "cityName": "Cabadbaran City, Caraga",
+            "cityRegion": "Caraga (Region XIII)",
+            "vehicleId": "tricycle",
+            "vehicleName": "Tricycle",
+            "vehicleCategory": "tricycle",
+            "origin": "Poblacion",
+            "destination": "Calulutay, Calamba",
+            "distanceKm": 19.5,
+            "durationSeconds": 4318,
+            "durationMinutes": 72,
+            "passengers": 1,
+            "pakyaw": false,
+            "discountCode": "none",
+            "discountLabel": "No discount",
+            "fare": {
+              "currency": "PHP",
+              "exact": 50,
+              "min": 50,
+              "max": 50
+            },
+            "fareSource": "official_matrix",
+            "routeRowNumber": 12,
+            "status": "completed",
+            "flagReason": null,
+            "recordedVia": "live_trip_recording",
+            "recordedAt": "2026-10-26T17:06:40.722Z",
+            "createdAt": "2026-10-26T17:16:40.728Z",
+            "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+            "policyVersionId": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+            "openAnomalies": 0
+          },
+          {
+            "id": "e865448f-3934-4184-8d8a-5adf40e53bc3",
+            "reference": "FF-5040",
+            "cityId": "cabadbaran",
+            "cityName": "Cabadbaran City, Caraga",
+            "cityRegion": "Caraga (Region XIII)",
+            "vehicleId": "tricycle",
+            "vehicleName": "Tricycle",
+            "vehicleCategory": "tricycle",
+            "origin": "Poblacion",
+            "destination": "Dinabucan. Mabini",
+            "distanceKm": 7,
+            "durationSeconds": 1665,
+            "durationMinutes": 28,
+            "passengers": 4,
+            "pakyaw": false,
+            "discountCode": "none",
+            "discountLabel": "No discount",
+            "fare": {
+              "currency": "PHP",
+              "exact": 100,
+              "min": 100,
+              "max": 100
+            },
+            "fareSource": "official_matrix",
+            "routeRowNumber": 53,
+            "status": "completed",
+            "flagReason": null,
+            "recordedVia": "live_trip_recording",
+            "recordedAt": "2026-10-26T17:01:40.722Z",
+            "createdAt": "2026-10-26T17:16:40.728Z",
+            "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+            "policyVersionId": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+            "openAnomalies": 0
+          },
+          {
+            "id": "3b34fbf8-9124-4484-a1ea-1014d2542b99",
+            "reference": "FF-5035",
+            "cityId": "cabadbaran",
+            "cityName": "Cabadbaran City, Caraga",
+            "cityRegion": "Caraga (Region XIII)",
+            "vehicleId": "tricycle",
+            "vehicleName": "Tricycle",
+            "vehicleCategory": "tricycle",
+            "origin": "Land Transport Terminal",
+            "destination": "Mabini Vice Versa",
+            "distanceKm": 1,
+            "durationSeconds": 209,
+            "durationMinutes": 3,
+            "passengers": 4,
+            "pakyaw": false,
+            "discountCode": "none",
+            "discountLabel": "No discount",
+            "fare": {
+              "currency": "PHP",
+              "exact": 52,
+              "min": 52,
+              "max": 52
+            },
+            "fareSource": "official_matrix",
+            "routeRowNumber": 44,
+            "status": "completed",
+            "flagReason": null,
+            "recordedVia": "live_trip_recording",
+            "recordedAt": "2026-10-26T06:59:20.000Z",
+            "createdAt": "2026-10-26T17:16:40.728Z",
+            "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+            "policyVersionId": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+            "openAnomalies": 0
+          }
+        ],
+        "pagination": {
+          "total": 43,
+          "limit": 50,
+          "offset": 0,
+          "hasMore": false
+        }
+      }
+    },
+    {
+      "id": "create-trip",
+      "method": "POST",
+      "path": "/v1/trips",
+      "url": "/v1/trips",
+      "inputs": "body={\"cityId\":\"cabadbaran\",\"vehicleId\":\"tricycle\",\"origin\":\"Poblacion\",\"destination\":\"Bayabas\",\"durationSeconds\":900,\"passengers\":2,\"pakyaw\":false,\"discountCode\":\"none\",\"recordedVia\":\"live_trip_recording\",\"recordedAt\":\"2026-10-26T08:00:00Z\",\"routePoints\":[{\"lat\":9.1157,\"lng\":125.5345,\"recordedAt\":\"2026-10-26T08:00:00Z\"},{\"lat\":9.1201,\"lng\":125.5402,\"recordedAt\":\"2026-10-26T08:10:00Z\"}],\"runPrediction\":true}",
+      "query": {},
+      "pathParams": {},
+      "body": {
+        "cityId": "cabadbaran",
+        "vehicleId": "tricycle",
+        "origin": "Poblacion",
+        "destination": "Bayabas",
+        "durationSeconds": 900,
+        "passengers": 2,
+        "pakyaw": false,
+        "discountCode": "none",
+        "recordedVia": "live_trip_recording",
+        "recordedAt": "2026-10-26T08:00:00Z",
+        "routePoints": [
+          {
+            "lat": 9.1157,
+            "lng": 125.5345,
+            "recordedAt": "2026-10-26T08:00:00Z"
+          },
+          {
+            "lat": 9.1201,
+            "lng": 125.5402,
+            "recordedAt": "2026-10-26T08:10:00Z"
+          }
+        ],
+        "runPrediction": true
+      },
+      "expect": 201,
+      "actual": 201,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "id": "3e0b93e2-0ecb-491a-af65-2b32535b2ee8",
+        "reference": "FF-5046",
+        "cityId": "cabadbaran",
+        "cityName": "Cabadbaran City, Caraga",
+        "cityRegion": "Caraga (Region XIII)",
+        "vehicleId": "tricycle",
+        "vehicleName": "Tricycle",
+        "vehicleCategory": "tricycle",
+        "origin": "Poblacion",
+        "destination": "Bayabas",
+        "distanceKm": 19.5,
+        "durationSeconds": 900,
+        "durationMinutes": 15,
+        "passengers": 2,
+        "pakyaw": false,
+        "discountCode": "none",
+        "discountLabel": "No discount",
+        "fare": {
+          "currency": "PHP",
+          "exact": 100,
+          "min": 100,
+          "max": 100
+        },
+        "fareSource": "official_matrix",
+        "routeRowNumber": 4,
+        "status": "completed",
+        "flagReason": null,
+        "recordedVia": "live_trip_recording",
+        "recordedAt": "2026-10-26T08:00:00.000Z",
+        "createdAt": "2026-10-26T17:17:16.355Z",
+        "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+        "policyVersionId": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+        "openAnomalies": 0,
+        "points": [
+          {
+            "seq": 0,
+            "lat": 9.1157,
+            "lng": 125.5345,
+            "recordedAt": "2026-10-26T08:00:00.000Z"
+          },
+          {
+            "seq": 1,
+            "lat": 9.1201,
+            "lng": 125.5402,
+            "recordedAt": "2026-10-26T08:10:00.000Z"
+          }
+        ],
+        "anomalies": [],
+        "predictions": [
+          {
+            "id": "afdc14e5-fd5d-41e8-86a2-0c090d6bb34a",
+            "modelKey": "fare-fair-linear",
+            "modelVersion": 2,
+            "modelVersionId": "659e1eee-bd25-46e1-b31b-f2ffd1793eed",
+            "features": {
+              "discount": 0,
+              "base_fare": 13,
+              "passengers": 2,
+              "seat_units": 2,
+              "distance_km": 19.5,
+              "per_km_rate": 2,
+              "base_fare_x_seat": 26,
+              "billable_distance_km": 18.5,
+              "discount_x_base_x_seat": 0,
+              "per_km_x_distance_x_seat": 74,
+              "discount_x_per_km_distance_x_seat": 0
+            },
+            "predictedFare": 100.01,
+            "lowerBound": 99.41,
+            "upperBound": 100.62,
+            "confidence": 0.9969,
+            "latencyMs": 1,
+            "createdAt": "2026-10-26T17:17:16.355Z"
+          }
+        ],
+        "quotes": [
+          {
+            "id": "ddb09b12-3fdb-4955-94d0-09a17b137f07",
+            "cityId": "cabadbaran",
+            "cityName": "Cabadbaran City, Caraga",
+            "vehicleId": "tricycle",
+            "vehicleName": "Tricycle",
+            "tripId": "3e0b93e2-0ecb-491a-af65-2b32535b2ee8",
+            "modelVersionId": null,
+            "origin": "Poblacion",
+            "destination": "Bayabas",
+            "routeRowNumber": 4,
+            "distanceKm": 19.5,
+            "passengers": 2,
+            "pakyaw": false,
+            "discountCode": "none",
+            "baseRate": 50,
+            "seatUnits": 2,
+            "fare": {
+              "currency": "PHP",
+              "exact": 100,
+              "min": 100,
+              "max": 100
+            },
+            "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+            "policyVersionId": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+            "fareSource": "official_matrix",
+            "source": "api",
+            "createdAt": "2026-10-26T17:17:16.355Z"
+          }
+        ],
+        "createdQuoteId": "ddb09b12-3fdb-4955-94d0-09a17b137f07",
+        "createdPrediction": {
+          "id": "afdc14e5-fd5d-41e8-86a2-0c090d6bb34a",
+          "modelVersionId": "659e1eee-bd25-46e1-b31b-f2ffd1793eed",
+          "predictedFare": 100.01,
+          "lowerBound": 99.41,
+          "upperBound": 100.62
+        }
+      }
+    },
+    {
+      "id": "trip",
+      "method": "GET",
+      "path": "/v1/trips/3e0b93e2-0ecb-491a-af65-2b32535b2ee8",
+      "url": "/v1/trips/3e0b93e2-0ecb-491a-af65-2b32535b2ee8",
+      "inputs": "path={\"tripId\":\"3e0b93e2-0ecb-491a-af65-2b32535b2ee8\"}",
+      "query": {},
+      "pathParams": {
+        "tripId": "3e0b93e2-0ecb-491a-af65-2b32535b2ee8"
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "id": "3e0b93e2-0ecb-491a-af65-2b32535b2ee8",
+        "reference": "FF-5046",
+        "cityId": "cabadbaran",
+        "cityName": "Cabadbaran City, Caraga",
+        "cityRegion": "Caraga (Region XIII)",
+        "vehicleId": "tricycle",
+        "vehicleName": "Tricycle",
+        "vehicleCategory": "tricycle",
+        "origin": "Poblacion",
+        "destination": "Bayabas",
+        "distanceKm": 19.5,
+        "durationSeconds": 900,
+        "durationMinutes": 15,
+        "passengers": 2,
+        "pakyaw": false,
+        "discountCode": "none",
+        "discountLabel": "No discount",
+        "fare": {
+          "currency": "PHP",
+          "exact": 100,
+          "min": 100,
+          "max": 100
+        },
+        "fareSource": "official_matrix",
+        "routeRowNumber": 4,
+        "status": "completed",
+        "flagReason": null,
+        "recordedVia": "live_trip_recording",
+        "recordedAt": "2026-10-26T08:00:00.000Z",
+        "createdAt": "2026-10-26T17:17:16.355Z",
+        "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+        "policyVersionId": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+        "openAnomalies": 0,
+        "points": [
+          {
+            "seq": 0,
+            "lat": 9.1157,
+            "lng": 125.5345,
+            "recordedAt": "2026-10-26T08:00:00.000Z"
+          },
+          {
+            "seq": 1,
+            "lat": 9.1201,
+            "lng": 125.5402,
+            "recordedAt": "2026-10-26T08:10:00.000Z"
+          }
+        ],
+        "anomalies": [],
+        "predictions": [
+          {
+            "id": "afdc14e5-fd5d-41e8-86a2-0c090d6bb34a",
+            "modelKey": "fare-fair-linear",
+            "modelVersion": 2,
+            "modelVersionId": "659e1eee-bd25-46e1-b31b-f2ffd1793eed",
+            "features": {
+              "discount": 0,
+              "base_fare": 13,
+              "passengers": 2,
+              "seat_units": 2,
+              "distance_km": 19.5,
+              "per_km_rate": 2,
+              "base_fare_x_seat": 26,
+              "billable_distance_km": 18.5,
+              "discount_x_base_x_seat": 0,
+              "per_km_x_distance_x_seat": 74,
+              "discount_x_per_km_distance_x_seat": 0
+            },
+            "predictedFare": 100.01,
+            "lowerBound": 99.41,
+            "upperBound": 100.62,
+            "confidence": 0.9969,
+            "latencyMs": 1,
+            "createdAt": "2026-10-26T17:17:16.355Z"
+          }
+        ],
+        "quotes": [
+          {
+            "id": "ddb09b12-3fdb-4955-94d0-09a17b137f07",
+            "cityId": "cabadbaran",
+            "cityName": "Cabadbaran City, Caraga",
+            "vehicleId": "tricycle",
+            "vehicleName": "Tricycle",
+            "tripId": "3e0b93e2-0ecb-491a-af65-2b32535b2ee8",
+            "modelVersionId": null,
+            "origin": "Poblacion",
+            "destination": "Bayabas",
+            "routeRowNumber": 4,
+            "distanceKm": 19.5,
+            "passengers": 2,
+            "pakyaw": false,
+            "discountCode": "none",
+            "baseRate": 50,
+            "seatUnits": 2,
+            "fare": {
+              "currency": "PHP",
+              "exact": 100,
+              "min": 100,
+              "max": 100
+            },
+            "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+            "policyVersionId": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+            "fareSource": "official_matrix",
+            "source": "api",
+            "createdAt": "2026-10-26T17:17:16.355Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "flag-trip",
+      "method": "PATCH",
+      "path": "/v1/trips/3e0b93e2-0ecb-491a-af65-2b32535b2ee8/status",
+      "url": "/v1/trips/3e0b93e2-0ecb-491a-af65-2b32535b2ee8/status",
+      "inputs": "path={\"tripId\":\"3e0b93e2-0ecb-491a-af65-2b32535b2ee8\"} body={\"status\":\"flagged\",\"flagReason\":\"API input example\",\"severity\":\"low\",\"actorName\":\"api-inputs\"}",
+      "query": {},
+      "pathParams": {
+        "tripId": "3e0b93e2-0ecb-491a-af65-2b32535b2ee8"
+      },
+      "body": {
+        "status": "flagged",
+        "flagReason": "API input example",
+        "severity": "low",
+        "actorName": "api-inputs"
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "id": "3e0b93e2-0ecb-491a-af65-2b32535b2ee8",
+        "reference": "FF-5046",
+        "cityId": "cabadbaran",
+        "cityName": "Cabadbaran City, Caraga",
+        "cityRegion": "Caraga (Region XIII)",
+        "vehicleId": "tricycle",
+        "vehicleName": "Tricycle",
+        "vehicleCategory": "tricycle",
+        "origin": "Poblacion",
+        "destination": "Bayabas",
+        "distanceKm": 19.5,
+        "durationSeconds": 900,
+        "durationMinutes": 15,
+        "passengers": 2,
+        "pakyaw": false,
+        "discountCode": "none",
+        "discountLabel": "No discount",
+        "fare": {
+          "currency": "PHP",
+          "exact": 100,
+          "min": 100,
+          "max": 100
+        },
+        "fareSource": "official_matrix",
+        "routeRowNumber": 4,
+        "status": "flagged",
+        "flagReason": "API input example",
+        "recordedVia": "live_trip_recording",
+        "recordedAt": "2026-10-26T08:00:00.000Z",
+        "createdAt": "2026-10-26T17:17:16.355Z",
+        "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+        "policyVersionId": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+        "openAnomalies": 1,
+        "points": [
+          {
+            "seq": 0,
+            "lat": 9.1157,
+            "lng": 125.5345,
+            "recordedAt": "2026-10-26T08:00:00.000Z"
+          },
+          {
+            "seq": 1,
+            "lat": 9.1201,
+            "lng": 125.5402,
+            "recordedAt": "2026-10-26T08:10:00.000Z"
+          }
+        ],
+        "anomalies": [
+          {
+            "id": "f9318e32-489b-478c-a067-113ca4089d74",
+            "tripId": "3e0b93e2-0ecb-491a-af65-2b32535b2ee8",
+            "tripReference": "FF-5046",
+            "cityId": "cabadbaran",
+            "cityName": null,
+            "kind": "manual_flag",
+            "severity": "low",
+            "detail": "API input example",
+            "detectedAt": "2026-10-26T17:17:16.436Z",
+            "resolvedAt": null,
+            "resolutionNote": null
+          }
+        ],
+        "predictions": [
+          {
+            "id": "afdc14e5-fd5d-41e8-86a2-0c090d6bb34a",
+            "modelKey": "fare-fair-linear",
+            "modelVersion": 2,
+            "modelVersionId": "659e1eee-bd25-46e1-b31b-f2ffd1793eed",
+            "features": {
+              "discount": 0,
+              "base_fare": 13,
+              "passengers": 2,
+              "seat_units": 2,
+              "distance_km": 19.5,
+              "per_km_rate": 2,
+              "base_fare_x_seat": 26,
+              "billable_distance_km": 18.5,
+              "discount_x_base_x_seat": 0,
+              "per_km_x_distance_x_seat": 74,
+              "discount_x_per_km_distance_x_seat": 0
+            },
+            "predictedFare": 100.01,
+            "lowerBound": 99.41,
+            "upperBound": 100.62,
+            "confidence": 0.9969,
+            "latencyMs": 1,
+            "createdAt": "2026-10-26T17:17:16.355Z"
+          }
+        ],
+        "quotes": [
+          {
+            "id": "ddb09b12-3fdb-4955-94d0-09a17b137f07",
+            "cityId": "cabadbaran",
+            "cityName": "Cabadbaran City, Caraga",
+            "vehicleId": "tricycle",
+            "vehicleName": "Tricycle",
+            "tripId": "3e0b93e2-0ecb-491a-af65-2b32535b2ee8",
+            "modelVersionId": null,
+            "origin": "Poblacion",
+            "destination": "Bayabas",
+            "routeRowNumber": 4,
+            "distanceKm": 19.5,
+            "passengers": 2,
+            "pakyaw": false,
+            "discountCode": "none",
+            "baseRate": 50,
+            "seatUnits": 2,
+            "fare": {
+              "currency": "PHP",
+              "exact": 100,
+              "min": 100,
+              "max": 100
+            },
+            "matrixVersionId": "25509655-1d17-42ad-ac5a-4fa9330f78ef",
+            "policyVersionId": "ad71337c-c4b8-4802-a103-7ccea38ef756",
+            "fareSource": "official_matrix",
+            "source": "api",
+            "createdAt": "2026-10-26T17:17:16.355Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "trips-csv",
+      "method": "GET",
+      "path": "/v1/trips.csv",
+      "url": "/v1/trips.csv?cityId=cabadbaran&status=completed",
+      "inputs": "query={\"cityId\":\"cabadbaran\",\"status\":\"completed\"}",
+      "query": {
+        "cityId": "cabadbaran",
+        "status": "completed"
+      },
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "text/csv; charset=utf-8",
+      "responseSample": "Trip ID,Reference,Timestamp,City,Vehicle,Origin,Destination,Distance (km),Duration (sec),Passengers,Pakyaw,Discount,Exact fare (PHP),Range min (PHP),Range max (PHP),Status,Notes,Recorded via\n01f6ea2d-5c44-454b-8131-bd4cb3e152c9,FF-5037,2026-10-26T17:06:40.722Z,\"Cabadbaran City, Caraga\",Tricycle,Poblacion,\"Calulutay, Calamba\",19.5,4318,1,No,none,50,50,50,completed,,live_trip_recording"
+    },
+    {
+      "id": "analytics-overview",
+      "method": "GET",
+      "path": "/v1/analytics/overview",
+      "url": "/v1/analytics/overview?cityId=cabadbaran&days=30",
+      "inputs": "query={\"cityId\":\"cabadbaran\",\"days\":30}",
+      "query": {
+        "cityId": "cabadbaran",
+        "days": 30
+      },
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "range": {
+          "days": 30,
+          "from": "2026-09-26T17:17:16.503Z",
+          "to": "2026-10-26T17:17:16.536Z",
+          "cityId": "cabadbaran"
+        },
+        "totals": {
+          "trips": 227,
+          "avgFare": 72.71,
+          "avgDistanceKm": 9.36,
+          "totalFareValue": 16505,
+          "flagged": 20,
+          "disputed": 19,
+          "discounted": 61,
+          "pakyaw": 27,
+          "openAnomalies": 39,
+          "totalAnomalies": 39
+        },
+        "byVehicle": [
+          {
+            "vehicleId": "tricycle",
+            "name": "Tricycle",
+            "trips": 227,
+            "avgFare": 72.71,
+            "minFare": 12,
+            "maxFare": 300
+          }
+        ],
+        "byStatus": [
+          {
+            "status": "completed",
+            "trips": 188
+          },
+          {
+            "status": "flagged",
+            "trips": 20
+          },
+          {
+            "status": "disputed",
+            "trips": 19
+          }
+        ],
+        "byDiscount": [
+          {
+            "code": "none",
+            "label": "No discount",
+            "trips": 166
+          },
+          {
+            "code": "student",
+            "label": "Student",
+            "trips": 28
+          },
+          {
+            "code": "senior",
+            "label": "Senior citizen",
+            "trips": 18
+          }
+        ],
+        "daily": [
+          {
+            "date": "2026-10-06",
+            "trips": 8,
+            "avgFare": 95.25,
+            "flagged": 2
+          },
+          {
+            "date": "2026-10-07",
+            "trips": 13,
+            "avgFare": 82.77,
+            "flagged": 2
+          },
+          {
+            "date": "2026-10-08",
+            "trips": 14,
+            "avgFare": 71.64,
+            "flagged": 2
+          }
+        ],
+        "topRoutes": [
+          {
+            "origin": "Land Transport Terminal",
+            "destination": "Secuanda, Tolosa",
+            "trips": 6,
+            "avgFare": 41.5
+          },
+          {
+            "origin": "Land Transport Terminal",
+            "destination": "Sitio Sinunog, Kauswagan",
+            "trips": 6,
+            "avgFare": 50.67
+          },
+          {
+            "origin": "Land Transport Terminal",
+            "destination": "Mabini Vice Versa",
+            "trips": 6,
+            "avgFare": 39.83
+          }
+        ]
+      }
+    },
+    {
+      "id": "analytics-fares",
+      "method": "GET",
+      "path": "/v1/analytics/fares",
+      "url": "/v1/analytics/fares?cityId=cabadbaran&days=30",
+      "inputs": "query={\"cityId\":\"cabadbaran\",\"days\":30}",
+      "query": {
+        "cityId": "cabadbaran",
+        "days": 30
+      },
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "range": {
+          "days": 30,
+          "from": "2026-09-26T17:17:16.540Z",
+          "to": "2026-10-26T17:17:16.550Z"
+        },
+        "count": 1,
+        "data": [
+          {
+            "cityId": "cabadbaran",
+            "cityName": "Cabadbaran City, Caraga",
+            "vehicleId": "tricycle",
+            "vehicleName": "Tricycle",
+            "matrix": {
+              "baseFare": 13,
+              "baseDistanceKm": 1,
+              "perKmRate": 2,
+              "minFare": 13,
+              "maxCustomary": 75,
+              "typicalCapacity": 4
+            },
+            "observed": {
+              "trips": 227,
+              "avgFare": 72.71,
+              "minFare": 12,
+              "maxFare": 300,
+              "flagged": 20,
+              "variancePct": 459.31
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "anomalies",
+      "method": "GET",
+      "path": "/v1/anomalies",
+      "url": "/v1/anomalies?cityId=cabadbaran&resolved=false&severity=low&kind=manual_flag&limit=50&offset=0",
+      "inputs": "query={\"cityId\":\"cabadbaran\",\"resolved\":\"false\",\"severity\":\"low\",\"kind\":\"manual_flag\",\"limit\":50,\"offset\":0}",
+      "query": {
+        "cityId": "cabadbaran",
+        "resolved": "false",
+        "severity": "low",
+        "kind": "manual_flag",
+        "limit": 50,
+        "offset": 0
+      },
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "data": [
+          {
+            "id": "f9318e32-489b-478c-a067-113ca4089d74",
+            "tripId": "3e0b93e2-0ecb-491a-af65-2b32535b2ee8",
+            "tripReference": "FF-5046",
+            "cityId": "cabadbaran",
+            "cityName": "Cabadbaran City, Caraga",
+            "kind": "manual_flag",
+            "severity": "low",
+            "detail": "API input example",
+            "detectedAt": "2026-10-26T17:17:16.436Z",
+            "resolvedAt": null,
+            "resolutionNote": null
+          },
+          {
+            "id": "803b8f2c-2635-4343-8947-231422427356",
+            "tripId": "84dbff06-eea8-4012-9ce1-fc7f7f112d32",
+            "tripReference": "FF-5033",
+            "cityId": "cabadbaran",
+            "cityName": "Cabadbaran City, Caraga",
+            "kind": "manual_flag",
+            "severity": "low",
+            "detail": "Passenger count exceeds seat cap",
+            "detectedAt": "2026-10-26T08:01:43.000Z",
+            "resolvedAt": null,
+            "resolutionNote": null
+          },
+          {
+            "id": "50099745-9ce2-4841-a33a-fe55c7819331",
+            "tripId": "e38b6ca3-0bbd-4668-b6bf-1b914bab1b1e",
+            "tripReference": "FF-5005",
+            "cityId": "cabadbaran",
+            "cityName": "Cabadbaran City, Caraga",
+            "kind": "manual_flag",
+            "severity": "low",
+            "detail": "Reported fare above the published matrix",
+            "detectedAt": "2026-10-24T13:20:26.000Z",
+            "resolvedAt": null,
+            "resolutionNote": null
+          }
+        ],
+        "pagination": {
+          "total": 14,
+          "limit": 50,
+          "offset": 0,
+          "hasMore": false
+        }
+      }
+    },
+    {
+      "id": "resolve-anomaly",
+      "method": "PATCH",
+      "path": "/v1/anomalies/f9318e32-489b-478c-a067-113ca4089d74/resolve",
+      "url": "/v1/anomalies/f9318e32-489b-478c-a067-113ca4089d74/resolve",
+      "inputs": "path={\"anomalyId\":\"f9318e32-489b-478c-a067-113ca4089d74\"} body={\"resolutionNote\":\"Verified by API input example\",\"actorName\":\"api-inputs\"}",
+      "query": {},
+      "pathParams": {
+        "anomalyId": "f9318e32-489b-478c-a067-113ca4089d74"
+      },
+      "body": {
+        "resolutionNote": "Verified by API input example",
+        "actorName": "api-inputs"
+      },
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "id": "f9318e32-489b-478c-a067-113ca4089d74",
+        "tripId": "3e0b93e2-0ecb-491a-af65-2b32535b2ee8",
+        "tripReference": null,
+        "cityId": "cabadbaran",
+        "cityName": null,
+        "kind": "manual_flag",
+        "severity": "low",
+        "detail": "API input example",
+        "detectedAt": "2026-10-26T17:17:16.436Z",
+        "resolvedAt": "2026-10-26T17:17:16.569Z",
+        "resolutionNote": "Verified by API input example"
+      }
+    },
+    {
+      "id": "audit",
+      "method": "GET",
+      "path": "/v1/audit",
+      "url": "/v1/audit?cityId=cabadbaran&action=trip.status_changed&limit=50&offset=0",
+      "inputs": "query={\"cityId\":\"cabadbaran\",\"action\":\"trip.status_changed\",\"limit\":50,\"offset\":0}",
+      "query": {
+        "cityId": "cabadbaran",
+        "action": "trip.status_changed",
+        "limit": 50,
+        "offset": 0
+      },
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "data": [
+          {
+            "id": "b0afffc2-8b62-478d-9b0a-76937afd9d49",
+            "occurredAt": "2026-10-26T17:17:16.436Z",
+            "actorId": null,
+            "actorName": "api-inputs",
+            "role": "api",
+            "action": "trip.status_changed",
+            "entityType": "trip",
+            "entityId": "3e0b93e2-0ecb-491a-af65-2b32535b2ee8",
+            "cityId": "cabadbaran",
+            "cityName": "Cabadbaran City, Caraga",
+            "detail": {
+              "to": "flagged",
+              "from": "completed",
+              "flagReason": "API input example"
+            }
+          }
+        ],
+        "pagination": {
+          "total": 1,
+          "limit": 50,
+          "offset": 0,
+          "hasMore": false
+        }
+      }
+    },
+    {
+      "id": "openapi",
+      "method": "GET",
+      "path": "/openapi.json",
+      "url": "/openapi.json",
+      "inputs": "-",
+      "query": {},
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "id": "docs",
+      "method": "GET",
+      "path": "/docs",
+      "url": "/docs",
+      "inputs": "-",
+      "query": {},
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "id": "logout",
+      "method": "POST",
+      "path": "/v1/auth/logout",
+      "url": "/v1/auth/logout",
+      "inputs": "-",
+      "query": {},
+      "pathParams": {},
+      "expect": 200,
+      "actual": 200,
+      "ok": true,
+      "contentType": "application/json; charset=utf-8",
+      "responseSample": {
+        "ok": true
+      }
+    }
+  ]
+}

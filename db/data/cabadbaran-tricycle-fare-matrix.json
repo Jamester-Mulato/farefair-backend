@@ -1,0 +1,1289 @@
+{
+  "city": {
+    "id": "cabadbaran",
+    "displayName": "Cabadbaran City, Caraga",
+    "province": "Agusan del Norte",
+    "region": "Caraga (Region XIII)",
+    "status": "active",
+    "centroLabel": "Cabadbaran Poblacion",
+    "center": {
+      "lat": 9.1157,
+      "lng": 125.5427
+    },
+    "timezone": "Asia/Manila",
+    "provenance": {
+      "provisional": false,
+      "source": "Cabadbaran City Tricycle Fare Regulatory Board — Official rates effective 24 September 2026",
+      "lastVerified": "2026-09-24",
+      "verifiedBy": "Cabadbaran City Tricycle Fare Regulatory Board"
+    }
+  },
+  "farePolicy": {
+    "discountRate": 0.2,
+    "customaryLeewayMin": 1,
+    "customaryLeewayMax": 1,
+    "minPassengers": 1,
+    "maxPassengers": 4,
+    "pakyawSeatCap": 4
+  },
+  "fareMatrix": {
+    "effectiveFrom": "2026-09-24",
+    "provisional": false,
+    "source": "Cabadbaran City Tricycle Fare Matrix — Official rates effective 24 September 2026",
+    "notes": "Published per-passenger fares for tricycles. Rates apply both ways unless a different origin is named. Discounted fare is 20% off regular for students, senior citizens and PWDs with a valid ID. Add ₱2.00 per kilometer or fraction of a kilometer beyond the Poblacion area.",
+    "minimumRegularFare": 13,
+    "minimumDiscountedFare": 11,
+    "perKmBeyondPoblacion": 2,
+    "vehicleId": "tricycle",
+    "vehicle": {
+      "baseFare": 13,
+      "baseDistanceKm": 1,
+      "perKmRate": 2,
+      "minFare": 13,
+      "maxCustomary": 75,
+      "typicalCapacity": 4,
+      "regulationMatrix": "Official Cabadbaran City tricycle fare matrix effective 24 September 2026"
+    }
+  },
+  "ordinance": {
+    "externalId": "cabadbaran-tricycle-fare-matrix-2026",
+    "title": "Cabadbaran City Tricycle Fare Matrix",
+    "municipality": "Cabadbaran City, Agusan del Norte",
+    "ordinanceNumber": "",
+    "status": "enacted",
+    "dateEnacted": "2026-09-24",
+    "summary": "Official per-passenger tricycle fares for Poblacion and barangay routes, issued by the Cabadbaran City Tricycle Fare Regulatory Board and effective 24 September 2026. Fares apply both ways unless a different origin is named.",
+    "vehicleApplicability": "Tricycle",
+    "baseFare": 13,
+    "succeedingKmRate": 2,
+    "discountTerms": "20% discount for students, senior citizens and persons with disability presenting a valid ID. Minimum fare ₱13 regular / ₱11 discounted."
+  },
+  "demoRoute": {
+    "originName": "Poblacion",
+    "destinationName": "Land Transport Terminal",
+    "distanceKm": 1
+  },
+  "simulatorCorridor": [
+    [
+      9.1157,
+      125.5427
+    ],
+    [
+      9.1171,
+      125.5443
+    ],
+    [
+      9.1143,
+      125.5495
+    ],
+    [
+      9.1095,
+      125.5538
+    ],
+    [
+      9.1035,
+      125.5576
+    ]
+  ],
+  "places": [
+    {
+      "key": "abattoir la union",
+      "label": "Abattoir, La Union",
+      "aliases": [
+        "abattoir",
+        "abattoir la union"
+      ]
+    },
+    {
+      "key": "anangilan kikay comagascas",
+      "label": "Anangilan (Kikay), Comagascas",
+      "aliases": [
+        "anangilan kikay",
+        "anangilan kikay comagascas"
+      ]
+    },
+    {
+      "key": "anangilan valentine comagascas",
+      "label": "Anangilan (Valentine), Comagascas",
+      "aliases": [
+        "anangilan valentine",
+        "anangilan valentine comagascas"
+      ]
+    },
+    {
+      "key": "angel village la union",
+      "label": "Angel Village, La Union",
+      "aliases": [
+        "angel village",
+        "angel village la union"
+      ]
+    },
+    {
+      "key": "antonio luna",
+      "label": "Antonio Luna",
+      "aliases": [
+        "antonio luna"
+      ]
+    },
+    {
+      "key": "bandol la union",
+      "label": "Bandol, La Union",
+      "aliases": [
+        "bandol",
+        "bandol la union"
+      ]
+    },
+    {
+      "key": "bay ang",
+      "label": "Bay-ang",
+      "aliases": [
+        "bay ang"
+      ]
+    },
+    {
+      "key": "bayabas",
+      "label": "Bayabas",
+      "aliases": [
+        "bayabas"
+      ]
+    },
+    {
+      "key": "boundary la union bitaog",
+      "label": "Boundary La Union (Bitaog)",
+      "aliases": [
+        "boundary la union",
+        "boundary la union bitaog"
+      ]
+    },
+    {
+      "key": "bugho bay ang",
+      "label": "Bugho, Bay-Ang",
+      "aliases": [
+        "bugho",
+        "bugho bay ang"
+      ]
+    },
+    {
+      "key": "bukid bukid la union via malingin",
+      "label": "Bukid-Bukid, La Union (Via Malingin)",
+      "aliases": [
+        "bukid bukid",
+        "bukid bukid la union",
+        "bukid bukid la union via malingin",
+        "la union via malingin"
+      ]
+    },
+    {
+      "key": "bung aw bay ang",
+      "label": "Bung-Aw, Bay-Ang",
+      "aliases": [
+        "bung aw",
+        "bung aw bay ang"
+      ]
+    },
+    {
+      "key": "bungogon del pilar",
+      "label": "Bungogon, Del Pilar",
+      "aliases": [
+        "bungogon",
+        "bungogon del pilar"
+      ]
+    },
+    {
+      "key": "caasinan",
+      "label": "Caasinan",
+      "aliases": [
+        "caasinan"
+      ]
+    },
+    {
+      "key": "cabadbaran district hospital tolosa",
+      "label": "Cabadbaran District Hospital, Tolosa",
+      "aliases": [
+        "cabadbaran district hospital",
+        "cabadbaran district hospital tolosa",
+        "district hospital",
+        "hospital",
+        "tolosa district hospital"
+      ]
+    },
+    {
+      "key": "cabinet",
+      "label": "Cabinet",
+      "aliases": [
+        "cabinet"
+      ]
+    },
+    {
+      "key": "calamba proper",
+      "label": "Calamba Proper",
+      "aliases": [
+        "calamba",
+        "calamba proper"
+      ]
+    },
+    {
+      "key": "calibunan",
+      "label": "Calibunan",
+      "aliases": [
+        "calibunan"
+      ]
+    },
+    {
+      "key": "calulutay calamba",
+      "label": "Calulutay, Calamba",
+      "aliases": [
+        "calulutay",
+        "calulutay calamba"
+      ]
+    },
+    {
+      "key": "cambisay soriano",
+      "label": "Cambisay, Soriano",
+      "aliases": [
+        "cambisay",
+        "cambisay soriano"
+      ]
+    },
+    {
+      "key": "catholic cemetery poblacion 4",
+      "label": "Catholic Cemetery, Poblacion 4",
+      "aliases": [
+        "catholic cemetery",
+        "catholic cemetery poblacion 4",
+        "cemetery",
+        "poblacion 4",
+        "poblacion 4 cemetery"
+      ]
+    },
+    {
+      "key": "comagascas proper",
+      "label": "Comagascas (Proper)",
+      "aliases": [
+        "comagascas proper"
+      ]
+    },
+    {
+      "key": "concepcion proper",
+      "label": "Concepcion Proper",
+      "aliases": [
+        "concepcion proper"
+      ]
+    },
+    {
+      "key": "crossing national highway",
+      "label": "Crossing National Highway",
+      "aliases": [
+        "crossing national highway"
+      ]
+    },
+    {
+      "key": "dal as bay ang",
+      "label": "Dal-As, Bay-Ang",
+      "aliases": [
+        "dal as bay ang"
+      ]
+    },
+    {
+      "key": "dal as mabini",
+      "label": "Dal-As (Mabini)",
+      "aliases": [
+        "dal as mabini"
+      ]
+    },
+    {
+      "key": "del pilar purok 1 2",
+      "label": "Del Pilar Purok 1 & 2",
+      "aliases": [
+        "del pilar purok 1 2"
+      ]
+    },
+    {
+      "key": "dinabucan mabini",
+      "label": "Dinabucan. Mabini",
+      "aliases": [
+        "dinabucan mabini"
+      ]
+    },
+    {
+      "key": "hacienda comagascas",
+      "label": "Hacienda, Comagascas",
+      "aliases": [
+        "hacienda",
+        "hacienda comagascas"
+      ]
+    },
+    {
+      "key": "hinagdanan comagascas",
+      "label": "Hinagdanan, Comagascas",
+      "aliases": [
+        "hinagdanan",
+        "hinagdanan comagascas"
+      ]
+    },
+    {
+      "key": "katugasan purok 1 2 3 4",
+      "label": "Katugasan (Purok 1, 2, 3, 4)",
+      "aliases": [
+        "4",
+        "katugasan purok 1",
+        "katugasan purok 1 2 3 4"
+      ]
+    },
+    {
+      "key": "kauswagan proper upper lower",
+      "label": "Kauswagan (PROPER/ UPPER/ LOWER)",
+      "aliases": [
+        "kauswagan proper upper lower"
+      ]
+    },
+    {
+      "key": "la union proper",
+      "label": "La Union Proper",
+      "aliases": [
+        "la union proper"
+      ]
+    },
+    {
+      "key": "little leyte concepcion",
+      "label": "Little Leyte, Concepcion",
+      "aliases": [
+        "little leyte",
+        "little leyte concepcion"
+      ]
+    },
+    {
+      "key": "lower mabini",
+      "label": "Lower Mabini",
+      "aliases": [
+        "lower mabini"
+      ]
+    },
+    {
+      "key": "mabini",
+      "label": "Mabini Vice Versa",
+      "aliases": [
+        "barangay mabini",
+        "mabini",
+        "mabini vice versa"
+      ]
+    },
+    {
+      "key": "mabini plains",
+      "label": "Mabini Plains",
+      "aliases": [
+        "mabini plains",
+        "plains mabini"
+      ]
+    },
+    {
+      "key": "mabini vcdu",
+      "label": "Mabini VCDU",
+      "aliases": [
+        "mabini vcdu",
+        "vcdu mabini"
+      ]
+    },
+    {
+      "key": "mahaba centro",
+      "label": "Mahaba Centro",
+      "aliases": [
+        "mahaba",
+        "mahaba centro"
+      ]
+    },
+    {
+      "key": "malico calamba",
+      "label": "Malico, Calamba",
+      "aliases": [
+        "malico",
+        "malico calamba"
+      ]
+    },
+    {
+      "key": "maong la union",
+      "label": "Maong, La Union",
+      "aliases": [
+        "maong",
+        "maong la union"
+      ]
+    },
+    {
+      "key": "maraput comagascas",
+      "label": "Maraput, Comagascas",
+      "aliases": [
+        "maraput",
+        "maraput comagascas"
+      ]
+    },
+    {
+      "key": "maybo calibunan",
+      "label": "Maybo, Calibunan",
+      "aliases": [
+        "maybo calibunan"
+      ]
+    },
+    {
+      "key": "maybo calibunan via malingin",
+      "label": "Maybo, Calibunan (Via Malingin)",
+      "aliases": [
+        "calibunan via malingin",
+        "maybo calibunan via malingin"
+      ]
+    },
+    {
+      "key": "pandanon mabini",
+      "label": "Pandanon, Mabini",
+      "aliases": [
+        "pandanon",
+        "pandanon mabini"
+      ]
+    },
+    {
+      "key": "panlaisan la union hi way",
+      "label": "Panlaisan, La Union (Hi-Way)",
+      "aliases": [
+        "la union hi way",
+        "panlaisan la union hi way"
+      ]
+    },
+    {
+      "key": "panlaisan la union intaq raniel",
+      "label": "Panlaisan, La Union (Intaq/Raniel)",
+      "aliases": [
+        "la union intaq raniel",
+        "panlaisan la union intaq raniel"
+      ]
+    },
+    {
+      "key": "panlaisan la union sulod",
+      "label": "Panlaisan, La Union (Sulod)",
+      "aliases": [
+        "la union sulod",
+        "panlaisan la union sulod"
+      ]
+    },
+    {
+      "key": "poblacion",
+      "label": "Poblacion",
+      "aliases": [
+        "anywhere in poblacion",
+        "anywhere in the poblacion",
+        "cabadbaran centro",
+        "cabadbaran city proper",
+        "cabadbaran poblacion",
+        "centro",
+        "city proper",
+        "poblacion",
+        "poblacion cabadbaran"
+      ]
+    },
+    {
+      "key": "pongkay sinunug kauswagan",
+      "label": "Pongkay/Sinunug, Kauswagan",
+      "aliases": [
+        "pongkay sinunug",
+        "pongkay sinunug kauswagan"
+      ]
+    },
+    {
+      "key": "punta puting bato",
+      "label": "Punta Puting Bato",
+      "aliases": [
+        "punta puting bato",
+        "puting bato"
+      ]
+    },
+    {
+      "key": "purok 5 pahit dal as katugasan",
+      "label": "Purok 5 (Pahit Dal-As), Katugasan",
+      "aliases": [
+        "purok 5 katugasan",
+        "purok 5 pahit dal as",
+        "purok 5 pahit dal as katugasan"
+      ]
+    },
+    {
+      "key": "puting bato centro",
+      "label": "Puting Bato Centro",
+      "aliases": [
+        "puting bato center",
+        "puting bato centro"
+      ]
+    },
+    {
+      "key": "sanghan centro",
+      "label": "Sanghan Centro",
+      "aliases": [
+        "sanghan centro"
+      ]
+    },
+    {
+      "key": "sanghan compact",
+      "label": "Sanghan (Compact)",
+      "aliases": [
+        "sanghan compact"
+      ]
+    },
+    {
+      "key": "sanghan purok 7 8 9",
+      "label": "Sanghan (Purok 7,8,9)",
+      "aliases": [
+        "9",
+        "sanghan purok 7",
+        "sanghan purok 7 8 9"
+      ]
+    },
+    {
+      "key": "secuanda tolosa",
+      "label": "Secuanda, Tolosa",
+      "aliases": [
+        "secuanda",
+        "secuanda tolosa"
+      ]
+    },
+    {
+      "key": "sitio pirada del pilar",
+      "label": "Sitio Pirada, Del Pilar",
+      "aliases": [
+        "sitio pirada",
+        "sitio pirada del pilar"
+      ]
+    },
+    {
+      "key": "sitio sinunog kauswagan",
+      "label": "Sitio Sinunog, Kauswagan",
+      "aliases": [
+        "sitio sinunog",
+        "sitio sinunog kauswagan"
+      ]
+    },
+    {
+      "key": "soriano",
+      "label": "Soriano",
+      "aliases": [
+        "soriano"
+      ]
+    },
+    {
+      "key": "terminal",
+      "label": "Land Transport Terminal",
+      "aliases": [
+        "bus terminal",
+        "cabadbaran city land transport terminal",
+        "cabadbaran land transport terminal",
+        "cabadbaran terminal",
+        "integrated terminal",
+        "land transport terminal",
+        "land transportation terminal",
+        "terminal",
+        "transport terminal"
+      ]
+    },
+    {
+      "key": "tolosa proper",
+      "label": "Tolosa Proper",
+      "aliases": [
+        "tolosa proper"
+      ]
+    },
+    {
+      "key": "tolosa school bliss",
+      "label": "Tolosa / School Bliss",
+      "aliases": [
+        "school bliss",
+        "tolosa bliss",
+        "tolosa school bliss"
+      ]
+    },
+    {
+      "key": "upper mabini",
+      "label": "Upper Mabini",
+      "aliases": [
+        "upper mabini"
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "row": 1,
+      "from": "Anywhere in Poblacion",
+      "to": "Anywhere in Poblacion",
+      "regular": 13,
+      "discounted": 11,
+      "remark": "Minimum/ local ply",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 2,
+      "from": "Poblacion",
+      "to": "Land Transport Terminal",
+      "regular": 13,
+      "discounted": 11,
+      "remark": "Same both ways",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 3,
+      "from": "Poblacion or Terminal",
+      "to": "Antonio Luna",
+      "regular": 40,
+      "discounted": 32,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 4,
+      "from": "Poblacion or Terminal",
+      "to": "Bayabas",
+      "regular": 50,
+      "discounted": 40,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 5,
+      "from": "Poblacion",
+      "to": "Bay-ang",
+      "regular": 30,
+      "discounted": 24,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 6,
+      "from": "Poblacion or Terminal",
+      "to": "Bugho, Bay-Ang",
+      "regular": 40,
+      "discounted": 32,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 7,
+      "from": "Poblacion or Terminal",
+      "to": "Bung-Aw, Bay-Ang",
+      "regular": 40,
+      "discounted": 32,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 8,
+      "from": "Poblacion or Terminal",
+      "to": "Dal-As, Bay-Ang",
+      "regular": 45,
+      "discounted": 36,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 9,
+      "from": "Poblacion or Terminal",
+      "to": "Caasinan",
+      "regular": 20,
+      "discounted": 16,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 10,
+      "from": "Poblacion or Terminal",
+      "to": "Cabinet",
+      "regular": 20,
+      "discounted": 16,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 11,
+      "from": "Poblacion or Terminal",
+      "to": "Calamba Proper",
+      "regular": 50,
+      "discounted": 40,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 12,
+      "from": "Poblacion or Terminal",
+      "to": "Calulutay, Calamba",
+      "regular": 50,
+      "discounted": 40,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 13,
+      "from": "Poblacion or Terminal",
+      "to": "Malico, Calamba",
+      "regular": 60,
+      "discounted": 48,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 14,
+      "from": "CALAMBA",
+      "to": "Crossing National Highway",
+      "regular": 40,
+      "discounted": 32,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 15,
+      "from": "Poblacion or Terminal",
+      "to": "Calibunan",
+      "regular": 15,
+      "discounted": 12,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 16,
+      "from": "Poblacion or Terminal",
+      "to": "Maybo, Calibunan",
+      "regular": 20,
+      "discounted": 16,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 17,
+      "from": "Poblacion or Terminal",
+      "to": "Maybo, Calibunan (Via Malingin)",
+      "regular": 20,
+      "discounted": 16,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 18,
+      "from": "Poblacion or Terminal",
+      "to": "Hinagdanan, Comagascas",
+      "regular": 15,
+      "discounted": 12,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 19,
+      "from": "Poblacion or Terminal",
+      "to": "Comagascas (Proper)",
+      "regular": 20,
+      "discounted": 16,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 20,
+      "from": "Poblacion or Terminal",
+      "to": "Maraput, Comagascas",
+      "regular": 30,
+      "discounted": 24,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 21,
+      "from": "Poblacion or Terminal",
+      "to": "Hacienda, Comagascas",
+      "regular": 30,
+      "discounted": 24,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 22,
+      "from": "Poblacion or Terminal",
+      "to": "Anangilan (Valentine), Comagascas",
+      "regular": 35,
+      "discounted": 28,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 23,
+      "from": "Poblacion or Terminal",
+      "to": "Anangilan (Kikay), Comagascas",
+      "regular": 35,
+      "discounted": 28,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 24,
+      "from": "Poblacion or Terminal",
+      "to": "Concepcion Proper",
+      "regular": 60,
+      "discounted": 48,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 25,
+      "from": "Poblacion or Terminal",
+      "to": "Little Leyte, Concepcion",
+      "regular": 60,
+      "discounted": 48,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 26,
+      "from": "Poblacion or Terminal",
+      "to": "Bungogon, Del Pilar",
+      "regular": 40,
+      "discounted": 32,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 27,
+      "from": "Poblacion or Terminal",
+      "to": "Del Pilar Purok 1 & 2",
+      "regular": 50,
+      "discounted": 40,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 28,
+      "from": "Land Transport Terminal",
+      "to": "Sitio Pirada, Del Pilar",
+      "regular": 75,
+      "discounted": 60,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 29,
+      "from": "Poblacion or Terminal",
+      "to": "Katugasan (Purok 1, 2, 3, 4)",
+      "regular": 35,
+      "discounted": 28,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 30,
+      "from": "Poblacion or Terminal",
+      "to": "Purok 5 (Pahit Dal-As), Katugasan",
+      "regular": 40,
+      "discounted": 32,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 31,
+      "from": "Poblacion or Terminal",
+      "to": "Kauswagan (PROPER/ UPPER/ LOWER)",
+      "regular": 15,
+      "discounted": 12,
+      "remark": "Same rate for all three",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 32,
+      "from": "Poblacion or Terminal",
+      "to": "Sitio Sinunog, Kauswagan",
+      "regular": 20,
+      "discounted": 16,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 33,
+      "from": "Poblacion or Terminal",
+      "to": "Pongkay/Sinunug, Kauswagan",
+      "regular": 15,
+      "discounted": 12,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 34,
+      "from": "Poblacion or Terminal",
+      "to": "La Union Proper",
+      "regular": 30,
+      "discounted": 24,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 35,
+      "from": "Poblacion or Terminal",
+      "to": "Bandol, La Union",
+      "regular": 30,
+      "discounted": 24,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 36,
+      "from": "Poblacion or Terminal",
+      "to": "Boundary La Union (Bitaog)",
+      "regular": 35,
+      "discounted": 28,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 37,
+      "from": "Poblacion or Terminal",
+      "to": "Maong, La Union",
+      "regular": 40,
+      "discounted": 32,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 38,
+      "from": "Poblacion or Terminal",
+      "to": "Angel Village, La Union",
+      "regular": 30,
+      "discounted": 24,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 39,
+      "from": "Poblacion or Terminal",
+      "to": "Bukid-Bukid, La Union (Via Malingin)",
+      "regular": 30,
+      "discounted": 24,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 40,
+      "from": "Poblacion or Terminal",
+      "to": "Panlaisan, La Union (Hi-Way)",
+      "regular": 25,
+      "discounted": 20,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 41,
+      "from": "Poblacion or Terminal",
+      "to": "Panlaisan, La Union (Intaq/Raniel)",
+      "regular": 25,
+      "discounted": 20,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 42,
+      "from": "Poblacion or Terminal",
+      "to": "Panlaisan, La Union (Sulod)",
+      "regular": 30,
+      "discounted": 24,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 43,
+      "from": "Poblacion or Terminal",
+      "to": "Abattoir, La Union",
+      "regular": 25,
+      "discounted": 20,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 44,
+      "from": "Poblacion or Terminal",
+      "to": "Mabini Vice Versa",
+      "regular": 13,
+      "discounted": 11,
+      "remark": "Same both ways",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 45,
+      "from": "Poblacion",
+      "to": "Mabini Plains",
+      "regular": 17,
+      "discounted": 14,
+      "remark": "Poblacion origin",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 46,
+      "from": "Land Transport Terminal",
+      "to": "Mabini Plains",
+      "regular": 13,
+      "discounted": 11,
+      "remark": "Terminal origin",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 47,
+      "from": "Poblacion",
+      "to": "Mabini VCDU",
+      "regular": 20,
+      "discounted": 16,
+      "remark": "Poblacion origin",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 48,
+      "from": "Land Transport Terminal",
+      "to": "Mabini VCDU",
+      "regular": 15,
+      "discounted": 12,
+      "remark": "Terminal origin",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 49,
+      "from": "Poblacion or Terminal",
+      "to": "Lower Mabini",
+      "regular": 13,
+      "discounted": 11,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 50,
+      "from": "Poblacion or Terminal",
+      "to": "Upper Mabini",
+      "regular": 13,
+      "discounted": 11,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 51,
+      "from": "Poblacion or Terminal",
+      "to": "Pandanon, Mabini",
+      "regular": 15,
+      "discounted": 12,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 52,
+      "from": "Poblacion or Terminal",
+      "to": "Dal-As (Mabini)",
+      "regular": 25,
+      "discounted": 20,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 53,
+      "from": "Poblacion or Terminal",
+      "to": "Dinabucan. Mabini",
+      "regular": 25,
+      "discounted": 20,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 54,
+      "from": "Land Transport Terminal",
+      "to": "Mahaba Centro",
+      "regular": 75,
+      "discounted": 60,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 55,
+      "from": "Poblacion or Terminal",
+      "to": "Punta Puting Bato",
+      "regular": 50,
+      "discounted": 40,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 56,
+      "from": "Land Transport Terminal",
+      "to": "Puting Bato Centro",
+      "regular": 75,
+      "discounted": 60,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 57,
+      "from": "Poblacion or Terminal",
+      "to": "Sanghan Centro",
+      "regular": 30,
+      "discounted": 24,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 58,
+      "from": "Poblacion or Terminal",
+      "to": "Sanghan (Compact)",
+      "regular": 60,
+      "discounted": 48,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 59,
+      "from": "Poblacion or Terminal",
+      "to": "Sanghan (Purok 7,8,9)",
+      "regular": 40,
+      "discounted": 32,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 60,
+      "from": "Poblacion or Terminal",
+      "to": "Soriano",
+      "regular": 25,
+      "discounted": 20,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 61,
+      "from": "Poblacion or Terminal",
+      "to": "Cambisay, Soriano",
+      "regular": 30,
+      "discounted": 24,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 62,
+      "from": "Poblacion",
+      "to": "Cabadbaran District Hospital, Tolosa",
+      "regular": 13,
+      "discounted": 11,
+      "remark": "Poblacion origin",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 63,
+      "from": "Land Transport Terminal",
+      "to": "Cabadbaran District Hospital, Tolosa",
+      "regular": 15,
+      "discounted": 12,
+      "remark": "Terminal origin",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 64,
+      "from": "Poblacion or Terminal",
+      "to": "Secuanda, Tolosa",
+      "regular": 15,
+      "discounted": 12,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 65,
+      "from": "Poblacion",
+      "to": "Catholic Cemetery, Poblacion 4",
+      "regular": 13,
+      "discounted": 11,
+      "remark": "Poblacion origin",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 66,
+      "from": "Land Transport Terminal",
+      "to": "Catholic Cemetery, Poblacion 4",
+      "regular": 15,
+      "discounted": 12,
+      "remark": "Terminal origin",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 67,
+      "from": "Poblacion or Terminal",
+      "to": "Tolosa Proper",
+      "regular": 15,
+      "discounted": 12,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    },
+    {
+      "row": 68,
+      "from": "Poblacion or Terminal",
+      "to": "Tolosa / School Bliss",
+      "regular": 15,
+      "discounted": 12,
+      "remark": "",
+      "via": "",
+      "bidirectional": true
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "farefair-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "FareFair PostgreSQL schema, seed data, fare engine, ML model registry and REST API.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "db:reset": "node src/scripts/reset-db.js",
+    "db:reset:pg": "node src/scripts/reset-db.js --pg",
+    "db:sql": "node src/scripts/build-pgadmin-sql.js",
+    "api:status": "node src/scripts/api-status.js",
+    "api:inputs": "node src/scripts/api-inputs.js",
+    "docs:examples": "node src/scripts/enrich-openapi.js",
+    "docs:inputs": "node src/scripts/build-api-inputs-doc.js",
+    "seed": "node src/scripts/reset-db.js",
+    "train": "node src/scripts/train.js",
+    "test": "node --test --test-concurrency=1"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.5.11",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.3.0",
+    "pg": "^8.23.1",
+    "zod": "^4.6.7"
+  }
+}

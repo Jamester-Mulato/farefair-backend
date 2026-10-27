@@ -1,0 +1,10 @@
+# Normalise text to LF in the repository, regardless of OS checkout.
+* text=auto eol=lf
+
+# Binary artefacts must never be normalised.
+*.docx binary
+*.png binary
+*.jpg binary
+*.jar binary
+*.woff binary
+*.woff2 binary
