@@ -113,12 +113,12 @@
           <h1>Sign in to the console</h1>
           <p class="login-sub">Use your FareFair staff credentials. Sessions expire after 30 minutes of inactivity.</p>
 
-          <form id="login-form" novalidate>
+          <form id="login-form" novalidate autocomplete="off">
             <div class="form-group">
               <label for="login-username">Username or email</label>
               <div class="field">
                 <svg class="icon field-icon" aria-hidden="true"><use href="#i-user"/></svg>
-                <input id="login-username" name="username" type="text" autocomplete="username" spellcheck="false" placeholder="jamestermulato@csucc.eu.ph" aria-describedby="login-error" required>
+                <input id="login-username" name="username" type="text" autocomplete="off" spellcheck="false" placeholder="jamestermulato@csucc.eu.ph" aria-describedby="login-error" required>
               </div>
             </div>
 
@@ -126,7 +126,7 @@
               <label for="login-password">Password</label>
               <div class="field">
                 <svg class="icon field-icon" aria-hidden="true"><use href="#i-lock"/></svg>
-                <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" aria-describedby="login-error" required>
+                <input id="login-password" name="password" type="password" autocomplete="new-password" placeholder="Enter your password" aria-describedby="login-error" required>
                 <button type="button" id="toggle-password" class="field-action" aria-label="Show password" aria-pressed="false">
                   <svg class="icon" aria-hidden="true"><use href="#i-eye"/></svg>
                 </button>

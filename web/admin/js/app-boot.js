@@ -281,7 +281,13 @@
             return;
           }
           if (error && (error.status === 401 || error.status === 0)) {
-            registerFailure('Incorrect email or password.');
+            const attempt = String(loginValue || '').trim();
+            registerFailure(
+              'Incorrect email or password for "' + attempt + '". ' +
+                (attempt.indexOf('@') === -1
+                  ? 'Use your FareFair account email, not the browser sign-in username.'
+                  : 'Check the password - and that it is not the browser sign-in password.')
+            );
             return;
           }
           throw error;
