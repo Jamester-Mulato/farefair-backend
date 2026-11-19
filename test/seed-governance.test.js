@@ -1,4 +1,4 @@
-﻿import test, { after, before } from 'node:test';
+import test, { after, before } from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -28,7 +28,7 @@ before(
     base = `http://127.0.0.1:${server.address().port}`;
     const login = await api('/v1/auth/login', {
       method: 'POST',
-      body: { login: 'admin@farefair.local', password: 'farefair' },
+      body: { login: 'jamestermulato@csucc.eu.ph', password: 'farefair' },
     });
     assert.equal(login.status, 200, login.text);
     token = login.body.token;
@@ -91,7 +91,7 @@ test('compile produces a hashed draft seed and audits the actor', async () => {
       ORDER BY occurred_at DESC LIMIT 1`,
   );
   assert.equal(audit.rows.length, 1);
-  assert.equal(audit.rows[0].actor_name, 'FareFair Administrator');
+  assert.equal(audit.rows[0].actor_name, 'Jamester Mulato');
   assert.match(audit.rows[0].reason, /governance test/);
   assert.equal(audit.rows[0].after_data.version, 1);
 

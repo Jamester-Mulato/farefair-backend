@@ -29,9 +29,13 @@ services:
       # Neon connection string (use the direct endpoint, not the -pooler one).
       - key: DATABASE_URL
         sync: false
-      # Demo accounts need a real password in production; the API refuses to
-      # seed with the development default when NODE_ENV=production.
-      - key: SEED_DEMO_PASSWORD
+      # One password per person, so the audit trail attributes a fare change to
+      # a human rather than to a shared login. Required in production.
+      - key: SEED_PASSWORD_JAMESTER
+        sync: false
+      - key: SEED_PASSWORD_AIRA
+        sync: false
+      - key: SEED_PASSWORD_SAM
         sync: false
       # Gate for /admin, /docs, /openapi.json and /v1/auth/*.
       - key: ADMIN_BASIC_AUTH

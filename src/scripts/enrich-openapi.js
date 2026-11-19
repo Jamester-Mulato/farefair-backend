@@ -545,7 +545,7 @@ if (!spec.paths['/v1/admin/cities/{cityId}/fare-routes/{rowNumber}']) {
                     properties: {
                       cityId: { type: 'string', example: 'cabadbaran' },
                       matrixVersionId: { type: 'string', format: 'uuid' },
-                      updatedBy: { type: 'string', example: 'Cabadbaran LGU Editor' },
+                      updatedBy: { type: 'string', example: 'City Steward' },
                     },
                   },
                 ],

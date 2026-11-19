@@ -5608,7 +5608,7 @@
                   "login": {
                     "type": "string",
                     "description": "Full email or the part before the @ sign.",
-                    "example": "admin@farefair.local"
+                    "example": "jamestermulato@csucc.eu.ph"
                   },
                   "password": {
                     "type": "string",
@@ -5617,7 +5617,7 @@
                 }
               },
               "example": {
-                "login": "admin@farefair.local",
+                "login": "jamestermulato@csucc.eu.ph",
                 "password": "farefair"
               }
             }
@@ -5654,7 +5654,7 @@
                   "expiresAt": "2026-10-29T12:47:56.583Z",
                   "user": {
                     "id": "090bb77f-0d76-4be7-8f00-c1c1acaac7bb",
-                    "email": "admin@farefair.local",
+                    "email": "jamestermulato@csucc.eu.ph",
                     "username": "admin",
                     "displayName": "FareFair Administrator",
                     "name": "FareFair Administrator",
@@ -5707,7 +5707,7 @@
                 "example": {
                   "user": {
                     "id": "090bb77f-0d76-4be7-8f00-c1c1acaac7bb",
-                    "email": "admin@farefair.local",
+                    "email": "jamestermulato@csucc.eu.ph",
                     "username": "admin",
                     "displayName": "FareFair Administrator",
                     "name": "FareFair Administrator",
@@ -5799,7 +5799,7 @@
                   "data": [
                     {
                       "id": "090bb77f-0d76-4be7-8f00-c1c1acaac7bb",
-                      "email": "admin@farefair.local",
+                      "email": "jamestermulato@csucc.eu.ph",
                       "username": "admin",
                       "displayName": "FareFair Administrator",
                       "name": "FareFair Administrator",
@@ -5811,7 +5811,7 @@
                     },
                     {
                       "id": "e56a1a80-a48e-4daf-8117-1c072e94f808",
-                      "email": "analyst@farefair.local",
+                      "email": "airasandigan@csucc.eu.ph",
                       "username": "analyst",
                       "displayName": "FareFair Analyst",
                       "name": "FareFair Analyst",
@@ -5823,7 +5823,7 @@
                     },
                     {
                       "id": "1c809195-4fe2-4951-a705-0c070ed0af34",
-                      "email": "lgu@farefair.local",
+                      "email": "samyangao@csucc.eu.ph",
                       "username": "lgu",
                       "displayName": "Cabadbaran LGU Editor",
                       "name": "Cabadbaran LGU Editor",
@@ -8735,7 +8735,7 @@
           },
           "email": {
             "type": "string",
-            "example": "admin@farefair.local"
+            "example": "jamestermulato@csucc.eu.ph"
           },
           "username": {
             "type": "string",

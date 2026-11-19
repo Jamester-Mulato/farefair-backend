@@ -1,5 +1,6 @@
 import test, { after, before } from 'node:test';
 import assert from 'node:assert/strict';
+import { randomBytes, scryptSync } from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -20,6 +21,21 @@ before(
     db = await createDatabase({ driver: 'pglite', dataDir: null });
     await applySchema(db, await readSchemaSql());
     await seed(db, { assetsDir, now: new Date() });
+
+    // All three seeded accounts are administrators, so the permission tests
+    // create the restricted identities they need instead of borrowing one.
+    const restricted = [
+      ['city.steward@farefair.test', 'City Steward', 'lgu_editor', ['cabadbaran']],
+      ['readonly@farefair.test', 'Read Only', 'analyst', []],
+    ];
+    for (const [email, name, role, scope] of restricted) {
+      await db.query(
+        `INSERT INTO admin_users
+           (email, display_name, role, password_hash, city_scope)
+         VALUES ($1,$2,$3::admin_role,$4,$5::text[])`,
+        [email, name, role, hashForTest('farefair'), scope],
+      );
+    }
     const app = await createApp(db, { openapiPath });
     await new Promise((resolve) => {
       server = app.listen(0, '127.0.0.1', resolve);
@@ -54,6 +70,11 @@ async function api(pathname, { token, body, method = 'GET', headers = {} } = {})
   return { status: response.status, body: parsed, text };
 }
 
+function hashForTest(password) {
+  const salt = randomBytes(16).toString('hex');
+  return 'scrypt$' + salt + '$' + scryptSync(password, salt, 64).toString('hex');
+}
+
 async function login(loginValue, password = 'farefair') {
   return api('/v1/auth/login', {
     method: 'POST',
@@ -64,30 +85,36 @@ async function login(loginValue, password = 'farefair') {
 let adminToken;
 let lguToken;
 
-test('seeded accounts sign in with scrypt-verified passwords', async () => {
-  const admin = await login('admin@farefair.local');
+test('the three student admins sign in with scrypt-verified passwords', async () => {
+  const admin = await login('jamestermulato@csucc.eu.ph');
   assert.equal(admin.status, 200);
   assert.match(admin.body.token, /^ff_[a-f0-9]{64}$/);
   assert.equal(admin.body.tokenType, 'Bearer');
   assert.equal(admin.body.user.role, 'admin');
-  assert.equal(admin.body.user.username, 'admin');
+  assert.equal(admin.body.user.username, 'jamestermulato');
   assert.deepEqual(admin.body.user.cityScope, []);
   adminToken = admin.body.token;
 
-  const lgu = await login('lgu@farefair.local');
-  assert.equal(lgu.status, 200);
-  assert.equal(lgu.body.user.role, 'lgu_editor');
-  assert.deepEqual(lgu.body.user.cityScope, ['cabadbaran']);
-  lguToken = lgu.body.token;
+  const second = await login('samyangao@csucc.eu.ph');
+  assert.equal(second.status, 200);
+  assert.equal(second.body.user.role, 'admin');
+  assert.deepEqual(second.body.user.cityScope, []);
 
   // The username part of the email also works as a login.
-  const byUsername = await login('analyst');
+  const byUsername = await login('airasandigan');
   assert.equal(byUsername.status, 200);
-  assert.equal(byUsername.body.user.role, 'analyst');
+  assert.equal(byUsername.body.user.role, 'admin');
+
+  // A scoped editor exists for the permission tests below.
+  const steward = await login('city.steward@farefair.test');
+  assert.equal(steward.status, 200);
+  assert.equal(steward.body.user.role, 'lgu_editor');
+  assert.deepEqual(steward.body.user.cityScope, ['cabadbaran']);
+  lguToken = steward.body.token;
 });
 
 test('sign-in rejects wrong passwords and unknown accounts', async () => {
-  assert.equal((await login('admin@farefair.local', 'wrong')).status, 401);
+  assert.equal((await login('jamestermulato@csucc.eu.ph', 'wrong')).status, 401);
   const unknown = await login('nobody@farefair.local');
   assert.equal(unknown.status, 401);
   assert.equal(unknown.body.error.code, 'INVALID_CREDENTIALS');
@@ -112,10 +139,10 @@ test('sessions resolve through /v1/auth/me and are revoked on logout', async () 
 
   const before = await api('/v1/auth/me', { token: adminToken });
   assert.equal(before.status, 200);
-  assert.equal(before.body.user.email, 'admin@farefair.local');
+  assert.equal(before.body.user.email, 'jamestermulato@csucc.eu.ph');
   assert.equal(before.body.user.title, 'Transport Administrator');
 
-  const scratch = await login('admin@farefair.local');
+  const scratch = await login('jamestermulato@csucc.eu.ph');
   const revocation = await api('/v1/auth/logout', {
     method: 'POST',
     token: scratch.body.token,
@@ -131,10 +158,11 @@ test('sessions resolve through /v1/auth/me and are revoked on logout', async () 
 test('account listing is restricted to administrators', async () => {
   const accounts = await api('/v1/auth/accounts', { token: adminToken });
   assert.equal(accounts.status, 200);
-  const usernames = accounts.body.data.map((row) => row.username).sort();
-  assert.deepEqual(usernames, ['admin', 'analyst', 'lgu']);
-  const lgu = accounts.body.data.find((row) => row.username === 'lgu');
-  assert.deepEqual(lgu.cityScope, ['cabadbaran']);
+  const byName = new Map(accounts.body.data.map((row) => [row.username, row]));
+  for (const name of ['jamestermulato', 'airasandigan', 'samyangao']) {
+    assert.equal(byName.get(name).role, 'admin');
+  }
+  assert.deepEqual(byName.get('city.steward').cityScope, ['cabadbaran']);
   assert.equal(accounts.body.data.some((row) => 'passwordHash' in row), false);
 
   assert.equal((await api('/v1/auth/accounts', { token: lguToken })).status, 403);
@@ -166,7 +194,7 @@ test('fare matrix writes require a session, a role and city scope', async () => 
   assert.equal(outOfScope.status, 403);
 
   // The analyst role can read but never write fares.
-  const analyst = await login('analyst@farefair.local');
+  const analyst = await login('readonly@farefair.test');
   const analystWrite = await api(pathname, {
     method: 'PATCH',
     token: analyst.body.token,
@@ -265,7 +293,7 @@ test('fare route writes require a session, a role and city scope', async () => {
   );
   assert.equal(outOfScope.status, 403);
 
-  const analyst = await login('analyst@farefair.local');
+  const analyst = await login('readonly@farefair.test');
   assert.equal(
     (
       await api(pathname, {
@@ -288,7 +316,7 @@ test('fare route writes require a session, a role and city scope', async () => {
   assert.equal(saved.body.regularFare, 52);
   assert.equal(saved.body.discountedFare, 42);
   assert.equal(saved.body.remark, 'Updated by integration test');
-  assert.equal(saved.body.updatedBy, 'Cabadbaran LGU Editor');
+  assert.equal(saved.body.updatedBy, 'City Steward');
 
   const routes = await api('/v1/cities/cabadbaran/fare-routes?search=Bayabas');
   assert.equal(routes.status, 200);
@@ -428,7 +456,7 @@ test('manual audit events are append-only server records', async () => {
     (entry) => entry.detail?.summary === 'Exported the Cabadbaran trips CSV',
   );
   assert.ok(row);
-  assert.equal(row.actorName, 'Cabadbaran LGU Editor');
+  assert.equal(row.actorName, 'City Steward');
 });
 
 test('the admin console is served from the API origin', async () => {

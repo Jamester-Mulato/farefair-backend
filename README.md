@@ -42,13 +42,15 @@ Open <http://localhost:4000/admin/> for the admin console, <http://localhost:400
 Swagger UI, or <http://localhost:4000/health>.
 
 The console is served by the API itself, so its fetches are same-origin and write endpoints run
-exactly as deployed. Sign in with a seeded account (password `farefair` for all three unless `SEED_DEMO_PASSWORD` was set before `npm run db:reset`):
+exactly as deployed. Sign in with a seeded account (password `farefair` locally, or whatever
+`SEED_DEMO_PASSWORD` was set to before the first seed; each person can also override it with
+`SEED_PASSWORD_JAMESTER`, `SEED_PASSWORD_AIRA` or `SEED_PASSWORD_SAM`):
 
-| Login | Role | City scope |
-| --- | --- | --- |
-| `admin@farefair.local` | `admin` → console super admin | all seeded cities (Cabadbaran) |
-| `lgu@farefair.local` | `lgu_editor` → console city admin | `cabadbaran` only |
-| `analyst@farefair.local` | `analyst` | read-only, Cabadbaran |
+| Login | Person | Role | City scope |
+| --- | --- | --- | --- |
+| `jamestermulato@csucc.eu.ph` | Jamester Mulato | `admin` → console super admin | all cities |
+| `airasandigan@csucc.eu.ph` | Aira Sandigan | `admin` → console super admin | all cities |
+| `samyangao@csucc.eu.ph` | Sam Yangao | `admin` → console super admin | all cities |
 
 By default PGlite persists to `backend/.pglite` (gitignored), so seeded data survives restarts.
 `npm run db:reset` is idempotent: it drops/recreates only the `farefair` schema and re-seeds.
@@ -169,7 +171,7 @@ npm run docs:inputs     # regenerate the Markdown input table
 
 Dynamic values (`tripId`, `quoteId`, `versionId`, `anomalyId`) are resolved from earlier
 responses, so the matrix still works after `npm run db:reset`. The matrix also signs in with
-`admin@farefair.local`, reuses that bearer token for the `/v1/auth/*` and `/v1/admin/*`
+`jamestermulato@csucc.eu.ph`, reuses that bearer token for the `/v1/auth/*` and `/v1/admin/*`
 operations, and signs out at the end. Create operations return `201`
 (`POST /v1/trips`, `POST /v1/fare/models/train`, `POST /v1/admin/audit`); every other
 documented operation returns `200`.

@@ -118,7 +118,7 @@
               <label for="login-username">Username or email</label>
               <div class="field">
                 <svg class="icon field-icon" aria-hidden="true"><use href="#i-user"/></svg>
-                <input id="login-username" name="username" type="text" autocomplete="username" spellcheck="false" placeholder="admin@farefair.local" aria-describedby="login-error" required>
+                <input id="login-username" name="username" type="text" autocomplete="username" spellcheck="false" placeholder="jamestermulato@csucc.eu.ph" aria-describedby="login-error" required>
               </div>
             </div>
 
@@ -142,25 +142,22 @@
           </form>
 
           <details class="demo-access" id="demo-access">
-            <summary>Demo accounts</summary>
+            <summary>Seeded accounts</summary>
             <div class="demo-list">
               <div class="demo-row">
-                <div><strong>FareFair Administrator</strong><span class="muted">admin@farefair.local</span></div>
-                <code>farefair</code>
-                <span class="mini-tag">Admin</span>
+                <div><strong>Jamester Mulato</strong><span class="muted">jamestermulato@csucc.eu.ph</span></div>
+                <span class="mini-tag">Super admin</span>
               </div>
               <div class="demo-row">
-                <div><strong>Cabadbaran LGU Editor</strong><span class="muted">lgu@farefair.local</span></div>
-                <code>farefair</code>
-                <span class="mini-tag">City editor</span>
+                <div><strong>Aira Sandigan</strong><span class="muted">airasandigan@csucc.eu.ph</span></div>
+                <span class="mini-tag">Super admin</span>
               </div>
               <div class="demo-row">
-                <div><strong>FareFair Analyst</strong><span class="muted">analyst@farefair.local</span></div>
-                <code>farefair</code>
-                <span class="mini-tag">Analyst</span>
+                <div><strong>Sam Yangao</strong><span class="muted">samyangao@csucc.eu.ph</span></div>
+                <span class="mini-tag">Super admin</span>
               </div>
             </div>
-            <p class="demo-note">Seeded by <code>npm run db:reset</code>. Passwords are verified by the FareFair API against scrypt hashes in PostgreSQL, and the session token is stored only in this tab.</p>
+            <p class="demo-note">Passwords are scrypt hashes in PostgreSQL: <code>farefair</code> on a local reset, <code>SEED_DEMO_PASSWORD</code> on a hosted instance. Sign in with the full email, or the part before the <code>@</code>.</p>
           </details>
 
           <p class="login-foot">FareFair · fair fare estimates for Mindanao informal transit</p>

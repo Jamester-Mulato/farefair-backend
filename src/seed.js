@@ -294,25 +294,58 @@ export async function seed(db, { now = new Date(), tripDays = 21, log = () => {}
 
     // ---------------------------------------------------------------------
     // Admin identities
+    //
+    // The three students who run the console. All three are administrators,
+    // so any of them can edit a fare or publish a seed; the audit trail still
+    // attributes each change to the account that made it. The role system
+    // remains intact (lgu_editor, analyst, viewer) for accounts added later.
+    // Each can carry its own password so attribution means something; until
+    // one is set they all fall back to SEED_DEMO_PASSWORD.
     // ---------------------------------------------------------------------
     const adminUsers = [
-      ['admin@farefair.local', 'FareFair Administrator', 'admin', []],
-      ['analyst@farefair.local', 'FareFair Analyst', 'analyst', []],
-      ['lgu@farefair.local', 'Cabadbaran LGU Editor', 'lgu_editor', [city.id]],
+      {
+        email: 'jamestermulato@csucc.eu.ph',
+        name: 'Jamester Mulato',
+        role: 'admin',
+        scope: [],
+        passwordEnv: 'SEED_PASSWORD_JAMESTER',
+      },
+      {
+        email: 'airasandigan@csucc.eu.ph',
+        name: 'Aira Sandigan',
+        role: 'admin',
+        scope: [],
+        passwordEnv: 'SEED_PASSWORD_AIRA',
+      },
+      {
+        email: 'samyangao@csucc.eu.ph',
+        name: 'Sam Yangao',
+        role: 'admin',
+        scope: [],
+        passwordEnv: 'SEED_PASSWORD_SAM',
+      },
     ];
-    if (!DEMO_PASSWORD) {
-      throw new Error(
-        'SEED_DEMO_PASSWORD must be set when seeding demo accounts with NODE_ENV=production.',
-      );
-    }
     const adminIds = [];
-    for (const [email, displayName, role, cityScope] of adminUsers) {
+    for (const account of adminUsers) {
+      const password = process.env[account.passwordEnv] ?? DEMO_PASSWORD;
+      if (!password) {
+        throw new Error(
+          `${account.passwordEnv} (or SEED_DEMO_PASSWORD) must be set when seeding ` +
+            'demo accounts with NODE_ENV=production.',
+        );
+      }
       const result = await tx.query(
         `INSERT INTO admin_users
            (email, display_name, role, password_hash, city_scope)
          VALUES ($1,$2,$3::admin_role,$4,$5::text[])
          RETURNING id`,
-        [email, displayName, role, hashPassword(DEMO_PASSWORD), cityScope],
+        [
+          account.email,
+          account.name,
+          account.role,
+          hashPassword(password),
+          account.scope,
+        ],
       );
       adminIds.push(result.rows[0].id);
     }
@@ -661,7 +694,7 @@ export async function seed(db, { now = new Date(), tripDays = 21, log = () => {}
     // ---------------------------------------------------------------------
     await recordAudit(tx, {
       actorId: adminIds[0],
-      actorName: 'FareFair Administrator',
+      actorName: 'Jamester Mulato',
       role: 'admin',
       action: 'dataset.seeded',
       entityType: 'city',
@@ -678,8 +711,8 @@ export async function seed(db, { now = new Date(), tripDays = 21, log = () => {}
     });
     await recordAudit(tx, {
       actorId: adminIds[2],
-      actorName: 'Cabadbaran LGU Editor',
-      role: 'lgu_editor',
+      actorName: 'Sam Yangao',
+      role: 'admin',
       action: 'fare_matrix.activated',
       entityType: 'fare_matrix_version',
       entityId: matrix.id,
@@ -695,8 +728,8 @@ export async function seed(db, { now = new Date(), tripDays = 21, log = () => {}
     });
     await recordAudit(tx, {
       actorId: adminIds[1],
-      actorName: 'FareFair Analyst',
-      role: 'analyst',
+      actorName: 'Aira Sandigan',
+      role: 'admin',
       action: 'ml_model.trained',
       entityType: 'ml_model_version',
       entityId: modelVersionId,
@@ -706,7 +739,7 @@ export async function seed(db, { now = new Date(), tripDays = 21, log = () => {}
     });
     await recordAudit(tx, {
       actorId: adminIds[0],
-      actorName: 'FareFair Administrator',
+      actorName: 'Jamester Mulato',
       role: 'admin',
       action: 'ml_model.activated',
       entityType: 'ml_model_version',

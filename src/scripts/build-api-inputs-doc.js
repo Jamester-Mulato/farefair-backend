@@ -122,7 +122,7 @@ npm run docs:examples   # apply the latest examples to Swagger/OpenAPI
   because they create a resource; every other operation returns **200**.
 - Dynamic values (\`tripId\`, \`quoteId\`, \`versionId\`, \`anomalyId\`) are resolved from earlier
   responses by the runner, so the matrix still works after \`npm run db:reset\`.
-- The matrix signs in with \`admin@farefair.local\`, sends that bearer token to the
+- The matrix signs in with \`jamestermulato@csucc.eu.ph\`, sends that bearer token to the
   \`/v1/auth/*\` and \`/v1/admin/*\` operations, and signs out at the end.
 - Base URL: \`${matrix.baseUrl}\`.
 - Current focus dataset: \`cityId=cabadbaran\`, \`vehicleId=tricycle\`, \`modelKey=fare-fair-linear\`.

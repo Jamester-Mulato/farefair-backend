@@ -37,9 +37,9 @@ password `farefair`:
 
 | Person | Login | Console role | Scope |
 | --- | --- | --- | --- |
-| FareFair Administrator | `admin@farefair.local` | Super admin | All seeded cities (Cabadbaran) |
-| Cabadbaran LGU Editor | `lgu@farefair.local` | City admin | Cabadbaran only |
-| FareFair Analyst | `analyst@farefair.local` | Analyst | Read-only, Cabadbaran |
+| Jamester Mulato | `jamestermulato@csucc.eu.ph` | Super admin | All cities |
+| Aira Sandigan | `airasandigan@csucc.eu.ph` | Super admin | All cities |
+| Sam Yangao | `samyangao@csucc.eu.ph` | Super admin | All cities |
 
 Sessions last 8 hours on the server and end after 30 minutes of inactivity in the UI. Five failed
 attempts lock the login for 15 minutes. Signing out revokes the session server-side, so the old
