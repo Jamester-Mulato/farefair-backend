@@ -57,7 +57,13 @@
     };
     push(fromQuery());
     push(remembered());
-    if (global.location.protocol === 'http:' || global.location.protocol === 'https:') push('');
+    // Same-origin is the normal case: the API serves this console at /admin/.
+    // Probing it first is what makes a hosted console work without any
+    // configuration, and it must be an absolute origin (an empty string would
+    // be dropped by the de-duplicating push above).
+    if (global.location.protocol === 'http:' || global.location.protocol === 'https:') {
+      push(global.location.origin);
+    }
     push(DEFAULT_BASE);
     return list;
   }

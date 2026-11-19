@@ -289,7 +289,8 @@
       } else {
         setLoginBusy(false);
         setLoginError(
-          'The FareFair API is not reachable. Start it with npm start in backend/ and try again.'
+          'The FareFair API is not reachable. Locally, start it with npm start in backend/. ' +
+            'If it is hosted, the first request after idle can take up to a minute - try again.'
         );
         return;
       }

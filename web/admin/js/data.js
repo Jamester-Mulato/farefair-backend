@@ -249,7 +249,8 @@
     await api.init();
     if (!api.online()) {
       throw new Error(
-        'The FareFair API is not reachable. Start it with npm start in backend/ and reload this page.'
+        'The FareFair API is not reachable. Locally, start it with npm start in backend/ and ' +
+          'reload. If it is hosted, the first request after idle can take up to a minute - reload then.'
       );
     }
     // PostgreSQL is the only source of truth for the admin console. The
