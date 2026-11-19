@@ -11,6 +11,45 @@ import { readFile } from 'node:fs/promises';
  *   transaction(fn)     -> fn({ query, exec }) inside BEGIN/COMMIT
  *   close()
  */
+/**
+ * Managed Postgres front ends break two things this adapter needs.
+ *
+ *   - Neon's `-pooler` host (PgBouncer in transaction mode) rejects the
+ *     `options` startup parameter, and that parameter is how the adapter
+ *     selects the `farefair` schema. The direct endpoint is the same database
+ *     without the pooler, so rewrite the host instead of failing the deploy.
+ *   - `channel_binding=require` is not implemented by node-postgres, so drop it
+ *     rather than let it ride along in the connection string.
+ *
+ * Both rewrites are logged so the value in the environment can be corrected.
+ */
+function normalizePgUrl(raw) {
+  if (!raw) return { connectionString: raw, notes: [] };
+  let url;
+  try {
+    url = new URL(raw);
+  } catch {
+    return { connectionString: raw, notes: [] };
+  }
+
+  const notes = [];
+  if (/-pooler\./.test(url.hostname)) {
+    url.hostname = url.hostname.replace('-pooler.', '.');
+    notes.push(
+      'DATABASE_URL pointed at a connection pooler; using the direct endpoint instead.',
+    );
+  }
+  if (url.searchParams.has('channel_binding')) {
+    url.searchParams.delete('channel_binding');
+    notes.push('Removed channel_binding from DATABASE_URL (unsupported by node-postgres).');
+  }
+
+  return {
+    connectionString: notes.length ? url.toString() : raw,
+    notes,
+  };
+}
+
 export async function createDatabase(options = {}) {
   const driver =
     options.driver ??
@@ -19,8 +58,13 @@ export async function createDatabase(options = {}) {
 
   if (driver === 'pg') {
     const { default: pg } = await import('pg');
+    const { connectionString, notes } = normalizePgUrl(
+      options.databaseUrl ?? process.env.DATABASE_URL,
+    );
+    for (const note of notes) console.warn(`[farefair-api] ${note}`);
+
     const pool = new pg.Pool({
-      connectionString: options.databaseUrl ?? process.env.DATABASE_URL,
+      connectionString,
       max: options.max ?? 10,
       options: '-c search_path=farefair,public',
       ssl:

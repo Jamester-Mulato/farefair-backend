@@ -29,10 +29,10 @@ export async function createApp(db, { openapiPath } = {}) {
   const app = express();
   app.disable('x-powered-by');
   // Tunnels and managed hosts terminate TLS in front of the process, so the
-  // client address and protocol arrive in X-Forwarded-* headers.
-  if (process.env.TRUST_PROXY !== 'false') {
-    app.set('trust proxy', process.env.TRUST_PROXY ?? 'loopback, linklocal, uniquelocal');
-  }
+  // client address and protocol arrive in X-Forwarded-* headers. Express wants
+  // a Boolean, a hop count or a list of addresses here — a literal "true"
+  // string is parsed as an IP list and throws, so translate it first.
+  app.set('trust proxy', trustProxySetting());
   app.use(cors());
   app.use(express.json({ limit: '2mb' }));
 
@@ -225,6 +225,15 @@ export async function createApp(db, { openapiPath } = {}) {
   app.use(notFoundHandler);
   app.use(errorHandler);
   return app;
+}
+
+function trustProxySetting() {
+  const raw = String(process.env.TRUST_PROXY ?? '').trim();
+  if (!raw) return 'loopback, linklocal, uniquelocal';
+  if (raw === 'false') return false;
+  if (raw === 'true') return true;
+  if (/^\d+$/.test(raw)) return Number(raw);
+  return raw; // "loopback, linklocal, uniquelocal" or explicit addresses
 }
 
 function asyncHandler(handler) {
