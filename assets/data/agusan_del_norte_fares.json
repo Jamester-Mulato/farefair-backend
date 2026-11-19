@@ -1,0 +1,4491 @@
+{
+  "schema": "farefair.mobile.reference.v2",
+  "province": "Agusan del Norte",
+  "retrieved": "2026-10-28",
+  "cityId": "cabadbaran",
+  "scope": {
+    "label": "Province of Agusan del Norte (Region XIII), inclusive of Butuan City",
+    "note": "Every LGU now has a named instrument. Two have numeric schedules: Butuan's band table (from the ordinance text) and Cabadbaran's 17 July 2026 posting (66 rows, P9.00-P70.00), which reproduces SCO 2020-012 row for row. The remaining ten publish an ordinance title but no fare table anywhere online.",
+    "lgusTotal": 12,
+    "lgusWithInstrument": 12,
+    "lgusWithNumericSchedule": 2,
+    "lgusMatchingOrdinance": 1
+  },
+  "fareMatrix": {
+    "effectiveFrom": "2026-07-17",
+    "provisional": false,
+    "source": "Cabadbaran City Security and Traffic Management Task Force posting, 17 July 2026, headed SPECIAL CITY ORDINANCE NO. 2020-012",
+    "notes": "Per-passenger fares from the city's 17 July 2026 posting, which reproduces Special City Ordinance No. 2020-012 row for row. The ordinance is a closed flat per-route table; there is no per-kilometre add-on. Fares apply both ways. The discounted fare is 20% off the regular fare for students, senior citizens and PWDs. The posting also prints a separate 'MINIMUM RATE P10.00' callout that is P1.00 above its own P9.00 Poblacion rows; it is not part of the ordinance and is not used here.",
+    "minimumRegularFare": 9,
+    "minimumDiscountedFare": 7.2,
+    "perKmBeyondPoblacion": null,
+    "vehicleId": "tricycle",
+    "discountRate": 0.2
+  },
+  "routes": [
+    {
+      "row": 1,
+      "from": "Anywhere in Poblacion",
+      "to": "Anywhere in Poblacion",
+      "regular": 9.0,
+      "discounted": 7.2,
+      "remark": "Minimum/ local ply",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance row 1 (within Poblacion)"
+    },
+    {
+      "row": 2,
+      "from": "Poblacion",
+      "to": "Land Transport Terminal",
+      "regular": 9.0,
+      "discounted": 7.2,
+      "remark": "Same both ways",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance row 2 (CCLTT - Poblacion)"
+    },
+    {
+      "row": 3,
+      "from": "Poblacion or Terminal",
+      "to": "Antonio Luna",
+      "regular": 35.0,
+      "discounted": 28.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 3 (Luna)"
+    },
+    {
+      "row": 4,
+      "from": "Poblacion or Terminal",
+      "to": "Bayabas",
+      "regular": 35.0,
+      "discounted": 28.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 4 (Bayabas)"
+    },
+    {
+      "row": 5,
+      "from": "Poblacion",
+      "to": "Bay-ang",
+      "regular": 20.0,
+      "discounted": 16.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 5 (Bay-ang)"
+    },
+    {
+      "row": 6,
+      "from": "Poblacion or Terminal",
+      "to": "Bugho, Bay-Ang",
+      "regular": 40.0,
+      "discounted": 32.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 5 (Bugho)"
+    },
+    {
+      "row": 7,
+      "from": "Poblacion or Terminal",
+      "to": "Bung-Aw, Bay-Ang",
+      "regular": 35.0,
+      "discounted": 28.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 5 (Bung-aw)"
+    },
+    {
+      "row": 8,
+      "from": "Poblacion or Terminal",
+      "to": "Dal-As, Bay-Ang",
+      "regular": 35.0,
+      "discounted": 28.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 5 (Dal-as)"
+    },
+    {
+      "row": 9,
+      "from": "Poblacion or Terminal",
+      "to": "Caasinan",
+      "regular": 15.0,
+      "discounted": 12.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 6 (Caasinan)"
+    },
+    {
+      "row": 10,
+      "from": "Poblacion or Terminal",
+      "to": "Cabinet",
+      "regular": 15.0,
+      "discounted": 12.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 7 (Cabinet)"
+    },
+    {
+      "row": 11,
+      "from": "Poblacion or Terminal",
+      "to": "Calamba Proper",
+      "regular": 40.0,
+      "discounted": 32.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 8 (Calamba Proper)"
+    },
+    {
+      "row": 12,
+      "from": "Poblacion or Terminal",
+      "to": "Calulutay, Calamba",
+      "regular": 40.0,
+      "discounted": 32.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 8 (Calulutay)"
+    },
+    {
+      "row": 13,
+      "from": "Poblacion or Terminal",
+      "to": "Malico, Calamba",
+      "regular": 50.0,
+      "discounted": 40.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 8 (Malico)"
+    },
+    {
+      "row": 14,
+      "from": "CALAMBA",
+      "to": "Crossing National Highway",
+      "regular": 40.0,
+      "discounted": 32.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 8 (Calamba - Crossing National Highway)"
+    },
+    {
+      "row": 15,
+      "from": "Poblacion or Terminal",
+      "to": "Calibunan",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 9 (Calibunan)"
+    },
+    {
+      "row": 16,
+      "from": "Poblacion or Terminal",
+      "to": "Maybo, Calibunan",
+      "regular": 12.0,
+      "discounted": 9.6,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 9 (Maybo)"
+    },
+    {
+      "row": 17,
+      "from": "Poblacion or Terminal",
+      "to": "Maybo, Calibunan (Via Malingin)",
+      "regular": 12.0,
+      "discounted": 9.6,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 9 (Maybo via Malingin)"
+    },
+    {
+      "row": 18,
+      "from": "Poblacion or Terminal",
+      "to": "Hinagdanan, Comagascas",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Hinagdanan)"
+    },
+    {
+      "row": 19,
+      "from": "Poblacion or Terminal",
+      "to": "Comagascas (Proper)",
+      "regular": 20.0,
+      "discounted": 16.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Comagascas Proper), dual 15.00/20.00"
+    },
+    {
+      "row": 20,
+      "from": "Poblacion or Terminal",
+      "to": "Maraput, Comagascas",
+      "regular": 30.0,
+      "discounted": 24.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Maraput), dual 20.00/30.00"
+    },
+    {
+      "row": 21,
+      "from": "Poblacion or Terminal",
+      "to": "Hacienda, Comagascas",
+      "regular": 30.0,
+      "discounted": 24.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Hacienda), dual 20.00/30.00"
+    },
+    {
+      "row": 22,
+      "from": "Poblacion or Terminal",
+      "to": "Anangilan (Valentine), Comagascas",
+      "regular": 30.0,
+      "discounted": 24.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Anangilan Valentine)"
+    },
+    {
+      "row": 23,
+      "from": "Poblacion or Terminal",
+      "to": "Anangilan (Kikay), Comagascas",
+      "regular": 30.0,
+      "discounted": 24.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Anangilan Kikay)"
+    },
+    {
+      "row": 24,
+      "from": "Poblacion or Terminal",
+      "to": "Concepcion Proper",
+      "regular": 50.0,
+      "discounted": 40.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 11 (Concepcion Proper)"
+    },
+    {
+      "row": 25,
+      "from": "Poblacion or Terminal",
+      "to": "Little Leyte, Concepcion",
+      "regular": 50.0,
+      "discounted": 40.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 11 (Little Leyte)"
+    },
+    {
+      "row": 26,
+      "from": "Poblacion or Terminal",
+      "to": "Bungogon, Del Pilar",
+      "regular": 30.0,
+      "discounted": 24.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Bungogon)"
+    },
+    {
+      "row": 27,
+      "from": "Poblacion or Terminal",
+      "to": "Del Pilar Purok 1 & 2",
+      "regular": 35.0,
+      "discounted": 28.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 12 (Del Pilar Purok 1 & 2)"
+    },
+    {
+      "row": 28,
+      "from": "Land Transport Terminal",
+      "to": "Sitio Pirada, Del Pilar",
+      "regular": 50.0,
+      "discounted": 40.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 12 (Pirada; no origin printed)"
+    },
+    {
+      "row": 29,
+      "from": "Poblacion or Terminal",
+      "to": "Katugasan (Purok 1, 2, 3, 4)",
+      "regular": 30.0,
+      "discounted": 24.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 13 (Katugasan Purok 1 & 2)"
+    },
+    {
+      "row": 30,
+      "from": "Poblacion or Terminal",
+      "to": "Purok 5 (Pahit Dal-As), Katugasan",
+      "regular": 30.0,
+      "discounted": 24.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 13 (Purok 5 / Pahit Dal-as)"
+    },
+    {
+      "row": 31,
+      "from": "Poblacion or Terminal",
+      "to": "Kauswagan (PROPER/ UPPER/ LOWER)",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "Same rate for all three",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 14 (Kauswagan)"
+    },
+    {
+      "row": 32,
+      "from": "Poblacion or Terminal",
+      "to": "Sitio Sinunog, Kauswagan",
+      "regular": 15.0,
+      "discounted": 12.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 14 (Sinunog)"
+    },
+    {
+      "row": 33,
+      "from": "Poblacion or Terminal",
+      "to": "Pongkay/Sinunug, Kauswagan",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Pongkay/Sinunug)"
+    },
+    {
+      "row": 34,
+      "from": "Poblacion or Terminal",
+      "to": "La Union Proper",
+      "regular": 20.0,
+      "discounted": 16.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 15 (La Union Proper)"
+    },
+    {
+      "row": 35,
+      "from": "Poblacion or Terminal",
+      "to": "Bandol, La Union",
+      "regular": 20.0,
+      "discounted": 16.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Bandol)"
+    },
+    {
+      "row": 36,
+      "from": "Poblacion or Terminal",
+      "to": "Boundary La Union (Bitaog)",
+      "regular": 30.0,
+      "discounted": 24.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Bitaog)"
+    },
+    {
+      "row": 37,
+      "from": "Poblacion or Terminal",
+      "to": "Maong, La Union",
+      "regular": 30.0,
+      "discounted": 24.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Maong)"
+    },
+    {
+      "row": 38,
+      "from": "Poblacion or Terminal",
+      "to": "Angel Village, La Union",
+      "regular": 20.0,
+      "discounted": 16.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Angel Village)"
+    },
+    {
+      "row": 39,
+      "from": "Poblacion or Terminal",
+      "to": "Bukid-Bukid, La Union (Via Malingin)",
+      "regular": 20.0,
+      "discounted": 16.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Bukid-Bukid via Malingin)"
+    },
+    {
+      "row": 40,
+      "from": "Poblacion or Terminal",
+      "to": "Panlaisan, La Union (Hi-Way)",
+      "regular": 20.0,
+      "discounted": 16.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Panlaisan Hi-way)"
+    },
+    {
+      "row": 41,
+      "from": "Poblacion or Terminal",
+      "to": "Panlaisan, La Union (Intaq/Raniel)",
+      "regular": 20.0,
+      "discounted": 16.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Panlaisan Intaq/Raniel)"
+    },
+    {
+      "row": 42,
+      "from": "Poblacion or Terminal",
+      "to": "Panlaisan, La Union (Sulod)",
+      "regular": 20.0,
+      "discounted": 16.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Panlaisan Sulod)"
+    },
+    {
+      "row": 43,
+      "from": "Poblacion or Terminal",
+      "to": "Abattoir, La Union",
+      "regular": 20.0,
+      "discounted": 16.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Abattoir)"
+    },
+    {
+      "row": 44,
+      "from": "Poblacion or Terminal",
+      "to": "Mabini Vice Versa",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "Same both ways",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Mabini, vice versa)"
+    },
+    {
+      "row": 45,
+      "from": "Poblacion",
+      "to": "Mabini Plains",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "Poblacion origin",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Mabini, vice versa) -- barangay row"
+    },
+    {
+      "row": 46,
+      "from": "Land Transport Terminal",
+      "to": "Mabini Plains",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "Terminal origin",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Mabini, vice versa) -- barangay row"
+    },
+    {
+      "row": 47,
+      "from": "Poblacion",
+      "to": "Mabini VCDU",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "Poblacion origin",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Mabini, vice versa) -- barangay row"
+    },
+    {
+      "row": 48,
+      "from": "Land Transport Terminal",
+      "to": "Mabini VCDU",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "Terminal origin",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Mabini, vice versa) -- barangay row"
+    },
+    {
+      "row": 49,
+      "from": "Poblacion or Terminal",
+      "to": "Lower Mabini",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Lower Mabini)"
+    },
+    {
+      "row": 50,
+      "from": "Poblacion or Terminal",
+      "to": "Upper Mabini",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Upper Mabini)"
+    },
+    {
+      "row": 51,
+      "from": "Poblacion or Terminal",
+      "to": "Pandanon, Mabini",
+      "regular": 15.0,
+      "discounted": 12.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Pandanon)"
+    },
+    {
+      "row": 52,
+      "from": "Poblacion or Terminal",
+      "to": "Dal-As (Mabini)",
+      "regular": 20.0,
+      "discounted": 16.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Dal-as, Mabini)"
+    },
+    {
+      "row": 53,
+      "from": "Poblacion or Terminal",
+      "to": "Dinabucan. Mabini",
+      "regular": 20.0,
+      "discounted": 16.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Dinabucan)"
+    },
+    {
+      "row": 54,
+      "from": "Land Transport Terminal",
+      "to": "Mahaba Centro",
+      "regular": 70.0,
+      "discounted": 56.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 21 (Mahaba Centro)"
+    },
+    {
+      "row": 55,
+      "from": "Poblacion or Terminal",
+      "to": "Punta Puting Bato",
+      "regular": 30.0,
+      "discounted": 24.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 17 (Punta Puting Bato)"
+    },
+    {
+      "row": 56,
+      "from": "Land Transport Terminal",
+      "to": "Puting Bato Centro",
+      "regular": 50.0,
+      "discounted": 40.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 17 (Puting Bato Centro)"
+    },
+    {
+      "row": 57,
+      "from": "Poblacion or Terminal",
+      "to": "Sanghan Centro",
+      "regular": 20.0,
+      "discounted": 16.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 18 (Sanghan Centro)"
+    },
+    {
+      "row": 60,
+      "from": "Poblacion or Terminal",
+      "to": "Soriano",
+      "regular": 20.0,
+      "discounted": 16.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 19 (Soriano)"
+    },
+    {
+      "row": 61,
+      "from": "Poblacion or Terminal",
+      "to": "Cambisay, Soriano",
+      "regular": 25.0,
+      "discounted": 20.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 20 (Cambisay)"
+    },
+    {
+      "row": 62,
+      "from": "Poblacion",
+      "to": "Cabadbaran District Hospital, Tolosa",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "Poblacion origin",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 21 (Cabadbaran District Hospital)"
+    },
+    {
+      "row": 63,
+      "from": "Land Transport Terminal",
+      "to": "Cabadbaran District Hospital, Tolosa",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "Terminal origin",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 21 (Cabadbaran District Hospital)"
+    },
+    {
+      "row": 64,
+      "from": "Poblacion or Terminal",
+      "to": "Secuanda, Tolosa",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 21 (Secuanda)"
+    },
+    {
+      "row": 65,
+      "from": "Poblacion",
+      "to": "Catholic Cemetery, Poblacion 4",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "Poblacion origin",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 21 (City Hall / Catholic Cemetery)"
+    },
+    {
+      "row": 66,
+      "from": "Land Transport Terminal",
+      "to": "Catholic Cemetery, Poblacion 4",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "Terminal origin",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 21 (City Hall / Catholic Cemetery)"
+    },
+    {
+      "row": 67,
+      "from": "Poblacion or Terminal",
+      "to": "Tolosa Proper",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 21 (Tolosa Proper)"
+    },
+    {
+      "row": 68,
+      "from": "Poblacion or Terminal",
+      "to": "Tolosa / School Bliss",
+      "regular": 10.0,
+      "discounted": 8.0,
+      "remark": "",
+      "via": "",
+      "bidirectional": true,
+      "basis": "ordinance item 21 (Tolosa / School Bliss)"
+    }
+  ],
+  "cityPlaces": [
+    {
+      "key": "abattoir la union",
+      "label": "Abattoir, La Union",
+      "aliases": [
+        "abattoir",
+        "abattoir la union"
+      ]
+    },
+    {
+      "key": "anangilan kikay comagascas",
+      "label": "Anangilan (Kikay), Comagascas",
+      "aliases": [
+        "anangilan kikay",
+        "anangilan kikay comagascas"
+      ]
+    },
+    {
+      "key": "anangilan valentine comagascas",
+      "label": "Anangilan (Valentine), Comagascas",
+      "aliases": [
+        "anangilan valentine",
+        "anangilan valentine comagascas"
+      ]
+    },
+    {
+      "key": "angel village la union",
+      "label": "Angel Village, La Union",
+      "aliases": [
+        "angel village",
+        "angel village la union"
+      ]
+    },
+    {
+      "key": "antonio luna",
+      "label": "Antonio Luna",
+      "aliases": [
+        "antonio luna"
+      ]
+    },
+    {
+      "key": "bandol la union",
+      "label": "Bandol, La Union",
+      "aliases": [
+        "bandol",
+        "bandol la union"
+      ]
+    },
+    {
+      "key": "bay ang",
+      "label": "Bay-ang",
+      "aliases": [
+        "bay ang"
+      ]
+    },
+    {
+      "key": "bayabas",
+      "label": "Bayabas",
+      "aliases": [
+        "bayabas"
+      ]
+    },
+    {
+      "key": "boundary la union bitaog",
+      "label": "Boundary La Union (Bitaog)",
+      "aliases": [
+        "boundary la union",
+        "boundary la union bitaog"
+      ]
+    },
+    {
+      "key": "bugho bay ang",
+      "label": "Bugho, Bay-Ang",
+      "aliases": [
+        "bugho",
+        "bugho bay ang"
+      ]
+    },
+    {
+      "key": "bukid bukid la union via malingin",
+      "label": "Bukid-Bukid, La Union (Via Malingin)",
+      "aliases": [
+        "bukid bukid",
+        "bukid bukid la union",
+        "bukid bukid la union via malingin",
+        "la union via malingin"
+      ]
+    },
+    {
+      "key": "bung aw bay ang",
+      "label": "Bung-Aw, Bay-Ang",
+      "aliases": [
+        "bung aw",
+        "bung aw bay ang"
+      ]
+    },
+    {
+      "key": "bungogon del pilar",
+      "label": "Bungogon, Del Pilar",
+      "aliases": [
+        "bungogon",
+        "bungogon del pilar"
+      ]
+    },
+    {
+      "key": "caasinan",
+      "label": "Caasinan",
+      "aliases": [
+        "caasinan"
+      ]
+    },
+    {
+      "key": "cabadbaran district hospital tolosa",
+      "label": "Cabadbaran District Hospital, Tolosa",
+      "aliases": [
+        "cabadbaran district hospital",
+        "cabadbaran district hospital tolosa",
+        "district hospital",
+        "hospital",
+        "tolosa district hospital"
+      ]
+    },
+    {
+      "key": "cabinet",
+      "label": "Cabinet",
+      "aliases": [
+        "cabinet"
+      ]
+    },
+    {
+      "key": "calamba proper",
+      "label": "Calamba Proper",
+      "aliases": [
+        "calamba",
+        "calamba proper"
+      ]
+    },
+    {
+      "key": "calibunan",
+      "label": "Calibunan",
+      "aliases": [
+        "calibunan"
+      ]
+    },
+    {
+      "key": "calulutay calamba",
+      "label": "Calulutay, Calamba",
+      "aliases": [
+        "calulutay",
+        "calulutay calamba"
+      ]
+    },
+    {
+      "key": "cambisay soriano",
+      "label": "Cambisay, Soriano",
+      "aliases": [
+        "cambisay",
+        "cambisay soriano"
+      ]
+    },
+    {
+      "key": "catholic cemetery poblacion 4",
+      "label": "Catholic Cemetery, Poblacion 4",
+      "aliases": [
+        "catholic cemetery",
+        "catholic cemetery poblacion 4",
+        "cemetery",
+        "poblacion 4",
+        "poblacion 4 cemetery"
+      ]
+    },
+    {
+      "key": "comagascas proper",
+      "label": "Comagascas (Proper)",
+      "aliases": [
+        "comagascas proper"
+      ]
+    },
+    {
+      "key": "concepcion proper",
+      "label": "Concepcion Proper",
+      "aliases": [
+        "concepcion proper"
+      ]
+    },
+    {
+      "key": "crossing national highway",
+      "label": "Crossing National Highway",
+      "aliases": [
+        "crossing national highway"
+      ]
+    },
+    {
+      "key": "dal as bay ang",
+      "label": "Dal-As, Bay-Ang",
+      "aliases": [
+        "dal as bay ang"
+      ]
+    },
+    {
+      "key": "dal as mabini",
+      "label": "Dal-As (Mabini)",
+      "aliases": [
+        "dal as mabini"
+      ]
+    },
+    {
+      "key": "del pilar purok 1 2",
+      "label": "Del Pilar Purok 1 & 2",
+      "aliases": [
+        "del pilar purok 1 2"
+      ]
+    },
+    {
+      "key": "dinabucan mabini",
+      "label": "Dinabucan. Mabini",
+      "aliases": [
+        "dinabucan mabini"
+      ]
+    },
+    {
+      "key": "hacienda comagascas",
+      "label": "Hacienda, Comagascas",
+      "aliases": [
+        "hacienda",
+        "hacienda comagascas"
+      ]
+    },
+    {
+      "key": "hinagdanan comagascas",
+      "label": "Hinagdanan, Comagascas",
+      "aliases": [
+        "hinagdanan",
+        "hinagdanan comagascas"
+      ]
+    },
+    {
+      "key": "katugasan purok 1 2 3 4",
+      "label": "Katugasan (Purok 1, 2, 3, 4)",
+      "aliases": [
+        "4",
+        "katugasan purok 1",
+        "katugasan purok 1 2 3 4"
+      ]
+    },
+    {
+      "key": "kauswagan proper upper lower",
+      "label": "Kauswagan (PROPER/ UPPER/ LOWER)",
+      "aliases": [
+        "kauswagan proper upper lower"
+      ]
+    },
+    {
+      "key": "la union proper",
+      "label": "La Union Proper",
+      "aliases": [
+        "la union proper"
+      ]
+    },
+    {
+      "key": "little leyte concepcion",
+      "label": "Little Leyte, Concepcion",
+      "aliases": [
+        "little leyte",
+        "little leyte concepcion"
+      ]
+    },
+    {
+      "key": "lower mabini",
+      "label": "Lower Mabini",
+      "aliases": [
+        "lower mabini"
+      ]
+    },
+    {
+      "key": "mabini",
+      "label": "Mabini Vice Versa",
+      "aliases": [
+        "barangay mabini",
+        "mabini",
+        "mabini vice versa"
+      ]
+    },
+    {
+      "key": "mabini plains",
+      "label": "Mabini Plains",
+      "aliases": [
+        "mabini plains",
+        "plains mabini"
+      ]
+    },
+    {
+      "key": "mabini vcdu",
+      "label": "Mabini VCDU",
+      "aliases": [
+        "mabini vcdu",
+        "vcdu mabini"
+      ]
+    },
+    {
+      "key": "mahaba centro",
+      "label": "Mahaba Centro",
+      "aliases": [
+        "mahaba",
+        "mahaba centro"
+      ]
+    },
+    {
+      "key": "malico calamba",
+      "label": "Malico, Calamba",
+      "aliases": [
+        "malico",
+        "malico calamba"
+      ]
+    },
+    {
+      "key": "maong la union",
+      "label": "Maong, La Union",
+      "aliases": [
+        "maong",
+        "maong la union"
+      ]
+    },
+    {
+      "key": "maraput comagascas",
+      "label": "Maraput, Comagascas",
+      "aliases": [
+        "maraput",
+        "maraput comagascas"
+      ]
+    },
+    {
+      "key": "maybo calibunan",
+      "label": "Maybo, Calibunan",
+      "aliases": [
+        "maybo calibunan"
+      ]
+    },
+    {
+      "key": "maybo calibunan via malingin",
+      "label": "Maybo, Calibunan (Via Malingin)",
+      "aliases": [
+        "calibunan via malingin",
+        "maybo calibunan via malingin"
+      ]
+    },
+    {
+      "key": "pandanon mabini",
+      "label": "Pandanon, Mabini",
+      "aliases": [
+        "pandanon",
+        "pandanon mabini"
+      ]
+    },
+    {
+      "key": "panlaisan la union hi way",
+      "label": "Panlaisan, La Union (Hi-Way)",
+      "aliases": [
+        "la union hi way",
+        "panlaisan la union hi way"
+      ]
+    },
+    {
+      "key": "panlaisan la union intaq raniel",
+      "label": "Panlaisan, La Union (Intaq/Raniel)",
+      "aliases": [
+        "la union intaq raniel",
+        "panlaisan la union intaq raniel"
+      ]
+    },
+    {
+      "key": "panlaisan la union sulod",
+      "label": "Panlaisan, La Union (Sulod)",
+      "aliases": [
+        "la union sulod",
+        "panlaisan la union sulod"
+      ]
+    },
+    {
+      "key": "poblacion",
+      "label": "Poblacion",
+      "aliases": [
+        "anywhere in poblacion",
+        "anywhere in the poblacion",
+        "cabadbaran centro",
+        "cabadbaran city proper",
+        "cabadbaran poblacion",
+        "centro",
+        "city proper",
+        "poblacion",
+        "poblacion cabadbaran"
+      ]
+    },
+    {
+      "key": "pongkay sinunug kauswagan",
+      "label": "Pongkay/Sinunug, Kauswagan",
+      "aliases": [
+        "pongkay sinunug",
+        "pongkay sinunug kauswagan"
+      ]
+    },
+    {
+      "key": "punta puting bato",
+      "label": "Punta Puting Bato",
+      "aliases": [
+        "punta puting bato",
+        "puting bato"
+      ]
+    },
+    {
+      "key": "purok 5 pahit dal as katugasan",
+      "label": "Purok 5 (Pahit Dal-As), Katugasan",
+      "aliases": [
+        "purok 5 katugasan",
+        "purok 5 pahit dal as",
+        "purok 5 pahit dal as katugasan"
+      ]
+    },
+    {
+      "key": "puting bato centro",
+      "label": "Puting Bato Centro",
+      "aliases": [
+        "puting bato center",
+        "puting bato centro"
+      ]
+    },
+    {
+      "key": "sanghan centro",
+      "label": "Sanghan Centro",
+      "aliases": [
+        "sanghan centro"
+      ]
+    },
+    {
+      "key": "secuanda tolosa",
+      "label": "Secuanda, Tolosa",
+      "aliases": [
+        "secuanda",
+        "secuanda tolosa"
+      ]
+    },
+    {
+      "key": "sitio pirada del pilar",
+      "label": "Sitio Pirada, Del Pilar",
+      "aliases": [
+        "sitio pirada",
+        "sitio pirada del pilar"
+      ]
+    },
+    {
+      "key": "sitio sinunog kauswagan",
+      "label": "Sitio Sinunog, Kauswagan",
+      "aliases": [
+        "sitio sinunog",
+        "sitio sinunog kauswagan"
+      ]
+    },
+    {
+      "key": "soriano",
+      "label": "Soriano",
+      "aliases": [
+        "soriano"
+      ]
+    },
+    {
+      "key": "terminal",
+      "label": "Land Transport Terminal",
+      "aliases": [
+        "bus terminal",
+        "cabadbaran city land transport terminal",
+        "cabadbaran land transport terminal",
+        "cabadbaran terminal",
+        "integrated terminal",
+        "land transport terminal",
+        "land transportation terminal",
+        "terminal",
+        "transport terminal"
+      ]
+    },
+    {
+      "key": "tolosa proper",
+      "label": "Tolosa Proper",
+      "aliases": [
+        "tolosa proper"
+      ]
+    },
+    {
+      "key": "tolosa school bliss",
+      "label": "Tolosa / School Bliss",
+      "aliases": [
+        "school bliss",
+        "tolosa bliss",
+        "tolosa school bliss"
+      ]
+    },
+    {
+      "key": "upper mabini",
+      "label": "Upper Mabini",
+      "aliases": [
+        "upper mabini"
+      ]
+    }
+  ],
+  "instruments": [
+    {
+      "id": "cabadbaran-sco-2020-012",
+      "type": "special_city_ordinance",
+      "number": "Special City Ordinance No. 2020-012",
+      "title": "Emergency provisional tricycle-for-hire fare matrix",
+      "status": "valid",
+      "statusDate": "2020-07-22",
+      "statusNote": "Declared valid by Sangguniang Panlalawigan Resolution 2020-res-402. This is the only instrument the city BPLO supplies as the legal basis.",
+      "date": "2020-07-22",
+      "summary": "Tricycle-for-hire fare schedule for Cabadbaran City, enacted 22 July 2020 and approved 7 August 2020. It fixes P9.00 within Poblacion and from the Land Transport Terminal, plus a closed per-route table from P9.00 to P70.00. The 17 July 2026 CSTMTF posting reproduces the table row for row.",
+      "vehicleApplicability": "Tricycle",
+      "baseFare": 9,
+      "succeedingKmRate": 0,
+      "discountTerms": "No discount column is printed in the ordinance or the posting. The 20% student/senior/PWD discount is applied from statute (RA 9442, RA 9994, RA 10754, RA 11314): P7.20 on the P9.00 minimum."
+    },
+    {
+      "id": "cabadbaran-posting-2026-07-17",
+      "type": "posted_tariff",
+      "number": "CSTMTF posting, 17 July 2026",
+      "title": "Tricycle-for-hire fare matrix as posted by the city",
+      "status": "posted",
+      "statusDate": "2026-07-17",
+      "statusNote": "Reproduces SCO 2020-012 row for row. It also prints a separate 'MINIMUM RATE P10.00' callout that is P1.00 above its own P9.00 Poblacion rows; that callout is not in the ordinance and is not used.",
+      "date": "2026-07-17",
+      "summary": "66 per-passenger route rows, flat by route, P9.00 to P70.00. No per-kilometre add-on and no discount column.",
+      "vehicleApplicability": "Tricycle",
+      "baseFare": 9.0,
+      "succeedingKmRate": 0.0,
+      "discountTerms": "No discount column is printed in the ordinance or the posting. The 20% student/senior/PWD discount is applied from statute (RA 9442, RA 9994, RA 10754, RA 11314): P7.20 on the P9.00 minimum."
+    },
+    {
+      "id": "cabadbaran-co-2009-17",
+      "type": "city_ordinance",
+      "number": "City Ordinance No. 2009-17",
+      "title": "Prior tricycle fare matrix (amending City Ordinance No. 2009-01)",
+      "status": "suspended",
+      "statusDate": "2010",
+      "statusNote": "Suspended, not repealed, by SCO 2020-012 Section 4. That section restores it automatically once a COVID-19 normalcy declaration is issued, so it is the fallback matrix if the sunset clause has already operated. Its amounts were never published.",
+      "date": "2009",
+      "summary": "The pre-pandemic tricycle fare matrix for Cabadbaran City. Reviewed under Provincial Resolution 2010-res-009. No published amounts exist in the province's archive.",
+      "vehicleApplicability": "Tricycle",
+      "baseFare": null,
+      "succeedingKmRate": null,
+      "discountTerms": "Not published with the instrument."
+    },
+    {
+      "id": "cabadbaran-co-2026-011",
+      "type": "city_ordinance",
+      "number": "City Ordinance No. 2026-011",
+      "title": "Ordinance creating the Cabadbaran City Tricycle Fare Regulatory Board",
+      "status": "void",
+      "statusDate": "2026-10-06",
+      "statusNote": "Declared invalid as ultra vires by Sanggunian Resolution No. 432-2026 on 2026-10-06: it delegated the council's fare-fixing power to a board, held no public hearing, and its P11.00 discounted fare is not a lawful 20% off P13.00.",
+      "date": "2026",
+      "summary": "Created the CTFRB and fixed a provisional P13.00 / P11.00 matrix. The province voided the ordinance, so the board and its matrix have no legal basis.",
+      "vehicleApplicability": "Tricycle",
+      "baseFare": 13.0,
+      "succeedingKmRate": 2.0,
+      "discountTerms": "P11.00 printed; the lawful 20% discount on P13.00 is P10.40."
+    },
+    {
+      "id": "cabadbaran-board-matrix-2026-09-24",
+      "type": "board_matrix",
+      "number": "CTFRB board matrix, 24 September 2026",
+      "title": "Never-posted board fare matrix",
+      "status": "not_posted",
+      "statusDate": "2026-09-24",
+      "statusNote": "Never posted. Issued by a board whose creating ordinance the province voided three weeks later. It is P4.00 (+44%) above the ordinance on the minimum and adds a P2.00/km mechanism that the ordinance does not contain, so it is not displayed as a tariff.",
+      "date": "2026-09-24",
+      "summary": "68 origin-destination rows at P13.00 minimum regular and P11.00 discounted. Retained only as evidence of the gap between the board's issuance and the ordinance.",
+      "vehicleApplicability": "Tricycle",
+      "baseFare": 13.0,
+      "succeedingKmRate": 2.0,
+      "discountTerms": "P11.00 is a 15.38% discount, not the statutory 20%."
+    }
+  ],
+  "lgus": [
+    {
+      "id": "butuan",
+      "name": "Butuan City",
+      "lguClass": "highly_urbanized_city",
+      "district": "1st Legislative District",
+      "status": "operative",
+      "statusLabel": "In force",
+      "confidence": "high",
+      "pricingModel": "fuel_indexed",
+      "pricingModelLabel": "Fuel-indexed base band",
+      "pricingModelNote": "",
+      "regulatedVehicles": [
+        {
+          "id": "tricycle",
+          "label": "Tricycle"
+        },
+        {
+          "id": "motorela",
+          "label": "Motorela"
+        }
+      ],
+      "instrument": {
+        "type": "city_ordinance",
+        "number": "SP Ordinance No. 6824-2023",
+        "title": "Motorized Tricycle-for-hire and Motorela-for-hire fare rates Ordinance",
+        "date": "2023-04",
+        "reviewResolution": "",
+        "documentUrl": "",
+        "approvedBy": "Mayor Ronnie Vicente Lagnada",
+        "coverage": "citywide"
+      },
+      "spReview": "not_applicable",
+      "spReviewNote": "As a highly urbanized city, Butuan is outside the Sangguniang Panlalawigan's review power under RA 7160 Sec. 56. Its ordinances are not in DAMS, which is why the provincial archive yields no Butuan fare ordinance.",
+      "hasNumericSchedule": true,
+      "rateSummary": "Fuel-indexed base of ₱8.00 to ₱13.00 for the first 4 km across 6 pump-price bands. No succeeding per-kilometre rate is published.",
+      "gaps": [
+        "The succeeding per-kilometre rate beyond the first 4 km is not in any public source. The band table here is base-fare-only.",
+        "The band table stops at P105/L. Above that the ordinance gives no band, so the legal fare is undefined rather than capped.",
+        "No official PDF is published. The City Ordinances page of sp.butuan.gov.ph is an empty container and the Codes page does not list 6824-2023.",
+        "To compute today's fare the app needs a current Butuan pump price plus confirmation that CBPLO has announced the applicable band."
+      ],
+      "relatedInstruments": [
+        {
+          "number": "SP Ordinance No. 7026-2023",
+          "title": "Transportation and Traffic Management Code of Butuan City",
+          "relevance": "Article II (Tricycle Fares) sets no amount; it requires the ordinance-fixed fare to be displayed and penalises overcharging (P300-P600, or 10-30 days)."
+        },
+        {
+          "number": "SP Ordinance No. 7220-2025",
+          "title": "Adopting the approved tricycle route plan (TRP) of Butuan City",
+          "relevance": "Route and zone framework; not a fare."
+        },
+        {
+          "number": "SP Ordinance No. 7278-2025",
+          "title": "Requiring GPS devices on tricycles",
+          "relevance": "Enforcement and telemetry; not a fare."
+        }
+      ],
+      "bands": [
+        {
+          "fuelMin": 45,
+          "fuelMax": 55,
+          "baseFare": 8.0
+        },
+        {
+          "fuelMin": 56,
+          "fuelMax": 65,
+          "baseFare": 9.0
+        },
+        {
+          "fuelMin": 66,
+          "fuelMax": 75,
+          "baseFare": 10.0
+        },
+        {
+          "fuelMin": 76,
+          "fuelMax": 85,
+          "baseFare": 11.0
+        },
+        {
+          "fuelMin": 86,
+          "fuelMax": 95,
+          "baseFare": 12.0
+        },
+        {
+          "fuelMin": 96,
+          "fuelMax": 105,
+          "baseFare": 13.0
+        }
+      ],
+      "baseIncludesKm": 4,
+      "succeedingPerKm": null,
+      "discountRate": 0.2,
+      "adjustmentMechanism": "Section 3 lets the base fare move with the pump price once the City Business Permit and Licensing Office announces the band change. No new ordinance is needed for a band shift, so the ordinance number alone does not determine today's fare."
+    },
+    {
+      "id": "cabadbaran",
+      "name": "Cabadbaran City",
+      "lguClass": "component_city",
+      "district": "2nd Legislative District",
+      "status": "operative_posted_tariff_matches_ordinance",
+      "statusLabel": "In force - posting matches",
+      "confidence": "medium",
+      "pricingModel": "flat_rate_by_route",
+      "pricingModelLabel": "Flat rate by route",
+      "pricingModelNote": "The posted tariff and SCO 2020-012 are both closed flat per-route tables. The P2.00/km mechanism belonged only to the never-posted board matrix and has been dropped from the app fixture.",
+      "regulatedVehicles": [
+        {
+          "id": "tricycle",
+          "label": "Tricycle"
+        }
+      ],
+      "instrument": {
+        "type": "special_city_ordinance",
+        "number": "Special City Ordinance No. 2020-012",
+        "title": "Prescribing the Emergency Provisional Fare Matrix for Tricycle-for-Hire Amid COVID-19 Pandemic, Thereby Suspending the Implementation of City Ordinance No. 2009-17, 'An Ordinance Amending the Existing Fare Matrix on All Tricycles for Hire Plying Within the City of Cabadbaran, Agusan del Norte, as Fixed by City Ordinance No. 2009-01', Until the Situation Returns to Normal as Officially Declared by Authorities",
+        "date": "2020-07-22",
+        "reviewResolution": "2020-res-402",
+        "documentUrl": "http://dams.agusandelnorte.gov.ph/dams/public/resolution_download18161",
+        "approvedBy": "Judy Chin Amante",
+        "coverage": ""
+      },
+      "spReview": "reviewed_and_declared_valid",
+      "spReviewNote": "Special City Ordinance No. 2020-012 was declared valid by Resolution 2020-res-402. The later City Ordinance No. 2026-011 was declared invalid as ultra vires by Resolution 432-2026 on 2026-10-06. The city BPLO therefore supplies only the 2020 ordinance as the legal basis and issues the current fare matrix administratively.",
+      "hasNumericSchedule": true,
+      "rateSummary": "66 posted rows, ₱9.00 to ₱70.00 flat by route; no per-kilometre add-on and no discount column.",
+      "gaps": [
+        "The MINIMUM RATE P10.00 callout is P1.00 above the P9.00 row on the same posting and has no stated basis.",
+        "The board matrix names no enabling ordinance, so its legal basis is asserted by BPLO rather than printed.",
+        "No text of City Ordinance No. 2026-011 was obtained; the P13.00/P11.00 attribution to it is inference, not evidence.",
+        "SCO 2020-012 Section 4's sunset condition has arguably operated nationwide, which would revive City Ordinance No. 2009-17. No Cabadbaran-specific normalcy declaration was located either way.",
+        "The 2009-17 matrix amounts are not published, so the literal fallback cannot be quoted.",
+        "The 17 July 2026 posting has no discount column at all, so the student/senior/PWD amount rests on the statutes rather than on the posting."
+      ],
+      "relatedInstruments": [],
+      "routeCount": 66,
+      "sunsetClause": {
+        "section": 4,
+        "text": "This Ordinance shall be automatically repealed and/or revoked once the situation returns to normal as declared by authorities with finality. Declaration from the Department of Health and from the IATF, placing the City of Cabadbaran out of any kind or form of community quarantine and free from COVID-19 infection and contamination, thereby lifting the rules and regulations on social-physical distancing and other related issuances. Upon such declaration, City Ordinance No. 2009-17 shall be automatically restored and implemented.",
+        "effect": "The ordinance is self-terminating. It is the instrument the city BPLO continues to cite, but its own sunset provision ties its life to a COVID-19 normalcy declaration that has since occurred nationally. Read literally, Section 4 has already revived City Ordinance No. 2009-17.",
+        "status_question_open": true
+      }
+    },
+    {
+      "id": "buenavista",
+      "name": "Buenavista",
+      "lguClass": "municipality",
+      "district": "2nd Legislative District",
+      "status": "operative",
+      "statusLabel": "In force",
+      "confidence": "medium",
+      "pricingModel": "flat_rate_by_route",
+      "pricingModelLabel": "Flat rate by route",
+      "pricingModelNote": "",
+      "regulatedVehicles": [
+        {
+          "id": "trisikad_demano",
+          "label": "Pedal trisikad (demano)"
+        },
+        {
+          "id": "motorized_trisikad",
+          "label": "Motorized trisikad"
+        },
+        {
+          "id": "tricycle",
+          "label": "Tricycle"
+        },
+        {
+          "id": "tricab",
+          "label": "Tricab"
+        },
+        {
+          "id": "habal_habal",
+          "label": "Habal-habal"
+        }
+      ],
+      "instrument": {
+        "type": "municipal_ordinance",
+        "number": "Municipal Ordinance No. 01-2021",
+        "title": "An Ordinance Increasing the Fares of Trisikad Demano, Motorized Trisikad, Tricycle and Tricab Operating as Public Utility Vehicles of the Municipality of Buenavista, Agusan del Norte",
+        "date": "",
+        "reviewResolution": "2021-res-088",
+        "documentUrl": "http://dams.agusandelnorte.gov.ph/dams/public/resolution_download18505",
+        "approvedBy": "",
+        "coverage": ""
+      },
+      "spReview": "reviewed_and_declared_valid",
+      "spReviewNote": "",
+      "hasNumericSchedule": false,
+      "rateSummary": "Ordinance identified; no fare amounts are published.",
+      "gaps": [
+        "No fare amounts are published. The ordinance title states an increase but not the rates.",
+        "Buenavista's own website (buenavista.gov.ph) has a Municipal Ordinances archive, but it renders as navigation only with no documents attached.",
+        "Action: request Municipal Ordinance No. 01-2021, or read the DAMS download for 2021-res-088, which may carry the matrix as an annex."
+      ],
+      "relatedInstruments": []
+    },
+    {
+      "id": "carmen",
+      "name": "Carmen",
+      "lguClass": "municipality",
+      "district": "2nd Legislative District",
+      "status": "operative",
+      "statusLabel": "In force",
+      "confidence": "medium",
+      "pricingModel": "fare_schedule_in_code",
+      "pricingModelLabel": "Fare schedule in municipal code",
+      "pricingModelNote": "",
+      "regulatedVehicles": [
+        {
+          "id": "motorized_trisikad",
+          "label": "Motorized trisikad"
+        },
+        {
+          "id": "tricycle",
+          "label": "Tricycle"
+        }
+      ],
+      "instrument": {
+        "type": "municipal_ordinance",
+        "number": "Municipal Ordinance No. 02, Series of 2019",
+        "title": "An Ordinance Amending Section 1 of Municipal Ordinance No. 25, Series of 2011 for Motorized Trisikad of Carmen, Agusan del Norte by Imposing the New Fare Matrix and to Include Tricycle and Single Motor for Hire (Habal-Habal) Operating Within the Municipality, Excluding the Imposition of Fare Matrix for the Operation of Single Motor for Hire (Habal-Habal)",
+        "date": "",
+        "reviewResolution": "2019-res-087",
+        "documentUrl": "http://dams.agusandelnorte.gov.ph/dams/public/resolution_download17349",
+        "approvedBy": "",
+        "coverage": ""
+      },
+      "spReview": "reviewed_and_declared_valid",
+      "spReviewNote": "",
+      "hasNumericSchedule": false,
+      "rateSummary": "Ordinance identified; no fare amounts are published.",
+      "gaps": [
+        "The 2019 matrix amounts are not published; only the amending title is recorded.",
+        "Carmen has no reachable municipal website.",
+        "Action: request the Code of General Ordinances Chapter XI Article A as amended."
+      ],
+      "relatedInstruments": []
+    },
+    {
+      "id": "jabonga",
+      "name": "Jabonga",
+      "lguClass": "municipality",
+      "district": "2nd Legislative District",
+      "status": "superseded_update_blocked",
+      "statusLabel": "In force - 2026 update blocked",
+      "confidence": "medium",
+      "pricingModel": "flat_rate_by_route",
+      "pricingModelLabel": "Flat rate by route",
+      "pricingModelNote": "",
+      "regulatedVehicles": [
+        {
+          "id": "puv",
+          "label": "PUV"
+        },
+        {
+          "id": "motorcycle_with_sidecar",
+          "label": "Motorcycle with sidecar"
+        },
+        {
+          "id": "motorized_trisikad",
+          "label": "Motorized trisikad"
+        },
+        {
+          "id": "single_motorcycle",
+          "label": "Single motorcycle"
+        }
+      ],
+      "instrument": {
+        "type": "municipal_ordinance",
+        "number": "Municipal Ordinance No. 188-2023",
+        "title": "An Ordinance Prescribing the New Fare Matrix of the Public Utility Vehicles, Motorcycle with Sidecar, Motorized Trisikad Plying Within the Jurisdiction of the Municipality of Jabonga, Agusan del Norte",
+        "date": "",
+        "reviewResolution": "2023-res-575",
+        "documentUrl": "http://dams.agusandelnorte.gov.ph/dams/public/resolution_download22657",
+        "approvedBy": "",
+        "coverage": ""
+      },
+      "spReview": "returned_for_refinement",
+      "spReviewNote": "",
+      "hasNumericSchedule": false,
+      "rateSummary": "Ordinance identified; no fare amounts are published.",
+      "gaps": [
+        "The 2026 update is not in force, so any fare quoted from it would be premature.",
+        "Neither the 188-2023 nor the 230-2026 rate table is published.",
+        "Action: request MO 188-2023 plus the retaken 230-2026."
+      ],
+      "relatedInstruments": []
+    },
+    {
+      "id": "kitcharao",
+      "name": "Kitcharao",
+      "lguClass": "municipality",
+      "district": "2nd Legislative District",
+      "status": "operative",
+      "statusLabel": "In force",
+      "confidence": "medium",
+      "pricingModel": "flat_rate_by_route",
+      "pricingModelLabel": "Flat rate by route",
+      "pricingModelNote": "",
+      "regulatedVehicles": [
+        {
+          "id": "tricycle",
+          "label": "Tricycle"
+        }
+      ],
+      "instrument": {
+        "type": "municipal_ordinance",
+        "number": "Municipal Ordinance No. MG-089, Series of 2021",
+        "title": "An Ordinance Amending Sections 1 and 2 of Municipal Ordinance No. 20, Series of 2009 (Fare Matrix Guide)",
+        "date": "",
+        "reviewResolution": "2021-res-179",
+        "documentUrl": "http://dams.agusandelnorte.gov.ph/dams/public/resolution_download18600",
+        "approvedBy": "",
+        "coverage": ""
+      },
+      "spReview": "reviewed_and_declared_valid",
+      "spReviewNote": "",
+      "hasNumericSchedule": false,
+      "rateSummary": "Ordinance identified; no fare amounts are published.",
+      "gaps": [
+        "Only the amending title is public; the 2021 matrix amounts are not.",
+        "Kitcharao has no reachable municipal website."
+      ],
+      "relatedInstruments": []
+    },
+    {
+      "id": "las_nieves",
+      "name": "Las Nieves",
+      "lguClass": "municipality",
+      "district": "2nd Legislative District",
+      "status": "tricycle_instrument_not_identified",
+      "statusLabel": "Instrument not identified",
+      "confidence": "low",
+      "pricingModel": "unknown",
+      "pricingModelLabel": "Unknown",
+      "pricingModelNote": "",
+      "regulatedVehicles": [
+        {
+          "id": "bangka",
+          "label": "Bangka (boat)"
+        }
+      ],
+      "instrument": {
+        "type": "",
+        "number": "Not identified",
+        "title": "",
+        "date": "",
+        "reviewResolution": "",
+        "documentUrl": "",
+        "approvedBy": "",
+        "coverage": ""
+      },
+      "spReview": "reviewed_and_declared_valid",
+      "spReviewNote": "",
+      "hasNumericSchedule": false,
+      "rateSummary": "Ordinance identified; no fare amounts are published.",
+      "gaps": [
+        "No tricycle or motorized-trisikad fare ordinance for Las Nieves appears in the provincial review record, and the municipality has no reachable website.",
+        "Las Nieves is the single real gap in the province: 11 of 12 LGUs have an identifiable instrument, this one does not.",
+        "Action: request from the Sangguniang Bayan records office; also ask whether tricycle fares are set by the town's Tricycle Franchising and Regulatory Board without a separately reviewed ordinance."
+      ],
+      "relatedInstruments": []
+    },
+    {
+      "id": "magallanes",
+      "name": "Magallanes",
+      "lguClass": "municipality",
+      "district": "1st Legislative District",
+      "status": "operative_but_stale",
+      "statusLabel": "In force - outdated",
+      "confidence": "medium",
+      "pricingModel": "flat_rate_by_route",
+      "pricingModelLabel": "Flat rate by route",
+      "pricingModelNote": "",
+      "regulatedVehicles": [
+        {
+          "id": "motorized_tricycle",
+          "label": "Motorized tricycle"
+        },
+        {
+          "id": "trisikad",
+          "label": "Trisikad"
+        },
+        {
+          "id": "motorela",
+          "label": "Motorela"
+        },
+        {
+          "id": "pedalled_tricycle",
+          "label": "Pedal tricycle"
+        }
+      ],
+      "instrument": {
+        "type": "municipal_ordinance",
+        "number": "Municipal Ordinance No. 002-2010",
+        "title": "An Ordinance Imposing the New Fare Matrix of Motorized Tricycles Operating Within the Municipality of Magallanes, Agusan del Norte",
+        "date": "",
+        "reviewResolution": "2010-res-183",
+        "documentUrl": "http://dams.agusandelnorte.gov.ph/dams/public/resolution_download21966",
+        "approvedBy": "",
+        "coverage": ""
+      },
+      "spReview": "reviewed_and_declared_valid",
+      "spReviewNote": "",
+      "hasNumericSchedule": false,
+      "rateSummary": "Ordinance identified; no fare amounts are published.",
+      "gaps": [
+        "A 2010 matrix is implausible as today's real fare. Drivers have almost certainly moved without a new ordinance, which means the legal and the customary fare have diverged.",
+        "No rates published.",
+        "Action: confirm whether a post-2010 ordinance exists that the province never reviewed."
+      ],
+      "relatedInstruments": []
+    },
+    {
+      "id": "nasipit",
+      "name": "Nasipit",
+      "lguClass": "municipality",
+      "district": "2nd Legislative District",
+      "status": "operative_emergency_matrix_with_newer_undocumented_matrix",
+      "statusLabel": "Emergency matrix - newer matrix undocumented",
+      "confidence": "medium",
+      "pricingModel": "flat_rate_by_route",
+      "pricingModelLabel": "Flat rate by route",
+      "pricingModelNote": "",
+      "regulatedVehicles": [
+        {
+          "id": "tricycle",
+          "label": "Tricycle"
+        },
+        {
+          "id": "bajaj",
+          "label": "Bajaj"
+        }
+      ],
+      "instrument": {
+        "type": "municipal_ordinance",
+        "number": "Municipal Ordinance No. 001, Series of 2021",
+        "title": "Special Ordinance Prescribing the Emergency Provisional Fare Matrix for Tricycles/Bajaj-for-Hire During COVID-19 Pandemic, Thereby Suspending the Implementation of Municipal Ordinance No. 008-2011, Increasing the Rates of Tricycles-for-Hire in All Routes Within the Municipality of Nasipit",
+        "date": "",
+        "reviewResolution": "2021-res-226",
+        "documentUrl": "http://dams.agusandelnorte.gov.ph/dams/public/resolution_download18636",
+        "approvedBy": "",
+        "coverage": ""
+      },
+      "spReview": "reviewed_and_declared_valid",
+      "spReviewNote": "",
+      "hasNumericSchedule": false,
+      "rateSummary": "Ordinance identified; no fare amounts are published.",
+      "gaps": [
+        "The currently implemented matrix cannot be quoted: its ordinance number and amounts are unpublished.",
+        "Nasipit matters more than its size suggests because the Port of Nasipit is the province's international base port, so tricycle demand around the port is high.",
+        "Action: request the laminated matrix or the ordinance from the Sangguniang Bayan / MTOP office."
+      ],
+      "relatedInstruments": []
+    },
+    {
+      "id": "rtr",
+      "name": "Remedios T. Romualdez",
+      "lguClass": "municipality",
+      "district": "2nd Legislative District",
+      "status": "operative_but_stale",
+      "statusLabel": "In force - outdated",
+      "confidence": "medium",
+      "pricingModel": "fixed_rate",
+      "pricingModelLabel": "Fixed rate",
+      "pricingModelNote": "",
+      "regulatedVehicles": [
+        {
+          "id": "motorized_tricycle",
+          "label": "Motorized tricycle"
+        },
+        {
+          "id": "pedaled_tricycle",
+          "label": "Pedal tricycle"
+        }
+      ],
+      "instrument": {
+        "type": "municipal_ordinance",
+        "number": "Municipal Ordinance No. 245-2008",
+        "title": "An Ordinance Amending Section 1 (A), (B), (C), (D), (E), (F), (G), Section II and III of Municipal Ordinance No. 219-2004, Establishing the New Fixed Rate of Fare to All Motorized Tricycle, Pedaled Tricycle for Hire Plying Within the Municipality of Remedios T. Romualdez, Agusan del Norte, and Providing Penalties for Violation Thereof",
+        "date": "",
+        "reviewResolution": "2008-res-448",
+        "documentUrl": "http://dams.agusandelnorte.gov.ph/dams/public/resolution_download22710",
+        "approvedBy": "",
+        "coverage": ""
+      },
+      "spReview": "reviewed_and_declared_valid",
+      "spReviewNote": "",
+      "hasNumericSchedule": false,
+      "rateSummary": "Ordinance identified; no fare amounts are published.",
+      "gaps": [
+        "An 18-year-old 'fixed rate' cannot be the fare charged today.",
+        "No rates published; RTR has no reachable municipal website.",
+        "Action: confirm the current matrix with the Sangguniang Bayan."
+      ],
+      "relatedInstruments": []
+    },
+    {
+      "id": "santiago",
+      "name": "Santiago",
+      "lguClass": "municipality",
+      "district": "1st Legislative District",
+      "status": "operative_but_stale",
+      "statusLabel": "In force - outdated",
+      "confidence": "medium",
+      "pricingModel": "flat_rate_by_route",
+      "pricingModelLabel": "Flat rate by route",
+      "pricingModelNote": "",
+      "regulatedVehicles": [
+        {
+          "id": "motorized_tricycle",
+          "label": "Motorized tricycle"
+        }
+      ],
+      "instrument": {
+        "type": "municipal_ordinance",
+        "number": "Municipal Ordinance No. 36, Series of 2011",
+        "title": "An Ordinance Amending Sections 2 and 4 of Municipal Ordinance No. 08, Series of 2005, Increasing the Minimum Fare Rates of the Respective Routes in the Municipality of Santiago, Agusan del Norte",
+        "date": "",
+        "reviewResolution": "2011-res-124",
+        "documentUrl": "http://dams.agusandelnorte.gov.ph/dams/public/resolution_download21679",
+        "approvedBy": "",
+        "coverage": ""
+      },
+      "spReview": "reviewed_and_declared_valid",
+      "spReviewNote": "",
+      "hasNumericSchedule": false,
+      "rateSummary": "Ordinance identified; no fare amounts are published.",
+      "gaps": [
+        "Minimum fares only are described; the per-route matrix is not public.",
+        "Santiago has no reachable municipal website, and the name collides with Santiago City, Isabela in every search."
+      ],
+      "relatedInstruments": []
+    },
+    {
+      "id": "tubay",
+      "name": "Tubay",
+      "lguClass": "municipality",
+      "district": "2nd Legislative District",
+      "status": "operative_with_severed_section",
+      "statusLabel": "In force - section severed",
+      "confidence": "medium",
+      "pricingModel": "flat_rate_by_route",
+      "pricingModelLabel": "Flat rate by route",
+      "pricingModelNote": "",
+      "regulatedVehicles": [
+        {
+          "id": "motorized_tricycle",
+          "label": "Motorized tricycle"
+        },
+        {
+          "id": "pump_boat",
+          "label": "Pump boat"
+        }
+      ],
+      "instrument": {
+        "type": "municipal_ordinance",
+        "number": "Municipal Ordinance No. 2022-137A",
+        "title": "An Ordinance Amending Section V of Municipal Ordinance No. 2021-118, by Changing the Rate of Fare of Motorized Tricycles for Hire and Adding the Fare Rate of Pump Boat-for-Hire in the Municipality of Tubay, Agusan del Norte, Providing Penalties Thereof",
+        "date": "",
+        "reviewResolution": "2023-res-102",
+        "documentUrl": "http://dams.agusandelnorte.gov.ph/dams/public/resolution_download20688",
+        "approvedBy": "",
+        "coverage": ""
+      },
+      "spReview": "reviewed_and_declared_valid_with_severance",
+      "spReviewNote": "",
+      "hasNumericSchedule": false,
+      "rateSummary": "Ordinance identified; no fare amounts are published.",
+      "gaps": [
+        "The rate table is not published.",
+        "Tubay has no reachable municipal website.",
+        "Action: request MO 2022-137A and identify which provision sits in the severed Section 4(b)."
+      ],
+      "relatedInstruments": []
+    }
+  ],
+  "intercity": {
+    "hubId": "butuan",
+    "hubName": "Butuan City",
+    "explanation": "Butuan is the province's transport hub: its Langihan complex holds the jeepney terminal, the New Integrated Van Terminal and the City Integrated Bus Terminal. Every other LGU in the province is reached from it, so the layer is hub-and-spoke.",
+    "distanceSource": "OSRM / OpenStreetMap driving route, poblacion-to-poblacion fastest path, queried 2026-10-28. Coordinates are the Wikipedia/Wikidata town-centre points recorded in ml/data/adn_poblacion_points.json.",
+    "method": "Add-on method. Fares are rounded to the nearest 25 centavos. Where a guide gives a base fare and base distance, the base covers the first N km and each succeeding kilometre adds the per-km rate. Where a guide gives only a per-km rate, the whole distance is multiplied by that rate.",
+    "rounding": 0.25,
+    "effectiveFrom": "2026-09-28",
+    "temporaryValidUntil": "2026-12-31",
+    "displayRequirementFrom": "2027-01-01",
+    "temporaryGuideNote": "The matrices downloaded on 2026-09-28 are temporary guides. Operators may display them only until 2026-12-31 and must display the official guide from 2027-01-01. The fare amounts do not lapse on 2026-12-31; they stand until LTFRB replaces them, so this is a display deadline, not an expiry.",
+    "caveat": "These are authorized maxima. A driver who collects more is overcharging; a driver who collects less is discounting.",
+    "discount": {
+      "rate": 0.2,
+      "basis": "MC 2017-024; RA 9442, RA 9994, RA 10754, RA 11314",
+      "note": "20% off the regular fare every day, including weekends and holidays."
+    },
+    "classificationPrinciple": "LTFRB sets fares by service class, not by body style. A multicab with a PUJ franchise collects the PUJ fare; a van with a UV Express franchise collects the UV Express rate; a mini bus collects whichever class its franchise names. Assigning a fare from the body alone is the error this section exists to prevent.",
+    "bodyStyleNotes": [
+      {
+        "body": "mini_bus",
+        "note": "A mini bus is priced by its franchise: UV Express if that is the franchise, provincial bus if it is a PUB."
+      },
+      {
+        "body": "multicab",
+        "note": "A multicab is a PUJ when franchised, which is the normal case in Butuan."
+      }
+    ],
+    "classes": [
+      {
+        "id": "puj_traditional",
+        "label": "Traditional PUJ",
+        "rateLabel": "₱14.00 first 4 km + ₱2.00/km",
+        "computation": "₱14.00 + ₱2.00 x (Distance - 4 km)"
+      },
+      {
+        "id": "puj_modern",
+        "label": "Modern PUJ",
+        "rateLabel": "₱17.00 first 4 km + ₱2.40/km",
+        "computation": "₱17.00 + ₱2.40 x (Distance - 4 km)"
+      },
+      {
+        "id": "uv_express_traditional",
+        "label": "UV Express (traditional)",
+        "rateLabel": "₱2.60/km, no base fare",
+        "computation": "₱2.60 x Distance"
+      },
+      {
+        "id": "uv_express_modern",
+        "label": "UV Express (modern)",
+        "rateLabel": "₱3.00/km, no base fare",
+        "computation": "₱3.00 x Distance"
+      },
+      {
+        "id": "pub_provincial_ordinary",
+        "label": "Provincial bus (ordinary)",
+        "rateLabel": "₱12.00 first 5 km + ₱2.20/km",
+        "computation": "₱12.00 + ₱2.20 x (Distance - 5 km)"
+      },
+      {
+        "id": "pub_provincial_aircon",
+        "label": "Provincial bus (regular aircon)",
+        "rateLabel": "₱2.45/km, no base fare",
+        "computation": "₱2.45 x Distance"
+      }
+    ],
+    "routes": [
+      {
+        "id": "butuan-buenavista",
+        "fromId": "butuan",
+        "fromName": "Butuan City",
+        "toId": "buenavista",
+        "toName": "Buenavista",
+        "roadKm": 15.8,
+        "note": "Fastest path uses the Butuan-Cagayan de Oro-Iligan Road; the Masao-Buenavista-Nasipit coastal road is a second alignment.",
+        "modes": [
+          {
+            "vehicle": "puj_traditional",
+            "body": "multicab",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "confirmed",
+            "evidence": "Butuan's multicab services are described as reaching Buenavista and Nasipit; Butuan Multicab Operators Transport Service Cooperative is a CDA-accredited franchise holder.",
+            "regular": 37.5,
+            "discounted": 30.0
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "jeepney",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "likely",
+            "evidence": "Same west-coast corridor; no Buenavista-specific franchise list was located.",
+            "regular": 37.5,
+            "discounted": 30.0
+          },
+          {
+            "vehicle": "provincial_bus",
+            "body": "provincial bus",
+            "fareClass": "PUB Provincial (ordinary)",
+            "confidence": "possible",
+            "evidence": "CDO-bound buses use the highway but the poblacion is off it; no Buenavista stop was confirmed.",
+            "regular": 35.75,
+            "discounted": 28.5
+          }
+        ],
+        "fares": [
+          {
+            "classId": "puj_traditional",
+            "label": "Traditional PUJ",
+            "regular": 37.5,
+            "discounted": 30.0
+          },
+          {
+            "classId": "puj_modern",
+            "label": "Modern PUJ",
+            "regular": 45.25,
+            "discounted": 36.25
+          },
+          {
+            "classId": "uv_express_traditional",
+            "label": "UV Express (traditional)",
+            "regular": 41.0,
+            "discounted": 32.75
+          },
+          {
+            "classId": "uv_express_modern",
+            "label": "UV Express (modern)",
+            "regular": 47.5,
+            "discounted": 38.0
+          },
+          {
+            "classId": "pub_provincial_ordinary",
+            "label": "Provincial bus (ordinary)",
+            "regular": 35.75,
+            "discounted": 28.5
+          },
+          {
+            "classId": "pub_provincial_aircon",
+            "label": "Provincial bus (regular aircon)",
+            "regular": 38.75,
+            "discounted": 31.0
+          }
+        ]
+      },
+      {
+        "id": "butuan-cabadbaran",
+        "fromId": "butuan",
+        "fromName": "Butuan City",
+        "toId": "cabadbaran",
+        "toName": "Cabadbaran City",
+        "roadKm": 29.2,
+        "note": "Provincial capital. Three separate terminals at Langihan feed this corridor.",
+        "modes": [
+          {
+            "vehicle": "provincial_bus",
+            "body": "provincial bus",
+            "fareClass": "PUB Provincial (ordinary)",
+            "confidence": "confirmed",
+            "evidence": "Bachelor Express, Davao Metro Shuttle and Surigao Bus all serve Cabadbaran from Butuan.",
+            "regular": 65.25,
+            "discounted": 52.25
+          },
+          {
+            "vehicle": "uv_express",
+            "body": "passenger van",
+            "fareClass": "UV Express (traditional)",
+            "confidence": "confirmed",
+            "evidence": "Cabadbaran's City Transport Terminal hosts vans to Butuan and Surigao.",
+            "regular": 76.0,
+            "discounted": 60.75
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "jeepney",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "confirmed",
+            "evidence": "Cabadbaran's City Transport Terminal hosts jeepneys to Butuan.",
+            "regular": 64.5,
+            "discounted": 51.5
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "multicab",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "confirmed",
+            "evidence": "Cabadbaran's City Transport Terminal hosts multicabs to Butuan; CBTRANSCO is a Butuan-Cabadbaran transport cooperative.",
+            "regular": 64.5,
+            "discounted": 51.5
+          }
+        ],
+        "fares": [
+          {
+            "classId": "puj_traditional",
+            "label": "Traditional PUJ",
+            "regular": 64.5,
+            "discounted": 51.5
+          },
+          {
+            "classId": "puj_modern",
+            "label": "Modern PUJ",
+            "regular": 77.5,
+            "discounted": 62.0
+          },
+          {
+            "classId": "uv_express_traditional",
+            "label": "UV Express (traditional)",
+            "regular": 76.0,
+            "discounted": 60.75
+          },
+          {
+            "classId": "uv_express_modern",
+            "label": "UV Express (modern)",
+            "regular": 87.5,
+            "discounted": 70.0
+          },
+          {
+            "classId": "pub_provincial_ordinary",
+            "label": "Provincial bus (ordinary)",
+            "regular": 65.25,
+            "discounted": 52.25
+          },
+          {
+            "classId": "pub_provincial_aircon",
+            "label": "Provincial bus (regular aircon)",
+            "regular": 71.5,
+            "discounted": 57.25
+          }
+        ]
+      },
+      {
+        "id": "butuan-carmen",
+        "fromId": "butuan",
+        "fromName": "Butuan City",
+        "toId": "carmen",
+        "toName": "Carmen",
+        "roadKm": 35.7,
+        "note": "West-coast beach town. Through-buses stop at the Tagcatong highway junction, not the poblacion.",
+        "modes": [
+          {
+            "vehicle": "puj_traditional",
+            "body": "jeepney",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "confirmed",
+            "evidence": "Travel accounts describe a jeepney or multicab from the Butuan terminal bound for Carmen or Vinapor.",
+            "regular": 77.5,
+            "discounted": 62.0
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "multicab",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "confirmed",
+            "evidence": "Same account: 'ride a jeepney or multicab bound for Carmen or Vinapor'.",
+            "regular": 77.5,
+            "discounted": 62.0
+          },
+          {
+            "vehicle": "provincial_bus",
+            "body": "provincial bus",
+            "fareClass": "PUB Provincial (ordinary)",
+            "confidence": "possible",
+            "evidence": "CDO-bound buses can drop passengers at Tagcatong on the highway; that is not a poblacion service.",
+            "regular": 79.5,
+            "discounted": 63.5
+          }
+        ],
+        "fares": [
+          {
+            "classId": "puj_traditional",
+            "label": "Traditional PUJ",
+            "regular": 77.5,
+            "discounted": 62.0
+          },
+          {
+            "classId": "puj_modern",
+            "label": "Modern PUJ",
+            "regular": 93.0,
+            "discounted": 74.5
+          },
+          {
+            "classId": "uv_express_traditional",
+            "label": "UV Express (traditional)",
+            "regular": 92.75,
+            "discounted": 74.25
+          },
+          {
+            "classId": "uv_express_modern",
+            "label": "UV Express (modern)",
+            "regular": 107.0,
+            "discounted": 85.5
+          },
+          {
+            "classId": "pub_provincial_ordinary",
+            "label": "Provincial bus (ordinary)",
+            "regular": 79.5,
+            "discounted": 63.5
+          },
+          {
+            "classId": "pub_provincial_aircon",
+            "label": "Provincial bus (regular aircon)",
+            "regular": 87.5,
+            "discounted": 70.0
+          }
+        ]
+      },
+      {
+        "id": "butuan-jabonga",
+        "fromId": "butuan",
+        "fromName": "Butuan City",
+        "toId": "jabonga",
+        "toName": "Jabonga",
+        "roadKm": 60.1,
+        "note": "Sits on the Butuan-Surigao National Highway. Bachelor Express Butuan runs Butuan-Surigao daily and the provincial bus passes through this town.",
+        "modes": [
+          {
+            "vehicle": "provincial_bus",
+            "body": "provincial bus",
+            "fareClass": "PUB Provincial (ordinary)",
+            "confidence": "confirmed",
+            "evidence": "Sits on the Butuan-Surigao National Highway. Bachelor Express Butuan runs Butuan-Surigao daily and the provincial bus passes through this town.",
+            "regular": 133.25,
+            "discounted": 106.5
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "multicab",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "likely",
+            "evidence": "Corridor towns are served by feeder multicabs, but no Jabonga-specific route record was located.",
+            "regular": 126.25,
+            "discounted": 101.0
+          }
+        ],
+        "fares": [
+          {
+            "classId": "puj_traditional",
+            "label": "Traditional PUJ",
+            "regular": 126.25,
+            "discounted": 101.0
+          },
+          {
+            "classId": "puj_modern",
+            "label": "Modern PUJ",
+            "regular": 151.75,
+            "discounted": 121.5
+          },
+          {
+            "classId": "uv_express_traditional",
+            "label": "UV Express (traditional)",
+            "regular": 156.25,
+            "discounted": 125.0
+          },
+          {
+            "classId": "uv_express_modern",
+            "label": "UV Express (modern)",
+            "regular": 180.25,
+            "discounted": 144.25
+          },
+          {
+            "classId": "pub_provincial_ordinary",
+            "label": "Provincial bus (ordinary)",
+            "regular": 133.25,
+            "discounted": 106.5
+          },
+          {
+            "classId": "pub_provincial_aircon",
+            "label": "Provincial bus (regular aircon)",
+            "regular": 147.25,
+            "discounted": 117.75
+          }
+        ]
+      },
+      {
+        "id": "butuan-kitcharao",
+        "fromId": "butuan",
+        "fromName": "Butuan City",
+        "toId": "kitcharao",
+        "toName": "Kitcharao",
+        "roadKm": 73.3,
+        "note": "Sits on the Butuan-Surigao National Highway. Bachelor Express Butuan runs Butuan-Surigao daily and the provincial bus passes through this town. Kitcharao is the last Agusan del Norte town before Surigao del Norte.",
+        "modes": [
+          {
+            "vehicle": "provincial_bus",
+            "body": "provincial bus",
+            "fareClass": "PUB Provincial (ordinary)",
+            "confidence": "confirmed",
+            "evidence": "Sits on the Butuan-Surigao National Highway. Bachelor Express Butuan runs Butuan-Surigao daily and the provincial bus passes through this town.",
+            "regular": 162.25,
+            "discounted": 129.75
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "multicab",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "likely",
+            "evidence": "End-of-province feeder traffic exists but no Kitcharao-specific route record was located.",
+            "regular": 152.5,
+            "discounted": 122.0
+          }
+        ],
+        "fares": [
+          {
+            "classId": "puj_traditional",
+            "label": "Traditional PUJ",
+            "regular": 152.5,
+            "discounted": 122.0
+          },
+          {
+            "classId": "puj_modern",
+            "label": "Modern PUJ",
+            "regular": 183.25,
+            "discounted": 146.5
+          },
+          {
+            "classId": "uv_express_traditional",
+            "label": "UV Express (traditional)",
+            "regular": 190.5,
+            "discounted": 152.5
+          },
+          {
+            "classId": "uv_express_modern",
+            "label": "UV Express (modern)",
+            "regular": 220.0,
+            "discounted": 176.0
+          },
+          {
+            "classId": "pub_provincial_ordinary",
+            "label": "Provincial bus (ordinary)",
+            "regular": 162.25,
+            "discounted": 129.75
+          },
+          {
+            "classId": "pub_provincial_aircon",
+            "label": "Provincial bus (regular aircon)",
+            "regular": 179.5,
+            "discounted": 143.5
+          }
+        ]
+      },
+      {
+        "id": "butuan-las-nieves",
+        "fromId": "butuan",
+        "fromName": "Butuan City",
+        "toId": "las_nieves",
+        "toName": "Las Nieves",
+        "roadKm": 41.2,
+        "note": "Inland south-east. Bachelor Express lists a direct Butuan-Las Nieves service at about 1h30.",
+        "modes": [
+          {
+            "vehicle": "provincial_bus",
+            "body": "provincial bus",
+            "fareClass": "PUB Provincial (ordinary)",
+            "confidence": "confirmed",
+            "evidence": "Bachelor Express Butuan publishes a Butuan-Las Nieves route, about 1 hour 30 minutes.",
+            "regular": 91.75,
+            "discounted": 73.5
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "jeepney",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "likely",
+            "evidence": "Municipal terminal traffic to Butuan is reported, but no franchise list was located.",
+            "regular": 88.5,
+            "discounted": 70.75
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "multicab",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "likely",
+            "evidence": "Same municipal terminal traffic; unconfirmed.",
+            "regular": 88.5,
+            "discounted": 70.75
+          }
+        ],
+        "fares": [
+          {
+            "classId": "puj_traditional",
+            "label": "Traditional PUJ",
+            "regular": 88.5,
+            "discounted": 70.75
+          },
+          {
+            "classId": "puj_modern",
+            "label": "Modern PUJ",
+            "regular": 106.25,
+            "discounted": 85.0
+          },
+          {
+            "classId": "uv_express_traditional",
+            "label": "UV Express (traditional)",
+            "regular": 107.0,
+            "discounted": 85.5
+          },
+          {
+            "classId": "uv_express_modern",
+            "label": "UV Express (modern)",
+            "regular": 123.5,
+            "discounted": 98.75
+          },
+          {
+            "classId": "pub_provincial_ordinary",
+            "label": "Provincial bus (ordinary)",
+            "regular": 91.75,
+            "discounted": 73.5
+          },
+          {
+            "classId": "pub_provincial_aircon",
+            "label": "Provincial bus (regular aircon)",
+            "regular": 101.0,
+            "discounted": 80.75
+          }
+        ]
+      },
+      {
+        "id": "butuan-magallanes",
+        "fromId": "butuan",
+        "fromName": "Butuan City",
+        "toId": "magallanes",
+        "toName": "Magallanes",
+        "roadKm": 35.5,
+        "note": "Adjacent to Butuan but across the Agusan River; the road route runs up the Surigao highway then branches on the Pandanon-Magallanes Road.",
+        "modes": [
+          {
+            "vehicle": "puj_traditional",
+            "body": "multicab",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "likely",
+            "evidence": "Adjacent municipality with a direct road link; no Magallanes-specific route record was located.",
+            "regular": 77.0,
+            "discounted": 61.5
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "jeepney",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "likely",
+            "evidence": "Same adjacency inference.",
+            "regular": 77.0,
+            "discounted": 61.5
+          },
+          {
+            "vehicle": "uv_express",
+            "body": "passenger van",
+            "fareClass": "UV Express (traditional)",
+            "confidence": "possible",
+            "evidence": "No Magallanes van route was located.",
+            "regular": 92.25,
+            "discounted": 73.75
+          }
+        ],
+        "fares": [
+          {
+            "classId": "puj_traditional",
+            "label": "Traditional PUJ",
+            "regular": 77.0,
+            "discounted": 61.5
+          },
+          {
+            "classId": "puj_modern",
+            "label": "Modern PUJ",
+            "regular": 92.5,
+            "discounted": 74.0
+          },
+          {
+            "classId": "uv_express_traditional",
+            "label": "UV Express (traditional)",
+            "regular": 92.25,
+            "discounted": 73.75
+          },
+          {
+            "classId": "uv_express_modern",
+            "label": "UV Express (modern)",
+            "regular": 106.5,
+            "discounted": 85.25
+          },
+          {
+            "classId": "pub_provincial_ordinary",
+            "label": "Provincial bus (ordinary)",
+            "regular": 79.0,
+            "discounted": 63.25
+          },
+          {
+            "classId": "pub_provincial_aircon",
+            "label": "Provincial bus (regular aircon)",
+            "regular": 87.0,
+            "discounted": 69.5
+          }
+        ]
+      },
+      {
+        "id": "butuan-nasipit",
+        "fromId": "butuan",
+        "fromName": "Butuan City",
+        "toId": "nasipit",
+        "toName": "Nasipit",
+        "roadKm": 25.5,
+        "note": "Port town; the province's base port for ferries to Visayas and Manila.",
+        "modes": [
+          {
+            "vehicle": "provincial_bus",
+            "body": "provincial bus",
+            "fareClass": "PUB Provincial (ordinary)",
+            "confidence": "confirmed",
+            "evidence": "Nasipit is reached by bus from Butuan.",
+            "regular": 57.0,
+            "discounted": 45.5
+          },
+          {
+            "vehicle": "uv_express",
+            "body": "passenger van",
+            "fareClass": "UV Express (traditional)",
+            "confidence": "confirmed",
+            "evidence": "Nasipit is reached by van from Butuan.",
+            "regular": 66.25,
+            "discounted": 53.0
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "jeepney",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "confirmed",
+            "evidence": "Nasipit is reached by jeepney from Butuan in about 45 minutes.",
+            "regular": 57.0,
+            "discounted": 45.5
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "multicab",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "confirmed",
+            "evidence": "Nasipit is reached by multicab from Butuan.",
+            "regular": 57.0,
+            "discounted": 45.5
+          }
+        ],
+        "fares": [
+          {
+            "classId": "puj_traditional",
+            "label": "Traditional PUJ",
+            "regular": 57.0,
+            "discounted": 45.5
+          },
+          {
+            "classId": "puj_modern",
+            "label": "Modern PUJ",
+            "regular": 68.5,
+            "discounted": 54.75
+          },
+          {
+            "classId": "uv_express_traditional",
+            "label": "UV Express (traditional)",
+            "regular": 66.25,
+            "discounted": 53.0
+          },
+          {
+            "classId": "uv_express_modern",
+            "label": "UV Express (modern)",
+            "regular": 76.5,
+            "discounted": 61.25
+          },
+          {
+            "classId": "pub_provincial_ordinary",
+            "label": "Provincial bus (ordinary)",
+            "regular": 57.0,
+            "discounted": 45.5
+          },
+          {
+            "classId": "pub_provincial_aircon",
+            "label": "Provincial bus (regular aircon)",
+            "regular": 62.5,
+            "discounted": 50.0
+          }
+        ]
+      },
+      {
+        "id": "butuan-rtr",
+        "fromId": "butuan",
+        "fromName": "Butuan City",
+        "toId": "rtr",
+        "toName": "Remedios T. Romualdez",
+        "roadKm": 18.2,
+        "note": "Remedios T. Romualdez. Next town north of Butuan on the Surigao highway.",
+        "modes": [
+          {
+            "vehicle": "provincial_bus",
+            "body": "provincial bus",
+            "fareClass": "PUB Provincial (ordinary)",
+            "confidence": "confirmed",
+            "evidence": "Provincial tourism guidance: from Butuan by bus, van or jeepney to the RTR town proper, about 30 minutes.",
+            "regular": 41.0,
+            "discounted": 32.75
+          },
+          {
+            "vehicle": "uv_express",
+            "body": "passenger van",
+            "fareClass": "UV Express (traditional)",
+            "confidence": "confirmed",
+            "evidence": "Same guidance.",
+            "regular": 47.25,
+            "discounted": 37.75
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "jeepney",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "confirmed",
+            "evidence": "Same guidance.",
+            "regular": 42.5,
+            "discounted": 34.0
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "multicab",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "likely",
+            "evidence": "No separate multicab record, but the same corridor carries them.",
+            "regular": 42.5,
+            "discounted": 34.0
+          }
+        ],
+        "fares": [
+          {
+            "classId": "puj_traditional",
+            "label": "Traditional PUJ",
+            "regular": 42.5,
+            "discounted": 34.0
+          },
+          {
+            "classId": "puj_modern",
+            "label": "Modern PUJ",
+            "regular": 51.0,
+            "discounted": 40.75
+          },
+          {
+            "classId": "uv_express_traditional",
+            "label": "UV Express (traditional)",
+            "regular": 47.25,
+            "discounted": 37.75
+          },
+          {
+            "classId": "uv_express_modern",
+            "label": "UV Express (modern)",
+            "regular": 54.5,
+            "discounted": 43.5
+          },
+          {
+            "classId": "pub_provincial_ordinary",
+            "label": "Provincial bus (ordinary)",
+            "regular": 41.0,
+            "discounted": 32.75
+          },
+          {
+            "classId": "pub_provincial_aircon",
+            "label": "Provincial bus (regular aircon)",
+            "regular": 44.5,
+            "discounted": 35.5
+          }
+        ]
+      },
+      {
+        "id": "butuan-santiago",
+        "fromId": "butuan",
+        "fromName": "Butuan City",
+        "toId": "santiago",
+        "toName": "Santiago",
+        "roadKm": 46.4,
+        "note": "Sits on the Butuan-Surigao National Highway. Bachelor Express Butuan runs Butuan-Surigao daily and the provincial bus passes through this town.",
+        "modes": [
+          {
+            "vehicle": "provincial_bus",
+            "body": "provincial bus",
+            "fareClass": "PUB Provincial (ordinary)",
+            "confidence": "confirmed",
+            "evidence": "Sits on the Butuan-Surigao National Highway. Bachelor Express Butuan runs Butuan-Surigao daily and the provincial bus passes through this town.",
+            "regular": 103.0,
+            "discounted": 82.5
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "multicab",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "likely",
+            "evidence": "Corridor feeder traffic; no Santiago-specific route record was located.",
+            "regular": 98.75,
+            "discounted": 79.0
+          }
+        ],
+        "fares": [
+          {
+            "classId": "puj_traditional",
+            "label": "Traditional PUJ",
+            "regular": 98.75,
+            "discounted": 79.0
+          },
+          {
+            "classId": "puj_modern",
+            "label": "Modern PUJ",
+            "regular": 118.75,
+            "discounted": 95.0
+          },
+          {
+            "classId": "uv_express_traditional",
+            "label": "UV Express (traditional)",
+            "regular": 120.75,
+            "discounted": 96.5
+          },
+          {
+            "classId": "uv_express_modern",
+            "label": "UV Express (modern)",
+            "regular": 139.25,
+            "discounted": 111.5
+          },
+          {
+            "classId": "pub_provincial_ordinary",
+            "label": "Provincial bus (ordinary)",
+            "regular": 103.0,
+            "discounted": 82.5
+          },
+          {
+            "classId": "pub_provincial_aircon",
+            "label": "Provincial bus (regular aircon)",
+            "regular": 113.75,
+            "discounted": 91.0
+          }
+        ]
+      },
+      {
+        "id": "butuan-tubay",
+        "fromId": "butuan",
+        "fromName": "Butuan City",
+        "toId": "tubay",
+        "toName": "Tubay",
+        "roadKm": 39.9,
+        "note": "Sits on the Butuan-Surigao National Highway. Bachelor Express Butuan runs Butuan-Surigao daily and the provincial bus passes through this town. Tubay also has pump-boat crossings regulated by the municipality.",
+        "modes": [
+          {
+            "vehicle": "provincial_bus",
+            "body": "provincial bus",
+            "fareClass": "PUB Provincial (ordinary)",
+            "confidence": "confirmed",
+            "evidence": "Sits on the Butuan-Surigao National Highway. Bachelor Express Butuan runs Butuan-Surigao daily and the provincial bus passes through this town.",
+            "regular": 88.75,
+            "discounted": 71.0
+          },
+          {
+            "vehicle": "puj_traditional",
+            "body": "multicab",
+            "fareClass": "PUJ (traditional)",
+            "confidence": "likely",
+            "evidence": "Corridor feeder traffic; no Tubay-specific route record was located.",
+            "regular": 85.75,
+            "discounted": 68.5
+          }
+        ],
+        "fares": [
+          {
+            "classId": "puj_traditional",
+            "label": "Traditional PUJ",
+            "regular": 85.75,
+            "discounted": 68.5
+          },
+          {
+            "classId": "puj_modern",
+            "label": "Modern PUJ",
+            "regular": 103.25,
+            "discounted": 82.5
+          },
+          {
+            "classId": "uv_express_traditional",
+            "label": "UV Express (traditional)",
+            "regular": 103.75,
+            "discounted": 83.0
+          },
+          {
+            "classId": "uv_express_modern",
+            "label": "UV Express (modern)",
+            "regular": 119.75,
+            "discounted": 95.75
+          },
+          {
+            "classId": "pub_provincial_ordinary",
+            "label": "Provincial bus (ordinary)",
+            "regular": 88.75,
+            "discounted": 71.0
+          },
+          {
+            "classId": "pub_provincial_aircon",
+            "label": "Provincial bus (regular aircon)",
+            "regular": 97.75,
+            "discounted": 78.25
+          }
+        ]
+      }
+    ],
+    "observedFares": [
+      {
+        "corridor": "butuan-carmen",
+        "vehicle": "puj_traditional",
+        "body": "jeepney_or_multicab",
+        "amount": "P30.00-P40.00",
+        "observed": "2019",
+        "source": "The Pinoy Traveler, Vinapor Cave Pool guide",
+        "caveat": "Pre-2026 fare and a tourism-route quote; well below the 2026 authorized ceiling. Recorded for context only."
+      },
+      {
+        "corridor": "butuan-bancasi_airport",
+        "vehicle": "puj_traditional",
+        "body": "multicab",
+        "amount": "P10.00-P15.00",
+        "observed": "2017-2022",
+        "source": "Flightradar24 airport reviews; city route 2",
+        "caveat": "City route, not intermuni. Shows the multicab operating as a PUJ at PUJ-level fares."
+      },
+      {
+        "corridor": "butuan-cabadbaran",
+        "vehicle": "provincial_bus",
+        "body": "provincial bus",
+        "amount": "P150.00-P1,100.00",
+        "observed": "2026",
+        "source": "Rome2Rio aggregate for the Bachelor Express through-service",
+        "caveat": "The range covers through-tickets to distant destinations, not a Cabadbaran-only fare. Not usable as a local rate."
+      },
+      {
+        "corridor": "butuan-las-nieves",
+        "vehicle": "provincial_bus",
+        "body": "provincial bus",
+        "amount": "P114.00",
+        "observed": "2026-03",
+        "source": "Bachelor Express route advisory, non-aircon",
+        "caveat": "Observed ticket exceeds the authorized ordinary-bus fare (P91.75 at 41.2 km) by about 24%. Either the operator charges a posted route fare above the add-on formula or the ticket bundles terminal fees. The layer keeps the authorized amount and records the observation separately."
+      },
+      {
+        "corridor": "butuan-surigao",
+        "vehicle": "provincial_bus",
+        "body": "provincial bus",
+        "amount": "P245.10-P303.15",
+        "observed": "2026",
+        "source": "Pamasahe.com, Bachelor Express Butuan",
+        "caveat": "Outside the province but it is the corridor that carries Tubay, Santiago, Jabonga and Kitcharao passengers."
+      }
+    ],
+    "excludedVehicles": [
+      {
+        "id": "motorela",
+        "reason": "Excluded at the user's direction. It is an LGU-regulated vehicle (Cagayan de Oro is its main market) and appears in Butuan, Magallanes and Cabadbaran ordinance titles, but it is not part of the ADN intermuni fleet."
+      },
+      {
+        "id": "habal_habal",
+        "reason": "Excluded at the user's direction. Unfranchised motorcycle-for-hire; no LTFRB fare class. Carmen expressly excluded it from fare regulation in 2019."
+      },
+      {
+        "id": "extended_habal_habal",
+        "reason": "Excluded at the user's direction. Also called skylab; unregulated and unsafe for fare purposes."
+      },
+      {
+        "id": "trisikad",
+        "reason": "Excluded at the user's direction. Human-powered; Buenavista regulates a 'trisikad demano' tariff, but it is out of scope."
+      }
+    ],
+    "openQuestions": [
+      "The layer is hub-and-spoke from Butuan. Direct non-Butuan pairs (for example Cabadbaran-Nasipit or Nasipit-Carmen) were not enumerated because no franchise or timetable record was located.",
+      "Road distances come from OSRM on OpenStreetMap, not from an LTFRB route-length table. Confirm the corridor lengths with RFRO XIII before treating a computed fare as the posted ceiling.",
+      "No published provincial fare table for Agusan del Norte exists. The LTFRB national guides are the only lawful reference, and operators may charge less than the ceiling.",
+      "The number of modern PUJ and modern UV Express units in the province is unknown, so the modern classes carry no named corridor.",
+      "Bachelor Express's observed Butuan-Las Nieves ticket is about 24% above the ordinary add-on formula. Resolve whether the operator's posted route fare or the national formula governs before quoting that corridor."
+    ]
+  },
+  "places": [
+    {
+      "name": "Agao Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Agusan Pequeno",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Ambago",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Amparo",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Ampayon",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Anticala",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Antongalon",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Aupagan",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Baan Km 3",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Baan Riverside Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Babag",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Bading Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Bancasi",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Banza",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Baobaoan",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Basag",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Bayanihan Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Bilay",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Bit-Os",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Bitan-Agan",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Bobon",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Bonbon",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Bugabus",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Bugsukan",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Buhangin Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Cabcabon",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Camayahan",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Dagohoy Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Dankias",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "De Oro",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Diego Silang Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Don Francisco",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Doongan",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Dulag",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Dumalagan",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Florida",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Golden Ribbon Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Holy Redeemer Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Humabon Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Imadejas Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Jose Rizal Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Kinamlutan",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Lapu-lapu Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Lemon",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Leon Kilat Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Libertad",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Limaha Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Los Angeles",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Lumbocan",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Maguinda",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Mahay",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Mahogany Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Maibu",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Mandamo",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Manila de Bugabus",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Maon Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Masao",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Maug",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "New Society Village Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Nong-Nong",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Obrero Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Ong Yiu Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Pagatpatan",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Pangabugan",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Pianing",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Pigdaulan",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Pinamanculan",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Port Poyohon Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Rajah Soliman Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Salvacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "San Ignacio Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "San Mateo",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "San Vicente",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Santo Niño",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Sikatuna Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Silongan Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Sumile",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Sumilihon",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Tagabaca",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Taguibo",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Taligaman",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Tandang Sora Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Tiniwisan",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Tungao",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Urduja Poblacion",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Villa Kananga",
+      "lguId": "butuan",
+      "lguName": "Butuan City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Antonio Luna",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Bay-Ang",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Bayabas",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Caasinan",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Cabinet",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Calamba",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Calibunan",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Comagascas",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Concepcion",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Del Pilar",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Katugasan",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Kauswagan",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "La Union",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Mabini",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Mahaba",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Poblacion 1",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 10",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 11",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 12",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 2",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 3",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 4",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 5",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 6",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 7",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 8",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 9",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": true
+    },
+    {
+      "name": "Puting Bato",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Sanghan",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Soriano",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Tolosa",
+      "lguId": "cabadbaran",
+      "lguName": "Cabadbaran City",
+      "isPoblacion": false
+    },
+    {
+      "name": "Abilan",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Agong-Ong",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Alubijid",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Guinabsan",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Lower Olave",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Macalang",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Malapong",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Malpoc",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Manapa",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Matabao",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Poblacion 1",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 10",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 2",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 3",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 4",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 5",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 6",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 7",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 8",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 9",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": true
+    },
+    {
+      "name": "Rizal",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Sacol",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Sangay",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Simbalan",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Talo-Ao",
+      "lguId": "buenavista",
+      "lguName": "Buenavista",
+      "isPoblacion": false
+    },
+    {
+      "name": "Cahayagan",
+      "lguId": "carmen",
+      "lguName": "Carmen",
+      "isPoblacion": false
+    },
+    {
+      "name": "Gosoon",
+      "lguId": "carmen",
+      "lguName": "Carmen",
+      "isPoblacion": false
+    },
+    {
+      "name": "Manoligao",
+      "lguId": "carmen",
+      "lguName": "Carmen",
+      "isPoblacion": false
+    },
+    {
+      "name": "Poblacion",
+      "lguId": "carmen",
+      "lguName": "Carmen",
+      "isPoblacion": true
+    },
+    {
+      "name": "Rojales",
+      "lguId": "carmen",
+      "lguName": "Carmen",
+      "isPoblacion": false
+    },
+    {
+      "name": "San Agustin",
+      "lguId": "carmen",
+      "lguName": "Carmen",
+      "isPoblacion": false
+    },
+    {
+      "name": "Tagcatong",
+      "lguId": "carmen",
+      "lguName": "Carmen",
+      "isPoblacion": false
+    },
+    {
+      "name": "Vinapor",
+      "lguId": "carmen",
+      "lguName": "Carmen",
+      "isPoblacion": false
+    },
+    {
+      "name": "A. Beltran",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": false
+    },
+    {
+      "name": "Baleguian",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": false
+    },
+    {
+      "name": "Bangonay",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": false
+    },
+    {
+      "name": "Bunga",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": false
+    },
+    {
+      "name": "Colorado",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": false
+    },
+    {
+      "name": "Cuyago",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": false
+    },
+    {
+      "name": "Libas",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": false
+    },
+    {
+      "name": "Magdagooc",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": false
+    },
+    {
+      "name": "Magsaysay",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": false
+    },
+    {
+      "name": "Maraiging",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": false
+    },
+    {
+      "name": "Poblacion",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": true
+    },
+    {
+      "name": "San Jose",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": false
+    },
+    {
+      "name": "San Pablo",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": false
+    },
+    {
+      "name": "San Vicente",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": false
+    },
+    {
+      "name": "Santo Niño",
+      "lguId": "jabonga",
+      "lguName": "Jabonga",
+      "isPoblacion": false
+    },
+    {
+      "name": "Bangayan",
+      "lguId": "kitcharao",
+      "lguName": "Kitcharao",
+      "isPoblacion": false
+    },
+    {
+      "name": "Canaway",
+      "lguId": "kitcharao",
+      "lguName": "Kitcharao",
+      "isPoblacion": false
+    },
+    {
+      "name": "Hinimbangan",
+      "lguId": "kitcharao",
+      "lguName": "Kitcharao",
+      "isPoblacion": false
+    },
+    {
+      "name": "Jaliobong",
+      "lguId": "kitcharao",
+      "lguName": "Kitcharao",
+      "isPoblacion": false
+    },
+    {
+      "name": "Mahayahay",
+      "lguId": "kitcharao",
+      "lguName": "Kitcharao",
+      "isPoblacion": false
+    },
+    {
+      "name": "Poblacion",
+      "lguId": "kitcharao",
+      "lguName": "Kitcharao",
+      "isPoblacion": true
+    },
+    {
+      "name": "San Isidro",
+      "lguId": "kitcharao",
+      "lguName": "Kitcharao",
+      "isPoblacion": false
+    },
+    {
+      "name": "San Roque",
+      "lguId": "kitcharao",
+      "lguName": "Kitcharao",
+      "isPoblacion": false
+    },
+    {
+      "name": "Sangay",
+      "lguId": "kitcharao",
+      "lguName": "Kitcharao",
+      "isPoblacion": false
+    },
+    {
+      "name": "Ambacon",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Balungagan",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Bonifacio",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Camboayon",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Consorcia",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Durian",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Ibuan",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Katipunan",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Lingayao",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Malicato",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Maningalao",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Marcos Calo",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Mat-I",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Pinana-An",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Poblacion",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": true
+    },
+    {
+      "name": "Rosario",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "San Isidro",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "San Roque",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Tinucoran",
+      "lguId": "las_nieves",
+      "lguName": "Las Nieves",
+      "isPoblacion": false
+    },
+    {
+      "name": "Buhang",
+      "lguId": "magallanes",
+      "lguName": "Magallanes",
+      "isPoblacion": false
+    },
+    {
+      "name": "Caloc-An",
+      "lguId": "magallanes",
+      "lguName": "Magallanes",
+      "isPoblacion": false
+    },
+    {
+      "name": "Guiasan",
+      "lguId": "magallanes",
+      "lguName": "Magallanes",
+      "isPoblacion": false
+    },
+    {
+      "name": "Marcos",
+      "lguId": "magallanes",
+      "lguName": "Magallanes",
+      "isPoblacion": false
+    },
+    {
+      "name": "Poblacion",
+      "lguId": "magallanes",
+      "lguName": "Magallanes",
+      "isPoblacion": true
+    },
+    {
+      "name": "Santo Niño",
+      "lguId": "magallanes",
+      "lguName": "Magallanes",
+      "isPoblacion": false
+    },
+    {
+      "name": "Santo Rosario",
+      "lguId": "magallanes",
+      "lguName": "Magallanes",
+      "isPoblacion": false
+    },
+    {
+      "name": "Taod-Oy",
+      "lguId": "magallanes",
+      "lguName": "Magallanes",
+      "isPoblacion": false
+    },
+    {
+      "name": "Aclan",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Amontay",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Ata-Atahon",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Barangay 1",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Barangay 2",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Barangay 3",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Barangay 4",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Barangay 5",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Barangay 6",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Barangay 7",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Camagong",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Cubi-Cubi",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Culit",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Jaguimitan",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Kinabjangan",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Punta",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Santa Ana",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Talisay",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Triangulo",
+      "lguId": "nasipit",
+      "lguName": "Nasipit",
+      "isPoblacion": false
+    },
+    {
+      "name": "Balangbalang",
+      "lguId": "rtr",
+      "lguName": "Remedios T. Romualdez",
+      "isPoblacion": false
+    },
+    {
+      "name": "Basilisa",
+      "lguId": "rtr",
+      "lguName": "Remedios T. Romualdez",
+      "isPoblacion": false
+    },
+    {
+      "name": "Humilog",
+      "lguId": "rtr",
+      "lguName": "Remedios T. Romualdez",
+      "isPoblacion": false
+    },
+    {
+      "name": "Panaytayon",
+      "lguId": "rtr",
+      "lguName": "Remedios T. Romualdez",
+      "isPoblacion": false
+    },
+    {
+      "name": "Poblacion I",
+      "lguId": "rtr",
+      "lguName": "Remedios T. Romualdez",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion II",
+      "lguId": "rtr",
+      "lguName": "Remedios T. Romualdez",
+      "isPoblacion": true
+    },
+    {
+      "name": "San Antonio",
+      "lguId": "rtr",
+      "lguName": "Remedios T. Romualdez",
+      "isPoblacion": false
+    },
+    {
+      "name": "Tagbongabong",
+      "lguId": "rtr",
+      "lguName": "Remedios T. Romualdez",
+      "isPoblacion": false
+    },
+    {
+      "name": "Curva",
+      "lguId": "santiago",
+      "lguName": "Santiago",
+      "isPoblacion": false
+    },
+    {
+      "name": "Estanislao Morgado",
+      "lguId": "santiago",
+      "lguName": "Santiago",
+      "isPoblacion": false
+    },
+    {
+      "name": "Jagupit",
+      "lguId": "santiago",
+      "lguName": "Santiago",
+      "isPoblacion": false
+    },
+    {
+      "name": "La Paz",
+      "lguId": "santiago",
+      "lguName": "Santiago",
+      "isPoblacion": false
+    },
+    {
+      "name": "Poblacion I",
+      "lguId": "santiago",
+      "lguName": "Santiago",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion II",
+      "lguId": "santiago",
+      "lguName": "Santiago",
+      "isPoblacion": true
+    },
+    {
+      "name": "San Isidro",
+      "lguId": "santiago",
+      "lguName": "Santiago",
+      "isPoblacion": false
+    },
+    {
+      "name": "Tagbuyacan",
+      "lguId": "santiago",
+      "lguName": "Santiago",
+      "isPoblacion": false
+    },
+    {
+      "name": "Binuangan",
+      "lguId": "tubay",
+      "lguName": "Tubay",
+      "isPoblacion": false
+    },
+    {
+      "name": "Cabayawa",
+      "lguId": "tubay",
+      "lguName": "Tubay",
+      "isPoblacion": false
+    },
+    {
+      "name": "Doña Rosario",
+      "lguId": "tubay",
+      "lguName": "Tubay",
+      "isPoblacion": false
+    },
+    {
+      "name": "Doña Telesfora",
+      "lguId": "tubay",
+      "lguName": "Tubay",
+      "isPoblacion": false
+    },
+    {
+      "name": "La Fraternidad",
+      "lguId": "tubay",
+      "lguName": "Tubay",
+      "isPoblacion": false
+    },
+    {
+      "name": "Lawigan",
+      "lguId": "tubay",
+      "lguName": "Tubay",
+      "isPoblacion": false
+    },
+    {
+      "name": "Poblacion 1",
+      "lguId": "tubay",
+      "lguName": "Tubay",
+      "isPoblacion": true
+    },
+    {
+      "name": "Poblacion 2",
+      "lguId": "tubay",
+      "lguName": "Tubay",
+      "isPoblacion": true
+    },
+    {
+      "name": "Santa Ana",
+      "lguId": "tubay",
+      "lguName": "Tubay",
+      "isPoblacion": false
+    },
+    {
+      "name": "Tagmamarkay",
+      "lguId": "tubay",
+      "lguName": "Tubay",
+      "isPoblacion": false
+    },
+    {
+      "name": "Tagpangahoy",
+      "lguId": "tubay",
+      "lguName": "Tubay",
+      "isPoblacion": false
+    },
+    {
+      "name": "Tinigbasan",
+      "lguId": "tubay",
+      "lguName": "Tubay",
+      "isPoblacion": false
+    },
+    {
+      "name": "Victory",
+      "lguId": "tubay",
+      "lguName": "Tubay",
+      "isPoblacion": false
+    }
+  ],
+  "nationalGuides": {
+    "effectiveFrom": "2026-09-28",
+    "temporaryValidUntil": "2026-12-31",
+    "officialFrom": "2027-01-01",
+    "discountNote": "20% discount applies every day including weekends and holidays.",
+    "note": "The PDFs are temporary guides: operators may display them only until 31 December 2026 and must display the official guide from 1 January 2027. The fare amounts do not lapse on that date; they stand until LTFRB replaces them.",
+    "priced": [
+      {
+        "id": "puj_traditional",
+        "label": "Traditional PUJ",
+        "title": "PUJ General Fare Guide",
+        "rateLabel": "₱14.00 first 4 km + ₱2.00/km",
+        "computation": "₱14.00 + ₱2.00 x (Distance - 4 km)"
+      },
+      {
+        "id": "puj_modern",
+        "label": "Modern PUJ",
+        "title": "Aircon Modern and Electric PUJ General Fare Guide",
+        "rateLabel": "₱17.00 first 4 km + ₱2.40/km",
+        "computation": "₱17.00 + ₱2.40 x (Distance - 4 km)"
+      },
+      {
+        "id": "uv_express_traditional",
+        "label": "UV Express (traditional)",
+        "title": "Traditional UV Express Fare Rate",
+        "rateLabel": "₱2.60/km, no base fare",
+        "computation": "₱2.60 x Distance"
+      },
+      {
+        "id": "uv_express_modern",
+        "label": "UV Express (modern)",
+        "title": "Modern UV Express Fare Rate",
+        "rateLabel": "₱3.00/km, no base fare",
+        "computation": "₱3.00 x Distance"
+      },
+      {
+        "id": "pub_provincial_ordinary",
+        "label": "Provincial bus (ordinary)",
+        "title": "PUB (Ordinary) General Fare Guide (Provincial)",
+        "rateLabel": "₱12.00 first 5 km + ₱2.20/km",
+        "computation": "₱12.00 + ₱2.20 x (Distance - 5 km)"
+      },
+      {
+        "id": "pub_provincial_aircon",
+        "label": "Provincial bus (regular aircon)",
+        "title": "PUB (Regular Aircon) General Fare Guide (Provincial)",
+        "rateLabel": "₱2.45/km, no base fare",
+        "computation": "₱2.45 x Distance"
+      }
+    ],
+    "referenceOnly": [
+      {
+        "id": "pub_city_ordinary",
+        "label": "PUB (Ordinary) General Fare Guide",
+        "reason": "City bus - no city bus network operates in any Agusan del Norte LGU."
+      },
+      {
+        "id": "pub_city_aircon",
+        "label": "PUB (Aircon) General Fare Guide",
+        "reason": "City bus - no city bus network operates in any Agusan del Norte LGU."
+      },
+      {
+        "id": "pub_provincial_deluxe",
+        "label": "PUB (Deluxe) General Fare Guide (Provincial)",
+        "reason": "No deluxe provincial service identified on an Agusan del Norte corridor."
+      },
+      {
+        "id": "pub_provincial_super_deluxe",
+        "label": "PUB (Super Deluxe) General Fare Guide (Provincial)",
+        "reason": "No super-deluxe service identified on an Agusan del Norte corridor."
+      },
+      {
+        "id": "pub_provincial_luxury",
+        "label": "PUB (Luxury) General Fare Guide (Provincial)",
+        "reason": "No luxury service identified on an Agusan del Norte corridor."
+      },
+      {
+        "id": "taxi_silver_premium",
+        "label": "New Premium Silver Taxi Fare Rates",
+        "reason": "Taxi - no confirmed metered operator in the province."
+      },
+      {
+        "id": "taxi_regular",
+        "label": "New Regular Taxi Fare Rates",
+        "reason": "Taxi - no confirmed metered operator in the province."
+      },
+      {
+        "id": "taxi_gold_premium",
+        "label": "New Premium Gold Taxi Fare Rates",
+        "reason": "Taxi - no confirmed metered operator in the province."
+      },
+      {
+        "id": "taxi_airport",
+        "label": "New Airport Taxi Fare Rates",
+        "reason": "Taxi - no airport coupon taxi at Bancasi."
+      },
+      {
+        "id": "tnvs",
+        "label": "New TNVS Fare Rates",
+        "reason": "TNVS - operator presence unconfirmed; platform pricing is not a published corridor fare."
+      }
+    ],
+    "excluded": [
+      {
+        "id": "edsa_busway_northbound",
+        "label": "EDSA Busway Northbound",
+        "reason": "Metro Manila only; outside the Mindanao scope."
+      },
+      {
+        "id": "edsa_busway_southbound",
+        "label": "EDSA Busway Southbound",
+        "reason": "Metro Manila only; outside the Mindanao scope."
+      }
+    ]
+  }
+}

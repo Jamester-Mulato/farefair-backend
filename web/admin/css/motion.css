@@ -1,0 +1,115 @@
+/* =====================================================================
+   Motion + loading polish for the admin console.
+   Keeps the vanilla-JS SPA feeling like a compiled one: a route progress
+   bar, a page transition, staggered cards and skeleton placeholders.
+   ===================================================================== */
+
+/* ---- route progress -------------------------------------------------- */
+#route-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 80;
+  pointer-events: none;
+  background: transparent;
+  overflow: hidden;
+}
+#route-progress::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, #d9822b, #17304d, transparent);
+  transform: translateX(-100%);
+  opacity: 0;
+}
+#route-progress.is-on::before {
+  animation: routeSweep 0.75s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+@keyframes routeSweep {
+  0% { transform: translateX(-100%); opacity: 1; }
+  60% { transform: translateX(-10%); opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+/* ---- page transition ------------------------------------------------- */
+.page.page-enter {
+  animation: pageIn 0.28s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cards rise in sequence, the way a hydrated app would stagger them. */
+.page.page-enter > * {
+  animation: cardIn 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+.page.page-enter > *:nth-child(1) { animation-delay: 0.02s; }
+.page.page-enter > *:nth-child(2) { animation-delay: 0.06s; }
+.page.page-enter > *:nth-child(3) { animation-delay: 0.10s; }
+.page.page-enter > *:nth-child(4) { animation-delay: 0.14s; }
+.page.page-enter > *:nth-child(5) { animation-delay: 0.18s; }
+.page.page-enter > *:nth-child(6) { animation-delay: 0.22s; }
+.page.page-enter > *:nth-child(n + 7) { animation-delay: 0.26s; }
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Respect a user who prefers less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .page.page-enter,
+  .page.page-enter > *,
+  #route-progress.is-on::before {
+    animation: none !important;
+  }
+}
+
+/* ---- skeletons ------------------------------------------------------- */
+.sk-stack { display: flex; flex-direction: column; gap: 18px; padding: 8px 0; }
+.sk-card {
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, #e4dfd2);
+  border-radius: 18px;
+  padding: 20px 22px;
+}
+.sk-line {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #eeeade 25%, #f6f3ea 37%, #eeeade 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.25s ease-in-out infinite;
+}
+.sk-line.tall { height: 26px; border-radius: 8px; }
+.sk-line + .sk-line { margin-top: 10px; }
+.sk-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.sk-grid .sk-card { padding: 18px; }
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+@media (max-width: 900px) {
+  .sk-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---- micro-interactions --------------------------------------------- */
+a, button, .btn, .nav-item, .card, .table tbody tr {
+  transition: background-color 140ms ease, border-color 140ms ease,
+    color 140ms ease, opacity 140ms ease, transform 90ms ease;
+}
+.btn:focus-visible,
+.nav-item:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #17304d;
+  outline-offset: 2px;
+}
+.table tbody tr { cursor: default; }
+
+/* Scrollbars that do not jump when content changes. */
+* { scrollbar-width: thin; scrollbar-color: #cfc9ba transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #d8d2c4; border-radius: 6px; border: 2px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-track { background: transparent; }

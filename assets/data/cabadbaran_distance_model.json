@@ -1,0 +1,620 @@
+{
+  "schema": "farefair.distance_model.v1",
+  "cityId": "cabadbaran",
+  "vehicleId": "tricycle",
+  "instrument": "Special City Ordinance No. 2020-012",
+  "status": "modelled_estimate",
+  "title": "Off-matrix tricycle estimate model",
+  "calibratedOn": "2026-11-01",
+  "method": "Two-part fit anchored on the ordinance's P9.00 minimum plus an empirical band table. Road distances are OSRM/OpenStreetMap distances from the printed hub (Land Transport Terminal, or Poblacion centre for Poblacion-only rows) to the printed place, using the place coordinate when exact and the COD-AB barangay area centroid otherwise.",
+  "distanceSource": "OSRM demo server, OpenStreetMap road network, fetched once",
+  "anchor": {
+    "baseFare": 9.0,
+    "baseDistanceKm": 1.0
+  },
+  "fit": {
+    "perKmRate": 1.94,
+    "residualP90": 18.4,
+    "rows": 59,
+    "note": "The matrix is route/zone based, not distance proportional: rows at similar road distances print different fares. The fit is therefore only a central tendency; the band table carries the range."
+  },
+  "bands": [
+    {
+      "fromKm": 0,
+      "toKm": 2,
+      "rows": 5,
+      "low": 10,
+      "median": 10,
+      "high": 20,
+      "publishedMin": 10,
+      "publishedMax": 20
+    },
+    {
+      "fromKm": 2,
+      "toKm": 4,
+      "rows": 13,
+      "low": 10,
+      "median": 10,
+      "high": 20,
+      "publishedMin": 10,
+      "publishedMax": 25
+    },
+    {
+      "fromKm": 4,
+      "toKm": 6,
+      "rows": 15,
+      "low": 10,
+      "median": 20,
+      "high": 35,
+      "publishedMin": 10,
+      "publishedMax": 40
+    },
+    {
+      "fromKm": 6,
+      "toKm": 9,
+      "rows": 17,
+      "low": 20,
+      "median": 20,
+      "high": 40,
+      "publishedMin": 20,
+      "publishedMax": 50
+    },
+    {
+      "fromKm": 12,
+      "toKm": 20,
+      "rows": 3,
+      "low": 30,
+      "median": 50,
+      "high": 70,
+      "publishedMin": 30,
+      "publishedMax": 70
+    },
+    {
+      "fromKm": 20,
+      "toKm": null,
+      "rows": 6,
+      "low": 30,
+      "median": 42,
+      "high": 50,
+      "publishedMin": 30,
+      "publishedMax": 50
+    }
+  ],
+  "rounding": 1.0,
+  "minFare": 9.0,
+  "maxFare": 70.0,
+  "disclaimer": "A modelled estimate, not an ordinance fare. S.C.O. 2020-012 prints no per-kilometre rate and no fare for an unlisted pair; for a direct hire the driver and passenger agree the price (contract/pakyaw).",
+  "sourceRows": [
+    {
+      "row": 3,
+      "label": "Antonio Luna",
+      "barangay": "Antonio Luna",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 7.33,
+      "regular": 35.0
+    },
+    {
+      "row": 4,
+      "label": "Bayabas",
+      "barangay": "Bayabas",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 24.01,
+      "regular": 35.0
+    },
+    {
+      "row": 5,
+      "label": "Bay-ang",
+      "barangay": "Bay-ang",
+      "precision": "barangay",
+      "origin": "poblacion",
+      "roadKm": 4.98,
+      "regular": 20.0
+    },
+    {
+      "row": 6,
+      "label": "Bugho, Bay-Ang",
+      "barangay": "Bay-ang",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 4.91,
+      "regular": 40.0
+    },
+    {
+      "row": 7,
+      "label": "Bung-Aw, Bay-Ang",
+      "barangay": "Bay-ang",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 4.91,
+      "regular": 35.0
+    },
+    {
+      "row": 8,
+      "label": "Dal-As, Bay-Ang",
+      "barangay": "Bay-ang",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 4.91,
+      "regular": 35.0
+    },
+    {
+      "row": 9,
+      "label": "Caasinan",
+      "barangay": "Caasinan",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 5.31,
+      "regular": 15.0
+    },
+    {
+      "row": 10,
+      "label": "Cabinet",
+      "barangay": "Cabinet",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 4.5,
+      "regular": 15.0
+    },
+    {
+      "row": 11,
+      "label": "Calamba Proper",
+      "barangay": "Calamba",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 7.9,
+      "regular": 40.0
+    },
+    {
+      "row": 12,
+      "label": "Calulutay, Calamba",
+      "barangay": "Calamba",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 7.9,
+      "regular": 40.0
+    },
+    {
+      "row": 13,
+      "label": "Malico, Calamba",
+      "barangay": "Calamba",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 7.9,
+      "regular": 50.0
+    },
+    {
+      "row": 15,
+      "label": "Calibunan",
+      "barangay": "Calibunan",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 3.04,
+      "regular": 10.0
+    },
+    {
+      "row": 16,
+      "label": "Maybo, Calibunan",
+      "barangay": "Calibunan",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 3.04,
+      "regular": 12.0
+    },
+    {
+      "row": 17,
+      "label": "Maybo, Calibunan (Via Malingin)",
+      "barangay": "Calibunan",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 3.04,
+      "regular": 12.0
+    },
+    {
+      "row": 18,
+      "label": "Hinagdanan, Comagascas",
+      "barangay": "Comagascas",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 4.29,
+      "regular": 10.0
+    },
+    {
+      "row": 19,
+      "label": "Comagascas (Proper)",
+      "barangay": "Comagascas",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 4.29,
+      "regular": 20.0
+    },
+    {
+      "row": 20,
+      "label": "Maraput, Comagascas",
+      "barangay": "Comagascas",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 4.29,
+      "regular": 30.0
+    },
+    {
+      "row": 21,
+      "label": "Hacienda, Comagascas",
+      "barangay": "Comagascas",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 4.29,
+      "regular": 30.0
+    },
+    {
+      "row": 22,
+      "label": "Anangilan (Valentine), Comagascas",
+      "barangay": "Comagascas",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 4.29,
+      "regular": 30.0
+    },
+    {
+      "row": 23,
+      "label": "Anangilan (Kikay), Comagascas",
+      "barangay": "Comagascas",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 4.29,
+      "regular": 30.0
+    },
+    {
+      "row": 24,
+      "label": "Concepcion Proper",
+      "barangay": "Concepcion",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 24.55,
+      "regular": 50.0
+    },
+    {
+      "row": 25,
+      "label": "Little Leyte, Concepcion",
+      "barangay": "Concepcion",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 24.55,
+      "regular": 50.0
+    },
+    {
+      "row": 26,
+      "label": "Bungogon, Del Pilar",
+      "barangay": "Del Pilar",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 23.54,
+      "regular": 30.0
+    },
+    {
+      "row": 27,
+      "label": "Del Pilar Purok 1 & 2",
+      "barangay": "Del Pilar",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 23.54,
+      "regular": 35.0
+    },
+    {
+      "row": 28,
+      "label": "Sitio Pirada, Del Pilar",
+      "barangay": "Del Pilar",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 23.54,
+      "regular": 50.0
+    },
+    {
+      "row": 29,
+      "label": "Katugasan (Purok 1, 2, 3, 4)",
+      "barangay": "Katugasan",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 7.39,
+      "regular": 30.0
+    },
+    {
+      "row": 30,
+      "label": "Purok 5 (Pahit Dal-As), Katugasan",
+      "barangay": "Katugasan",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 7.39,
+      "regular": 30.0
+    },
+    {
+      "row": 31,
+      "label": "Kauswagan (PROPER/ UPPER/ LOWER)",
+      "barangay": "Kauswagan",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 4.37,
+      "regular": 10.0
+    },
+    {
+      "row": 32,
+      "label": "Sitio Sinunog, Kauswagan",
+      "barangay": "Kauswagan",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 4.37,
+      "regular": 15.0
+    },
+    {
+      "row": 33,
+      "label": "Pongkay/Sinunug, Kauswagan",
+      "barangay": "Kauswagan",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 4.37,
+      "regular": 10.0
+    },
+    {
+      "row": 34,
+      "label": "La Union Proper",
+      "barangay": "La Union",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 6.13,
+      "regular": 20.0
+    },
+    {
+      "row": 35,
+      "label": "Bandol, La Union",
+      "barangay": "La Union",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 6.13,
+      "regular": 20.0
+    },
+    {
+      "row": 36,
+      "label": "Boundary La Union (Bitaog)",
+      "barangay": "La Union",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 6.13,
+      "regular": 30.0
+    },
+    {
+      "row": 37,
+      "label": "Maong, La Union",
+      "barangay": "La Union",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 6.13,
+      "regular": 30.0
+    },
+    {
+      "row": 38,
+      "label": "Angel Village, La Union",
+      "barangay": "La Union",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 6.13,
+      "regular": 20.0
+    },
+    {
+      "row": 39,
+      "label": "Bukid-Bukid, La Union (Via Malingin)",
+      "barangay": "La Union",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 6.13,
+      "regular": 20.0
+    },
+    {
+      "row": 40,
+      "label": "Panlaisan, La Union (Hi-Way)",
+      "barangay": "La Union",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 6.13,
+      "regular": 20.0
+    },
+    {
+      "row": 41,
+      "label": "Panlaisan, La Union (Intaq/Raniel)",
+      "barangay": "La Union",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 6.13,
+      "regular": 20.0
+    },
+    {
+      "row": 42,
+      "label": "Panlaisan, La Union (Sulod)",
+      "barangay": "La Union",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 6.13,
+      "regular": 20.0
+    },
+    {
+      "row": 43,
+      "label": "Abattoir, La Union",
+      "barangay": "La Union",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 6.13,
+      "regular": 20.0
+    },
+    {
+      "row": 44,
+      "label": "Mabini Vice Versa",
+      "barangay": "Mabini",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 1.89,
+      "regular": 10.0
+    },
+    {
+      "row": 45,
+      "label": "Mabini Plains",
+      "barangay": "Mabini",
+      "precision": "barangay",
+      "origin": "poblacion",
+      "roadKm": 2.26,
+      "regular": 10.0
+    },
+    {
+      "row": 47,
+      "label": "Mabini VCDU",
+      "barangay": "Mabini",
+      "precision": "barangay",
+      "origin": "poblacion",
+      "roadKm": 2.26,
+      "regular": 10.0
+    },
+    {
+      "row": 49,
+      "label": "Lower Mabini",
+      "barangay": "Mabini",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 1.89,
+      "regular": 10.0
+    },
+    {
+      "row": 50,
+      "label": "Upper Mabini",
+      "barangay": "Mabini",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 1.89,
+      "regular": 10.0
+    },
+    {
+      "row": 51,
+      "label": "Pandanon, Mabini",
+      "barangay": "Mabini",
+      "precision": "exact",
+      "origin": "terminal",
+      "roadKm": 2.24,
+      "regular": 15.0
+    },
+    {
+      "row": 52,
+      "label": "Dal-As (Mabini)",
+      "barangay": "Mabini",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 1.89,
+      "regular": 20.0
+    },
+    {
+      "row": 53,
+      "label": "Dinabucan. Mabini",
+      "barangay": "Mabini",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 1.89,
+      "regular": 20.0
+    },
+    {
+      "row": 54,
+      "label": "Mahaba Centro",
+      "barangay": "Mahaba",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 16.21,
+      "regular": 70.0
+    },
+    {
+      "row": 55,
+      "label": "Punta Puting Bato",
+      "barangay": "Puting Bato",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 17.68,
+      "regular": 30.0
+    },
+    {
+      "row": 56,
+      "label": "Puting Bato Centro",
+      "barangay": "Puting Bato",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 17.68,
+      "regular": 50.0
+    },
+    {
+      "row": 57,
+      "label": "Sanghan Centro",
+      "barangay": "Sanghan",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 6.09,
+      "regular": 20.0
+    },
+    {
+      "row": 60,
+      "label": "Soriano",
+      "barangay": "Soriano",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 3.83,
+      "regular": 20.0
+    },
+    {
+      "row": 61,
+      "label": "Cambisay, Soriano",
+      "barangay": "Soriano",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 3.83,
+      "regular": 25.0
+    },
+    {
+      "row": 62,
+      "label": "Cabadbaran District Hospital, Tolosa",
+      "barangay": "Tolosa",
+      "precision": "exact",
+      "origin": "poblacion",
+      "roadKm": 2.55,
+      "regular": 10.0
+    },
+    {
+      "row": 64,
+      "label": "Secuanda, Tolosa",
+      "barangay": "Tolosa",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 3.16,
+      "regular": 10.0
+    },
+    {
+      "row": 65,
+      "label": "Catholic Cemetery, Poblacion 4",
+      "barangay": "Poblacion 4",
+      "precision": "exact",
+      "origin": "poblacion",
+      "roadKm": 2.03,
+      "regular": 10.0
+    },
+    {
+      "row": 67,
+      "label": "Tolosa Proper",
+      "barangay": "Tolosa",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 3.16,
+      "regular": 10.0
+    },
+    {
+      "row": 68,
+      "label": "Tolosa / School Bliss",
+      "barangay": "Tolosa",
+      "precision": "barangay",
+      "origin": "terminal",
+      "roadKm": 3.16,
+      "regular": 10.0
+    }
+  ]
+}

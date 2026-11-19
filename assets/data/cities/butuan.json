@@ -1,0 +1,210 @@
+{
+  "id": "butuan",
+  "displayName": "Butuan City, Caraga",
+  "province": "Agusan del Norte",
+  "region": "Caraga (Region XIII)",
+  "status": "candidate",
+  "centroLabel": "Butuan Centro",
+  "center": {
+    "lat": 8.9475,
+    "lng": 125.5406
+  },
+  "provenance": {
+    "provisional": false,
+    "source": "SP Ordinance No. 6824-2023 (fuel-indexed tricycle base bands) and the LTFRB national fare guides effective 2026-09-28",
+    "lastVerified": "2026-10-28"
+  },
+  "farePolicy": {
+    "discountRate": 0.2,
+    "customaryLeewayMin": 1.0,
+    "customaryLeewayMax": 1.0,
+    "minPassengers": 1,
+    "maxPassengers": 6,
+    "pakyawSeatCap": 4
+  },
+  "demoRoute": {
+    "originName": "Butuan City Hall",
+    "destinationName": "Langihan Bus Terminal",
+    "distanceKm": 4.2
+  },
+  "vehicles": [
+    {
+      "vehicleId": "tricycle",
+      "active": false,
+      "baseFare": 8.0,
+      "baseDistanceKm": 4.0,
+      "perKmRate": 0.0,
+      "minFare": 8.0,
+      "maxCustomary": 13.0,
+      "typicalCapacity": 4,
+      "regulationMatrix": "SP Ordinance No. 6824-2023: fuel-indexed base of P8.00-P13.00 for the first 4 km. No succeeding per-km rate is published, so the app displays the band table and never computes a Butuan tricycle fare."
+    },
+    {
+      "vehicleId": "habal-habal",
+      "active": false,
+      "baseFare": 25.0,
+      "baseDistanceKm": 2.0,
+      "perKmRate": 8.0,
+      "minFare": 20.0,
+      "maxCustomary": 90.0,
+      "typicalCapacity": 2,
+      "regulationMatrix": "Unfranchised motorcycle-for-hire with no LTFRB fare class. Excluded from the Agusan del Norte fare reference."
+    },
+    {
+      "vehicleId": "skylab",
+      "active": false,
+      "baseFare": 35.0,
+      "baseDistanceKm": 2.0,
+      "perKmRate": 12.0,
+      "minFare": 30.0,
+      "maxCustomary": 140.0,
+      "typicalCapacity": 6,
+      "regulationMatrix": "Extended habal-habal. Unregulated and unsafe for fare purposes. Excluded from the Agusan del Norte fare reference."
+    },
+    {
+      "vehicleId": "jeepney",
+      "active": true,
+      "baseFare": 14.0,
+      "baseDistanceKm": 4.0,
+      "perKmRate": 2.0,
+      "minFare": 14.0,
+      "maxCustomary": 35.0,
+      "typicalCapacity": 22,
+      "regulationMatrix": "LTFRB national fare guide, effective 2026-09-28 (traditional PUJ)"
+    },
+    {
+      "vehicleId": "multicab",
+      "active": true,
+      "baseFare": 14.0,
+      "baseDistanceKm": 4.0,
+      "perKmRate": 2.0,
+      "minFare": 14.0,
+      "maxCustomary": 35.0,
+      "typicalCapacity": 12,
+      "regulationMatrix": "PUJ fare guide, effective 2026-09-28 - fare follows the PUJ franchise, not the body"
+    },
+    {
+      "vehicleId": "motorela",
+      "active": false,
+      "baseFare": 12.0,
+      "baseDistanceKm": 2.0,
+      "perKmRate": 2.0,
+      "minFare": 10.0,
+      "maxCustomary": 60.0,
+      "typicalCapacity": 6,
+      "regulationMatrix": "Named in SP Ordinance No. 6824-2023, but the class is excluded from the Agusan del Norte fare reference; its amounts are not in the ordinance text."
+    },
+    {
+      "vehicleId": "trisikad",
+      "active": false,
+      "baseFare": 8.0,
+      "baseDistanceKm": 1.0,
+      "perKmRate": 2.0,
+      "minFare": 8.0,
+      "maxCustomary": 40.0,
+      "typicalCapacity": 2,
+      "regulationMatrix": "Human-powered. No Butuan fare instrument covers it. Excluded from the Agusan del Norte fare reference."
+    },
+    {
+      "vehicleId": "bao-bao",
+      "active": false,
+      "baseFare": 10.0,
+      "baseDistanceKm": 1.0,
+      "perKmRate": 2.0,
+      "minFare": 10.0,
+      "maxCustomary": 40.0,
+      "typicalCapacity": 4,
+      "regulationMatrix": "No bao-bao fare instrument exists for Butuan. Excluded from the Agusan del Norte fare reference."
+    },
+    {
+      "vehicleId": "modern-puj",
+      "active": true,
+      "baseFare": 17.0,
+      "baseDistanceKm": 4.0,
+      "perKmRate": 2.4,
+      "minFare": 17.0,
+      "maxCustomary": 42.0,
+      "typicalCapacity": 22,
+      "regulationMatrix": "LTFRB national fare guide, effective 2026-09-28 (modern PUJ). Units are not enumerated on a named Butuan corridor."
+    },
+    {
+      "vehicleId": "uv-express",
+      "active": true,
+      "baseFare": 0.0,
+      "baseDistanceKm": 0.0,
+      "perKmRate": 2.6,
+      "minFare": 0.0,
+      "maxCustomary": 300.0,
+      "typicalCapacity": 14,
+      "regulationMatrix": "LTFRB national fare guide, effective 2026-09-28 - P2.60/km traditional, no base fare; modern units P3.00/km"
+    },
+    {
+      "vehicleId": "provincial-bus",
+      "active": true,
+      "baseFare": 12.0,
+      "baseDistanceKm": 5.0,
+      "perKmRate": 2.2,
+      "minFare": 12.0,
+      "maxCustomary": 500.0,
+      "typicalCapacity": 49,
+      "regulationMatrix": "LTFRB national fare guide, effective 2026-09-28 - ordinary P12.00 first 5 km + P2.20/km; regular aircon P2.45/km with no base"
+    }
+  ],
+  "ordinances": [
+    {
+      "id": "butuan-sp-6824-2023",
+      "title": "Motorized Tricycle-for-hire and Motorela-for-hire Fare Rates Ordinance",
+      "municipality": "Butuan City, Agusan del Norte",
+      "ordinanceNumber": "SP Ordinance No. 6824-2023",
+      "dateEnacted": "2023-04",
+      "summary": "Fuel-indexed base fare for tricycle-for-hire: P8.00 to P13.00 for the first 4 km across six pump-price bands, with a 20% student, senior and PWD discount. The ordinance publishes no succeeding per-kilometre rate.",
+      "vehicleApplicability": "Tricycle, Motorela",
+      "baseFare": 8.0,
+      "succeedingKmRate": 0.0,
+      "discountTerms": "20% statutory discount for students, seniors and PWDs on the applicable band."
+    },
+    {
+      "id": "butuan-sp-7026-2023",
+      "title": "Transportation and Traffic Management Code of Butuan City",
+      "municipality": "Butuan City, Agusan del Norte",
+      "ordinanceNumber": "SP Ordinance No. 7026-2023",
+      "dateEnacted": "2023",
+      "summary": "Article II (Tricycle Fares) sets no amount. It requires the ordinance-fixed fare to be displayed and penalises overcharging by P300-P600 or 10-30 days.",
+      "vehicleApplicability": "Tricycle",
+      "baseFare": 0.0,
+      "succeedingKmRate": 0.0,
+      "discountTerms": "Enforcement instrument; the discount follows RA 9994, RA 10754 and RA 11314."
+    },
+    {
+      "id": "butuan-sp-7220-2025",
+      "title": "Adopting the approved tricycle route plan (TRP) of Butuan City",
+      "municipality": "Butuan City, Agusan del Norte",
+      "ordinanceNumber": "SP Ordinance No. 7220-2025",
+      "dateEnacted": "2025",
+      "summary": "Route and zone framework for tricycles. It sets no fare.",
+      "vehicleApplicability": "Tricycle",
+      "baseFare": 0.0,
+      "succeedingKmRate": 0.0,
+      "discountTerms": "Not a fare instrument."
+    },
+    {
+      "id": "butuan-sp-7278-2025",
+      "title": "Requiring GPS devices on tricycles",
+      "municipality": "Butuan City, Agusan del Norte",
+      "ordinanceNumber": "SP Ordinance No. 7278-2025",
+      "dateEnacted": "2025",
+      "summary": "Enforcement and telemetry requirement for tricycles. It sets no fare.",
+      "vehicleApplicability": "Tricycle",
+      "baseFare": 0.0,
+      "succeedingKmRate": 0.0,
+      "discountTerms": "Not a fare instrument."
+    }
+  ],
+  "simulatorCorridor": [
+    [8.9475, 125.5406],
+    [8.9501, 125.5438],
+    [8.9536, 125.5472],
+    [8.9578, 125.5509],
+    [8.9612, 125.5546]
+  ]
+}

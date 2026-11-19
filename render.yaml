@@ -1,0 +1,43 @@
+# Render Blueprint for the FareFair API and admin console.
+#
+# One service serves the whole product: /v1/* for the app, /admin/ for the
+# console, /docs for the OpenAPI UI. The database lives outside Render, on
+# Neon's free plan, so nothing is tied to a 30-day trial.
+#
+# Deploy: Render Dashboard -> New -> Blueprint -> pick this repository.
+# Render prompts for the three values marked `sync: false`.
+services:
+  - type: web
+    name: farefair-api
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm ci --omit=dev
+    startCommand: node src/server.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.11.0
+      - key: NODE_ENV
+        value: production
+      - key: DB_DRIVER
+        value: pg
+      - key: PGSSL
+        value: "true"
+      - key: TRUST_PROXY
+        value: "true"
+      # Neon connection string (use the direct endpoint, not the -pooler one).
+      - key: DATABASE_URL
+        sync: false
+      # Demo accounts need a real password in production; the API refuses to
+      # seed with the development default when NODE_ENV=production.
+      - key: SEED_DEMO_PASSWORD
+        sync: false
+      # Gate for /admin, /docs, /openapi.json and /v1/auth/*.
+      - key: ADMIN_BASIC_AUTH
+        sync: false
+      # Both directories ship inside this repository, at its root.
+      - key: ASSETS_DIR
+        value: /opt/render/project/src/assets/data
+      - key: ADMIN_DIR
+        value: /opt/render/project/src/web/admin

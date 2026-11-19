@@ -1,0 +1,522 @@
+{
+  "version": 1,
+  "cityId": "cabadbaran",
+  "note": "Every printed place label in the Cabadbaran tricycle matrix, resolved to the barangay whose COD-AB polygon contains it. Labels with precision \"exact\" also carry the coordinate of the physical place; the rest resolve at barangay level until a coordinate is supplied. Matching is by label identity, never by basemap text.",
+  "printedTokens": {
+    "Poblacion or Terminal": [
+      "poblacion",
+      "terminal"
+    ],
+    "Poblacion": [
+      "poblacion"
+    ],
+    "Anywhere in Poblacion": [
+      "poblacion"
+    ],
+    "Land Transport Terminal": [
+      "terminal"
+    ],
+    "CALAMBA": [
+      "barangay:calamba"
+    ]
+  },
+  "barangays": {
+    "Antonio Luna": "PH1600203002",
+    "Bay-ang": "PH1600203005",
+    "Bayabas": "PH1600203006",
+    "Caasinan": "PH1600203007",
+    "Cabinet": "PH1600203009",
+    "Calamba": "PH1600203010",
+    "Calibunan": "PH1600203011",
+    "Comagascas": "PH1600203012",
+    "Concepcion": "PH1600203013",
+    "Del Pilar": "PH1600203014",
+    "Katugasan": "PH1600203016",
+    "Kauswagan": "PH1600203017",
+    "La Union": "PH1600203018",
+    "Mabini": "PH1600203019",
+    "Mahaba": "PH1600203041",
+    "Poblacion 1": "PH1600203021",
+    "Poblacion 10": "PH1600203022",
+    "Poblacion 11": "PH1600203023",
+    "Poblacion 12": "PH1600203024",
+    "Poblacion 2": "PH1600203025",
+    "Poblacion 3": "PH1600203026",
+    "Poblacion 4": "PH1600203027",
+    "Poblacion 5": "PH1600203028",
+    "Poblacion 6": "PH1600203029",
+    "Poblacion 7": "PH1600203030",
+    "Poblacion 8": "PH1600203031",
+    "Poblacion 9": "PH1600203032",
+    "Puting Bato": "PH1600203033",
+    "Sanghan": "PH1600203037",
+    "Soriano": "PH1600203038",
+    "Tolosa": "PH1600203040"
+  },
+  "places": [
+    {
+      "id": "poblacion",
+      "label": "Poblacion",
+      "kind": "cluster",
+      "precision": "cluster",
+      "barangays": [
+        "Poblacion 1",
+        "Poblacion 10",
+        "Poblacion 11",
+        "Poblacion 12",
+        "Poblacion 2",
+        "Poblacion 3",
+        "Poblacion 4",
+        "Poblacion 5",
+        "Poblacion 6",
+        "Poblacion 7",
+        "Poblacion 8",
+        "Poblacion 9"
+      ]
+    },
+    {
+      "id": "bugho_bay_ang",
+      "label": "Bugho, Bay-Ang",
+      "kind": "sitio",
+      "barangay": "Bay-ang",
+      "barangayPcode": "PH1600203005",
+      "precision": "barangay"
+    },
+    {
+      "id": "bung_aw_bay_ang",
+      "label": "Bung-Aw, Bay-Ang",
+      "kind": "sitio",
+      "barangay": "Bay-ang",
+      "barangayPcode": "PH1600203005",
+      "precision": "barangay"
+    },
+    {
+      "id": "dal_as_bay_ang",
+      "label": "Dal-As, Bay-Ang",
+      "kind": "sitio",
+      "barangay": "Bay-ang",
+      "barangayPcode": "PH1600203005",
+      "precision": "barangay"
+    },
+    {
+      "id": "calamba_proper",
+      "label": "Calamba Proper",
+      "kind": "sitio",
+      "barangay": "Calamba",
+      "barangayPcode": "PH1600203010",
+      "precision": "barangay"
+    },
+    {
+      "id": "calulutay_calamba",
+      "label": "Calulutay, Calamba",
+      "kind": "sitio",
+      "barangay": "Calamba",
+      "barangayPcode": "PH1600203010",
+      "precision": "barangay"
+    },
+    {
+      "id": "crossing_national_highway",
+      "label": "Crossing National Highway",
+      "kind": "sitio",
+      "barangay": "Calamba",
+      "barangayPcode": "PH1600203010",
+      "precision": "barangay"
+    },
+    {
+      "id": "malico_calamba",
+      "label": "Malico, Calamba",
+      "kind": "sitio",
+      "barangay": "Calamba",
+      "barangayPcode": "PH1600203010",
+      "precision": "barangay"
+    },
+    {
+      "id": "maybo_calibunan",
+      "label": "Maybo, Calibunan",
+      "kind": "sitio",
+      "barangay": "Calibunan",
+      "barangayPcode": "PH1600203011",
+      "precision": "barangay"
+    },
+    {
+      "id": "maybo_calibunan_via_malingin",
+      "label": "Maybo, Calibunan (Via Malingin)",
+      "kind": "sitio",
+      "barangay": "Calibunan",
+      "barangayPcode": "PH1600203011",
+      "precision": "barangay"
+    },
+    {
+      "id": "anangilan_kikay_comagascas",
+      "label": "Anangilan (Kikay), Comagascas",
+      "kind": "sitio",
+      "barangay": "Comagascas",
+      "barangayPcode": "PH1600203012",
+      "precision": "barangay"
+    },
+    {
+      "id": "anangilan_valentine_comagascas",
+      "label": "Anangilan (Valentine), Comagascas",
+      "kind": "sitio",
+      "barangay": "Comagascas",
+      "barangayPcode": "PH1600203012",
+      "precision": "barangay"
+    },
+    {
+      "id": "comagascas_proper",
+      "label": "Comagascas (Proper)",
+      "kind": "sitio",
+      "barangay": "Comagascas",
+      "barangayPcode": "PH1600203012",
+      "precision": "barangay"
+    },
+    {
+      "id": "hacienda_comagascas",
+      "label": "Hacienda, Comagascas",
+      "kind": "sitio",
+      "barangay": "Comagascas",
+      "barangayPcode": "PH1600203012",
+      "precision": "barangay"
+    },
+    {
+      "id": "hinagdanan_comagascas",
+      "label": "Hinagdanan, Comagascas",
+      "kind": "sitio",
+      "barangay": "Comagascas",
+      "barangayPcode": "PH1600203012",
+      "precision": "barangay"
+    },
+    {
+      "id": "maraput_comagascas",
+      "label": "Maraput, Comagascas",
+      "kind": "sitio",
+      "barangay": "Comagascas",
+      "barangayPcode": "PH1600203012",
+      "precision": "barangay"
+    },
+    {
+      "id": "concepcion_proper",
+      "label": "Concepcion Proper",
+      "kind": "sitio",
+      "barangay": "Concepcion",
+      "barangayPcode": "PH1600203013",
+      "precision": "barangay"
+    },
+    {
+      "id": "little_leyte_concepcion",
+      "label": "Little Leyte, Concepcion",
+      "kind": "sitio",
+      "barangay": "Concepcion",
+      "barangayPcode": "PH1600203013",
+      "precision": "barangay"
+    },
+    {
+      "id": "bungogon_del_pilar",
+      "label": "Bungogon, Del Pilar",
+      "kind": "sitio",
+      "barangay": "Del Pilar",
+      "barangayPcode": "PH1600203014",
+      "precision": "barangay"
+    },
+    {
+      "id": "del_pilar_purok_1_and_2",
+      "label": "Del Pilar Purok 1 & 2",
+      "kind": "sitio",
+      "barangay": "Del Pilar",
+      "barangayPcode": "PH1600203014",
+      "precision": "barangay"
+    },
+    {
+      "id": "sitio_pirada_del_pilar",
+      "label": "Sitio Pirada, Del Pilar",
+      "kind": "sitio",
+      "barangay": "Del Pilar",
+      "barangayPcode": "PH1600203014",
+      "precision": "barangay"
+    },
+    {
+      "id": "katugasan_purok_1_2_3_4",
+      "label": "Katugasan (Purok 1, 2, 3, 4)",
+      "kind": "sitio",
+      "barangay": "Katugasan",
+      "barangayPcode": "PH1600203016",
+      "precision": "barangay"
+    },
+    {
+      "id": "purok_5_pahit_dal_as_katugasan",
+      "label": "Purok 5 (Pahit Dal-As), Katugasan",
+      "kind": "sitio",
+      "barangay": "Katugasan",
+      "barangayPcode": "PH1600203016",
+      "precision": "barangay"
+    },
+    {
+      "id": "kauswagan_proper_upper_lower",
+      "label": "Kauswagan (PROPER/ UPPER/ LOWER)",
+      "kind": "sitio",
+      "barangay": "Kauswagan",
+      "barangayPcode": "PH1600203017",
+      "precision": "barangay"
+    },
+    {
+      "id": "pongkay_sinunug_kauswagan",
+      "label": "Pongkay/Sinunug, Kauswagan",
+      "kind": "sitio",
+      "barangay": "Kauswagan",
+      "barangayPcode": "PH1600203017",
+      "precision": "barangay"
+    },
+    {
+      "id": "sitio_sinunog_kauswagan",
+      "label": "Sitio Sinunog, Kauswagan",
+      "kind": "sitio",
+      "barangay": "Kauswagan",
+      "barangayPcode": "PH1600203017",
+      "precision": "barangay"
+    },
+    {
+      "id": "abattoir_la_union",
+      "label": "Abattoir, La Union",
+      "kind": "sitio",
+      "barangay": "La Union",
+      "barangayPcode": "PH1600203018",
+      "precision": "barangay"
+    },
+    {
+      "id": "angel_village_la_union",
+      "label": "Angel Village, La Union",
+      "kind": "sitio",
+      "barangay": "La Union",
+      "barangayPcode": "PH1600203018",
+      "precision": "barangay"
+    },
+    {
+      "id": "bandol_la_union",
+      "label": "Bandol, La Union",
+      "kind": "sitio",
+      "barangay": "La Union",
+      "barangayPcode": "PH1600203018",
+      "precision": "barangay"
+    },
+    {
+      "id": "boundary_la_union_bitaog",
+      "label": "Boundary La Union (Bitaog)",
+      "kind": "sitio",
+      "barangay": "La Union",
+      "barangayPcode": "PH1600203018",
+      "precision": "barangay"
+    },
+    {
+      "id": "bukid_bukid_la_union_via_malingin",
+      "label": "Bukid-Bukid, La Union (Via Malingin)",
+      "kind": "sitio",
+      "barangay": "La Union",
+      "barangayPcode": "PH1600203018",
+      "precision": "barangay"
+    },
+    {
+      "id": "la_union_proper",
+      "label": "La Union Proper",
+      "kind": "sitio",
+      "barangay": "La Union",
+      "barangayPcode": "PH1600203018",
+      "precision": "barangay"
+    },
+    {
+      "id": "maong_la_union",
+      "label": "Maong, La Union",
+      "kind": "sitio",
+      "barangay": "La Union",
+      "barangayPcode": "PH1600203018",
+      "precision": "barangay"
+    },
+    {
+      "id": "panlaisan_la_union_hi_way",
+      "label": "Panlaisan, La Union (Hi-Way)",
+      "kind": "sitio",
+      "barangay": "La Union",
+      "barangayPcode": "PH1600203018",
+      "precision": "barangay"
+    },
+    {
+      "id": "panlaisan_la_union_intaq_raniel",
+      "label": "Panlaisan, La Union (Intaq/Raniel)",
+      "kind": "sitio",
+      "barangay": "La Union",
+      "barangayPcode": "PH1600203018",
+      "precision": "barangay"
+    },
+    {
+      "id": "panlaisan_la_union_sulod",
+      "label": "Panlaisan, La Union (Sulod)",
+      "kind": "sitio",
+      "barangay": "La Union",
+      "barangayPcode": "PH1600203018",
+      "precision": "barangay"
+    },
+    {
+      "id": "dal_as_mabini",
+      "label": "Dal-As (Mabini)",
+      "kind": "sitio",
+      "barangay": "Mabini",
+      "barangayPcode": "PH1600203019",
+      "precision": "barangay"
+    },
+    {
+      "id": "dinabucan_mabini",
+      "label": "Dinabucan. Mabini",
+      "kind": "sitio",
+      "barangay": "Mabini",
+      "barangayPcode": "PH1600203019",
+      "precision": "barangay"
+    },
+    {
+      "id": "terminal",
+      "label": "Land Transport Terminal",
+      "kind": "terminal",
+      "lat": 9.1173008,
+      "lng": 125.5477519,
+      "radiusM": 90,
+      "precision": "exact",
+      "barangay": "Mabini",
+      "barangayPcode": "PH1600203019"
+    },
+    {
+      "id": "lower_mabini",
+      "label": "Lower Mabini",
+      "kind": "sitio",
+      "barangay": "Mabini",
+      "barangayPcode": "PH1600203019",
+      "precision": "barangay"
+    },
+    {
+      "id": "mabini_plains",
+      "label": "Mabini Plains",
+      "kind": "sitio",
+      "barangay": "Mabini",
+      "barangayPcode": "PH1600203019",
+      "precision": "barangay"
+    },
+    {
+      "id": "mabini_vcdu",
+      "label": "Mabini VCDU",
+      "kind": "sitio",
+      "barangay": "Mabini",
+      "barangayPcode": "PH1600203019",
+      "precision": "barangay"
+    },
+    {
+      "id": "mabini_vice_versa",
+      "label": "Mabini Vice Versa",
+      "kind": "sitio",
+      "barangay": "Mabini",
+      "barangayPcode": "PH1600203019",
+      "precision": "barangay"
+    },
+    {
+      "id": "pandanon_mabini",
+      "label": "Pandanon, Mabini",
+      "kind": "sitio",
+      "barangay": "Mabini",
+      "barangayPcode": "PH1600203019",
+      "precision": "exact",
+      "lat": 9.1089198,
+      "lng": 125.5604978,
+      "radiusM": 120
+    },
+    {
+      "id": "upper_mabini",
+      "label": "Upper Mabini",
+      "kind": "sitio",
+      "barangay": "Mabini",
+      "barangayPcode": "PH1600203019",
+      "precision": "barangay"
+    },
+    {
+      "id": "mahaba_centro",
+      "label": "Mahaba Centro",
+      "kind": "sitio",
+      "barangay": "Mahaba",
+      "barangayPcode": "PH1600203041",
+      "precision": "barangay"
+    },
+    {
+      "id": "catholic_cemetery_poblacion_4",
+      "label": "Catholic Cemetery, Poblacion 4",
+      "kind": "landmark",
+      "barangay": "Poblacion 4",
+      "barangayPcode": "PH1600203027",
+      "precision": "exact",
+      "lat": 9.1163376,
+      "lng": 125.5318931,
+      "radiusM": 70
+    },
+    {
+      "id": "punta_puting_bato",
+      "label": "Punta Puting Bato",
+      "kind": "sitio",
+      "barangay": "Puting Bato",
+      "barangayPcode": "PH1600203033",
+      "precision": "barangay"
+    },
+    {
+      "id": "puting_bato_centro",
+      "label": "Puting Bato Centro",
+      "kind": "sitio",
+      "barangay": "Puting Bato",
+      "barangayPcode": "PH1600203033",
+      "precision": "barangay"
+    },
+    {
+      "id": "sanghan_centro",
+      "label": "Sanghan Centro",
+      "kind": "sitio",
+      "barangay": "Sanghan",
+      "barangayPcode": "PH1600203037",
+      "precision": "barangay"
+    },
+    {
+      "id": "cambisay_soriano",
+      "label": "Cambisay, Soriano",
+      "kind": "sitio",
+      "barangay": "Soriano",
+      "barangayPcode": "PH1600203038",
+      "precision": "barangay"
+    },
+    {
+      "id": "cabadbaran_district_hospital_tolosa",
+      "label": "Cabadbaran District Hospital, Tolosa",
+      "kind": "landmark",
+      "barangay": "Tolosa",
+      "barangayPcode": "PH1600203040",
+      "precision": "exact",
+      "lat": 9.1141632,
+      "lng": 125.5277704,
+      "radiusM": 70
+    },
+    {
+      "id": "secuanda_tolosa",
+      "label": "Secuanda, Tolosa",
+      "kind": "sitio",
+      "barangay": "Tolosa",
+      "barangayPcode": "PH1600203040",
+      "precision": "barangay"
+    },
+    {
+      "id": "tolosa_school_bliss",
+      "label": "Tolosa / School Bliss",
+      "kind": "sitio",
+      "barangay": "Tolosa",
+      "barangayPcode": "PH1600203040",
+      "precision": "barangay"
+    },
+    {
+      "id": "tolosa_proper",
+      "label": "Tolosa Proper",
+      "kind": "sitio",
+      "barangay": "Tolosa",
+      "barangayPcode": "PH1600203040",
+      "precision": "barangay"
+    }
+  ]
+}

@@ -1,0 +1,256 @@
+/* =====================================================================
+   FareFair Admin — showcase layer.
+   The console is a website, so it gets a website's production values:
+   an animated aurora canvas, glass chrome, gradient KPI tiles, a hero
+   header, a command palette and a scroll-reveal rhythm. No layout is
+   repositioned; everything refines the existing shell.
+   ===================================================================== */
+
+/* ---- animated canvas ------------------------------------------------ */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+}
+body::before {
+  width: 52vw;
+  height: 52vw;
+  top: -22vw;
+  right: -12vw;
+  background: radial-gradient(circle at 30% 30%, rgba(171, 208, 175, 0.55), transparent 62%);
+  animation: driftA 26s ease-in-out infinite alternate;
+}
+body::after {
+  width: 46vw;
+  height: 46vw;
+  bottom: -24vw;
+  left: 18vw;
+  background: radial-gradient(circle at 60% 40%, rgba(217, 130, 43, 0.28), transparent 64%);
+  animation: driftB 32s ease-in-out infinite alternate;
+}
+@keyframes driftA {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-4vw, 3vw, 0) scale(1.08); }
+}
+@keyframes driftB {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(5vw, -4vw, 0) scale(1.12); }
+}
+.app-shell { position: relative; z-index: 1; }
+
+/* ---- glass chrome ---------------------------------------------------- */
+.topbar {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(228, 223, 210, 0.9);
+  border-radius: 18px;
+  margin: 12px 18px 0;
+  box-shadow: 0 24px 50px -40px rgba(21, 33, 29, 0.65);
+}
+.sidebar {
+  background:
+    radial-gradient(420px 240px at 10% 0%, rgba(171, 208, 175, 0.16), transparent 60%),
+    linear-gradient(180deg, #16261d 0%, #0d1712 100%) !important;
+}
+.sidebar-brand::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 6px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(217, 130, 43, 0.45), transparent);
+}
+.sidebar-brand { position: relative; }
+
+/* ---- hero header ----------------------------------------------------- */
+.page-head {
+  position: relative;
+  overflow: hidden;
+  padding: 30px 32px !important;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background:
+    radial-gradient(620px 220px at 92% -30%, rgba(217, 130, 43, 0.18), transparent 62%),
+    radial-gradient(520px 240px at 4% 120%, rgba(171, 208, 175, 0.30), transparent 60%),
+    linear-gradient(120deg, #ffffff 0%, #fdfaf2 100%);
+  margin-bottom: 20px;
+  align-items: center;
+}
+.page-head::after {
+  content: "";
+  position: absolute;
+  right: -90px;
+  top: -120px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  border: 1px solid rgba(23, 48, 77, 0.12);
+  box-shadow:
+    0 0 0 28px rgba(23, 48, 77, 0.05),
+    0 0 0 56px rgba(23, 48, 77, 0.03);
+  pointer-events: none;
+}
+.page-head h2 {
+  font-size: 40px !important;
+  letter-spacing: -0.035em;
+  background: linear-gradient(92deg, #15211d 0%, #23422a 60%, #17304d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.page-head p { font-size: 14px; }
+
+/* ---- KPI tiles: four gradients -------------------------------------- */
+.kpi {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px !important;
+  border: 1px solid transparent;
+  color: #f8f7f2;
+  min-height: 148px;
+  padding: 20px 22px !important;
+}
+.kpi::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(260px 140px at 100% 0%, rgba(255, 255, 255, 0.22), transparent 60%);
+  pointer-events: none;
+}
+.kpi:nth-child(4n + 1) {
+  background: linear-gradient(145deg, #17304d 0%, #23422a 100%);
+}
+.kpi:nth-child(4n + 2) {
+  background: linear-gradient(145deg, #23422a 0%, #2f5540 100%);
+}
+.kpi:nth-child(4n + 3) {
+  background: linear-gradient(145deg, #7a4308 0%, #a45a12 100%);
+}
+.kpi:nth-child(4n + 4) {
+  background: linear-gradient(145deg, #26332e 0%, #17304d 100%);
+}
+.kpi .kpi-label { color: rgba(248, 247, 242, 0.66) !important; }
+.kpi .kpi-value { color: #ffffff !important; }
+.kpi .kpi-value small { color: rgba(248, 247, 242, 0.7) !important; }
+.kpi .kpi-note,
+.kpi .kpi-note.positive,
+.kpi .kpi-note.negative,
+.kpi .kpi-note.warn { color: rgba(248, 247, 242, 0.8) !important; }
+.kpi .kpi-icon {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #f4e7d7 !important;
+}
+.kpi svg { stroke: rgba(255, 255, 255, 0.85); }
+.kpi:hover { transform: translateY(-3px) !important; box-shadow: 0 28px 50px -34px rgba(8, 22, 13, 0.7) !important; }
+
+/* ---- surfaces -------------------------------------------------------- */
+.card {
+  background: rgba(255, 255, 255, 0.86) !important;
+  border: 1px solid rgba(228, 223, 210, 0.95);
+  backdrop-filter: blur(6px);
+  border-radius: 20px;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(217, 130, 43, 0.35);
+  box-shadow: 0 30px 60px -46px rgba(21, 33, 29, 0.6);
+}
+.card-head h3 { font-size: 16px; }
+
+/* ---- buttons --------------------------------------------------------- */
+.btn {
+  background: linear-gradient(135deg, #17304d 0%, #1d405f 100%);
+  border: 0;
+  box-shadow: 0 14px 24px -18px rgba(23, 48, 77, 0.8);
+}
+.btn:hover { filter: brightness(1.08); }
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--line);
+  box-shadow: none;
+  color: var(--ink);
+}
+.btn-ghost:hover { border-color: var(--navy); color: var(--navy); filter: none; }
+
+/* ---- tables ---------------------------------------------------------- */
+.table-wrap { border-radius: 16px; }
+.table thead th { background: rgba(242, 239, 230, 0.9); }
+.table tbody tr { transition: background-color 120ms ease, box-shadow 120ms ease; }
+.table tbody tr:hover { background: rgba(217, 130, 43, 0.06); box-shadow: inset 3px 0 0 rgba(217, 130, 43, 0.6); }
+
+/* ---- command palette ------------------------------------------------ */
+.cmdk {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 14vh;
+  background: rgba(13, 23, 18, 0.45);
+  backdrop-filter: blur(6px);
+}
+.cmdk.open { display: flex; animation: fadeIn 120ms ease both; }
+.cmdk-panel {
+  width: min(620px, 92vw);
+  background: #fffdf8;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 50px 100px -50px rgba(8, 22, 13, 0.8);
+  overflow: hidden;
+  animation: riseIn 180ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+.cmdk-input {
+  width: 100%;
+  border: 0 !important;
+  border-bottom: 1px solid var(--line) !important;
+  border-radius: 0 !important;
+  height: 56px !important;
+  padding: 0 20px !important;
+  font-size: 15px !important;
+  background: transparent !important;
+}
+.cmdk-list { max-height: 320px; overflow: auto; padding: 8px; }
+.cmdk-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  color: var(--ink);
+  cursor: pointer;
+}
+.cmdk-item[data-active="true"],
+.cmdk-item:hover { background: rgba(217, 130, 43, 0.12); }
+.cmdk-item small { margin-left: auto; color: var(--muted); font-size: 11px; }
+.cmdk-foot {
+  display: flex;
+  gap: 14px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--muted);
+}
+.cmdk kbd {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 1px 5px;
+  background: #fff;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes riseIn { from { opacity: 0; transform: translateY(10px) scale(0.99); } to { opacity: 1; transform: none; } }
+
+/* ---- reveal rhythm --------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  body::before, body::after { animation: none; }
+}

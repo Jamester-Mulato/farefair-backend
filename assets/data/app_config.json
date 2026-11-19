@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 2,
+  "activeCityId": "cabadbaran",
+  "province": "Agusan del Norte",
+  "cities": [
+    { "id": "cabadbaran", "asset": "assets/data/cities/cabadbaran.json" },
+    { "id": "butuan", "asset": "assets/data/cities/butuan.json" }
+  ]
+}
