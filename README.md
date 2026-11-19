@@ -11,9 +11,9 @@ The admin console itself lives in the FareFair app's `web/admin` folder. When th
 checked out inside that project, `src/app.js` serves it at `/admin/`; a standalone API-only
 checkout simply skips that static route.
 
-The seeded catalog is **Cabadbaran City only**. It ships the official 68-row tricycle fare matrix
-effective 24 September 2026 as a checked-in dataset, so the API, the console and the database all
-expose the same published fares.
+The seeded catalog is **Cabadbaran City only**. It ships the 66-row tricycle tariff the city
+posted on 17 July 2026 under Special City Ordinance No. 2020-012 as a checked-in dataset, so the
+API, the console and the database all expose the same published fares.
 
 The schema targets **PostgreSQL 15+**. For zero-setup development and tests it runs on
 **PGlite**, the official PostgreSQL 17 build compiled to WASM, using the exact same SQL.
@@ -107,7 +107,7 @@ rows; use `npm run db:reset:pg` when you want the sample data as well.
 | `GET` | `/v1/cities/:cityId` | Full city dataset: policy, matrix, ordinances, corridor |
 | `GET` | `/v1/cities/:cityId/fare-policy` | Active policy (+ optional history) |
 | `GET` | `/v1/cities/:cityId/fare-matrix` | Active or versioned per-kilometre fare matrix |
-| `GET` | `/v1/cities/:cityId/fare-routes` | Official point-to-point fare rows (68 for Cabadbaran) |
+| `GET` | `/v1/cities/:cityId/fare-routes` | Official point-to-point fare rows (66 for Cabadbaran) |
 | `GET` | `/v1/fare/routes` | City-scoped alias; defaults to the focus city |
 | `GET` | `/v1/vehicles` | Global vehicle catalog |
 | `GET` | `/v1/vehicles/:vehicleId` | Vehicle detail + per-city tariffs |
@@ -125,6 +125,7 @@ rows; use `npm run db:reset:pg` when you want the sample data as well.
 | `GET` | `/v1/trips` | Filtered, paginated trip records |
 | `POST` | `/v1/trips` | Record a trip (fare computed server-side) |
 | `GET` | `/v1/trips/:tripId` | Trip + GPS points + quote + predictions + anomalies |
+| `GET` | `/v1/trips/:tripId/analysis` | Rule-based trip analysis, optionally re-worded by a configured model |
 | `PATCH` | `/v1/trips/:tripId/status` | Flag/dispute/complete a trip |
 | `GET` | `/v1/trips.csv` | CSV export |
 | `GET` | `/v1/analytics/overview` | Totals, daily series, vehicle/discount/status mix, top routes |
@@ -161,7 +162,7 @@ Every operation has a success-path input fixture from `GET /health` through anal
 | `docs/openapi.json` | Swagger examples generated from the fixture |
 
 ```bash
-npm run api:inputs      # execute all 42 operations against the running API
+npm run api:inputs      # execute all 43 operations against the running API
 npm run docs:examples   # apply the latest values to Swagger
 npm run docs:inputs     # regenerate the Markdown input table
 ```
@@ -402,6 +403,122 @@ fallback, so stored fares, quotes, training labels and API estimates cannot drif
 
 ---
 
+## Trip analysis
+
+`GET /v1/trips/:tripId/analysis` explains one recorded trip. It is built in four layers, and
+only the last one can touch the network:
+
+1. **Computed truth (always on, pure).** `src/lib/trip-analysis.js` derives the fare packet and
+   the GPS facts (path, gap, detour ratio, speeds) from the stored trip. No clock, no randomness.
+2. **Rule triage (always on, pure).** The same file turns those facts into findings
+   (`gps_gap`, `fare_above_band`, `open_anomaly`, …), each with a severity and evidence paths
+   into the packet. A statutory discount is a note, not a finding that raises risk.
+3. **Narrative (optional).** When an OpenAI-compatible provider is configured, the model may
+   only rank the existing findings and write `headline`/`summary`/`checks`. `validateNarrative`
+   rejects any number that is not already in the packet or the findings, so a model can never
+   invent a fare. Rejected or unavailable responses fall back to the rule narrative.
+4. **Document intake (human).** Not part of this endpoint; new ordinance text stays a manual,
+   reviewed data update.
+
+**The fare path never calls a model.** `POST /v1/fare/estimate`, trip creation and every amount the
+Flutter app shows remain deterministic. The analysis endpoint is opt-in at the server: with no
+`FAREFAIR_LLM_*` variables it returns `engine.mode = "rules"` and makes **zero** network calls.
+The same rules are ported to Dart (`lib/services/trip_analysis.dart`) so the mobile app can run
+the analysis on-device, offline. (The one place the app itself talks to a provider is the optional
+overcharge explanation, which only rewrites a verdict the device already computed.)
+
+### Provider setup
+
+Any OpenAI-compatible chat-completions endpoint works. Copy the block into `backend/.env`:
+
+```bash
+# Google AI Studio (free tier, OpenAI-compatible endpoint)
+FAREFAIR_LLM_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai
+FAREFAIR_LLM_MODEL=gemini-2.0-flash
+FAREFAIR_LLM_API_KEY=your-google-ai-studio-key
+
+# Groq (free tier)
+# FAREFAIR_LLM_BASE_URL=https://api.groq.com/openai/v1
+# FAREFAIR_LLM_MODEL=llama-3.3-70b-versatile
+# FAREFAIR_LLM_API_KEY=your-groq-key
+
+# OpenRouter (":free" model variants)
+# FAREFAIR_LLM_BASE_URL=https://openrouter.ai/api/v1
+# FAREFAIR_LLM_MODEL=meta-llama/llama-3.3-70b-instruct:free
+# FAREFAIR_LLM_API_KEY=your-openrouter-key
+
+# Local Ollama (no API key needed for localhost)
+# FAREFAIR_LLM_BASE_URL=http://localhost:11434/v1
+# FAREFAIR_LLM_MODEL=llama3.1
+```
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `FAREFAIR_LLM_PROVIDER` | — | Preset: `nvidia`, `groq`, `cerebras`, `openrouter`, `google`, `ollama`. Fills the URL and model. |
+| `FAREFAIR_LLM_BASE_URL` | preset or — | OpenAI-compatible base URL. Required to enable the layer. |
+| `FAREFAIR_LLM_MODEL` | preset or — | Model name sent in the request. Required. |
+| `FAREFAIR_LLM_API_KEY` | — | Bearer key. Not required for a localhost base URL. |
+| `FAREFAIR_LLM_TIMEOUT_MS` | `15000`, or the preset's own | Per-request timeout; a timeout falls back to rules. The `nvidia` preset defaults to `240000` because the 550B model needs 90-180 s. |
+| `FAREFAIR_LLM_JSON_MODE` | `true` | Ask for `response_format: json_object`; disable for providers that reject it. |
+| `FAREFAIR_LLM_DISABLED` | `false` | Set to `true` to force rules mode even when the rest is configured. |
+
+Successful model narratives are cached for 5 minutes per trip/model and returned with
+`engine.mode = "llm"`, the model name and latency. The response always carries the deterministic
+`facts`, `findings`, `basis` and the disclaimer that fares come from the published matrix.
+
+---
+
+## Overcharge analysis
+
+`GET /v1/trips/:tripId/overcharge?paid=50` compares **the amount the passenger actually paid**
+with **the amount the published matrix requires** for the same origin and destination. This is the
+module behind the study title *Fare Overcharging Detection*.
+
+```bash
+curl "http://localhost:4000/v1/trips/$TRIP/overcharge?paid=50"
+curl -X POST "http://localhost:4000/v1/trips/$TRIP/overcharge" \
+  -H 'content-type: application/json' \
+  -d '{"paid": 50, "disableLlm": true}'
+```
+
+Three properties make the result defensible:
+
+1. **The expected amount is transcribed, never estimated.** It is rebuilt from the printed row
+   (`fn_lookup_fare_route` + `buildOfficialFare`), so the comparison is not circular with the
+   app's own stored `exact_fare`.
+2. **Arithmetic and classification are pure.** `src/lib/overcharge.js` returns the same verdict for
+   the same trip and payment. The status is one of `compliant`, `overcharged`, `undercharged`,
+   `not_covered` (no printed row) or `contract` (direct hire).
+3. **The model only explains.** It receives the verdict, the ranked hypotheses and the printed
+   rows. `validateExplanation` rejects any narrative that introduces a number outside the packet,
+   contradicts the computed status, or names a cause code that was not proposed.
+
+The useful output is `hypotheses`: ranked, evidenced explanations of *why* the amount came out
+higher, each testable against the table.
+
+| Hypothesis | What it means | How strong the evidence is |
+| --- | --- | --- |
+| `matched_other_row` | The paid amount is exactly another printed fare | exact match |
+| `matched_adjacent_sitio` | …and that row is a sitio in the same barangay | exact match |
+| `matched_unit_row` | The per-head charge is another row's fare | exact per head |
+| `hub_link_added` | The Poblacion/terminal link fare was added | exact sum |
+| `composed_as_single_hire` | Two printed legs were charged as one hire | exact sum |
+| `discount_missed` | The statutory discount exists but was not applied | exact regular total |
+| `per_passenger_double` | A group total was multiplied by the head count | exact multiple |
+| `solo_double` | A solo hire was charged as two passenger fares | exact multiple |
+| `rounded_up` | A small gap that lands on a round amount | weak |
+| `surcharge_added` | An add-on the matrix does not print | weak |
+| `unlisted_place` / `contract_hire` | No printed row applies | n/a — no verdict on the amount |
+
+A `not_covered` or `contract` result is **not** an overcharge. The endpoint says so explicitly, and
+the model is instructed to say the same.
+
+See [`docs/OVERCHARGE.md`](docs/OVERCHARGE.md) for the full method, the classification thresholds
+and the paragraph you can reuse in the paper.
+
+---
+
+
 ## Machine learning model
 
 **Model key:** `fare-fair-linear` — ridge linear regression over engineered fare features.
@@ -423,6 +540,15 @@ discount, discount_x_base_x_seat, discount_x_per_km_distance_x_seat
 - The seed produces 226 trips and 226 feature rows (~80/10/10 split), trains model version 1,
   and stores 80 predictions.
 
+**Read the metrics with the tariff in mind.** Training labels come from trips generated from the
+published table, so the fit reproduces that table rather than an independent market sample. For
+Cabadbaran the table is closed and has no per-kilometre column, so `per_km_rate` is 0 and
+`fn_predict_fare` falls back to the documented distance benchmark (₱2.00/km) that
+`deriveDistanceKm` uses. The fit therefore recovers the benchmark exactly: R² 1.0, zero residual,
+a zero-width interval. That is a consistency check on the benchmark scale, not a forecast, and
+`ml_model_versions.hyperparameters` records it as such. Fares are always priced from the published
+matrix — the model never prices a trip.
+
 Current seeded metrics are exposed at `GET /v1/fare/models/fare-fair-linear`.
 
 ---
@@ -436,14 +562,15 @@ db/data/cabadbaran-tricycle-fare-matrix.json
 ```
 
 and imports **Cabadbaran City only**: 1 city, 1 fare policy, 1 active tricycle matrix entry,
-**68 official fare routes**, 64 places with aliases, 1 ordinance, 9 global vehicle classes,
+**66 published fare routes**, 62 places with aliases, 1 ordinance, 11 global vehicle classes,
 demo route/corridor, 21 days of deterministic trips priced from the published rows, GPS
 breadcrumbs, anomalies, quotes, 226 ML samples and 80 predictions.
 
-The matrix is official and **not** provisional: it is the Cabadbaran City Tricycle Fare Matrix
-effective 24 September 2026, with ₱13 regular / ₱11 discounted minimum fares, a 20% student,
-senior and PWD discount, and ₱2.00 per kilometre beyond the Poblacion. The Flutter app's
-`assets/data` JSON is deliberately left untouched.
+The matrix is the tariff the city posted on **17 July 2026** under **Special City Ordinance No.
+2020-012**: ₱9.00 regular / ₱7.20 discounted minimum, a closed per-route table (₱9.00–₱70.00), a
+20% student, senior and PWD discount, and **no** per-kilometre add-on. The Flutter app's
+`assets/data/cities/cabadbaran.json` is kept aligned by
+`ml/scripts/22_update_cabadbaran_app_asset.py`.
 
 ---
 
@@ -453,19 +580,23 @@ senior and PWD discount, and ₱2.00 per kilometre beyond the Poblacion. The Flu
 npm test
 ```
 
-37 API integration tests run against a fresh in-memory PGlite database seeded from the official
+39 API integration tests run against a fresh in-memory PGlite database seeded from the official
 Cabadbaran dataset. They cover health/meta, the single-city catalog, official fare routes,
 published-route and distance-fallback pricing, validation and 404s, persisted quotes, ML
 prediction, model registry, retraining/activation, trip filters, GPS points, official trip
-creation, status changes, analytics, ordinance filtering, anomalies, audit, CSV and OpenAPI —
-plus the success contract (blank inputs fall back to defaults, empty filters return 200 with
-empty payloads, calendar dates keep their day, and only invalid values return 400).
+creation, trip analysis, status changes, analytics, ordinance filtering, anomalies, audit, CSV and
+OpenAPI — plus the success contract (blank inputs fall back to defaults, empty filters return 200
+with empty payloads, calendar dates keep their day, and only invalid values return 400).
 
 13 more tests in `test/auth-admin.test.js` cover the console wiring: scrypt sign-in, wrong
 password/unknown account 401s, the 5-attempt lockout, `/v1/auth/me` and logout revocation, the
 admin-only account list, scoped fare-matrix and fare-route writes (`401`/`403`/`200`), payload
 and target validation, idempotent focus-city activation, append-only audit events and `/admin/`
 being served by the API.
+
+11 pure unit tests in `test/trip-analysis.test.js` cover the analysis contract: facts, rule
+findings, evidence paths, risk severity, the informational discount, confidence, narrative
+validation (invented amounts and unknown codes are rejected) and the opt-in provider setting.
 
 ---
 
@@ -474,7 +605,7 @@ being served by the API.
 ```
 backend/
   db/001_schema.sql          PostgreSQL DDL + fare engine + ML SQL + views
-  db/data/cabadbaran-tricycle-fare-matrix.json  official 68-row dataset
+  db/data/cabadbaran-tricycle-fare-matrix.json  official 66-row dataset
   src/
     db.js                    pg / PGlite adapter
     seed.js                  official dataset → PostgreSQL seed pipeline
@@ -485,11 +616,13 @@ backend/
     lib/fare.js              official-route lookup + published-fare pricing
     lib/ml.js                ridge OLS, metrics, feature engineering
     lib/serialize.js         snake_case → camelCase API serializers
+    lib/trip-analysis.js     deterministic facts, rule findings, narrative validation
     routes/                  catalog, fares, trips, analytics, auth, admin
-    services/                model training/activation
+    services/                model training/activation, LLM client, trip analysis
     scripts/                 reset-db, train, build-pgadmin-sql
-  test/api.test.js            37 API integration tests
+  test/api.test.js            39 API integration tests
   test/auth-admin.test.js     13 auth + admin console tests
+  test/trip-analysis.test.js  11 analysis unit tests
   docs/openapi.json
   docker-compose.yml
 ```

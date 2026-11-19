@@ -64,6 +64,28 @@ export function featuresToVector(features) {
 }
 
 /**
+ * Registry metadata stored beside every fitted baseline version.
+ *
+ * The samples are generated from the published fare table, so the fit
+ * reproduces that table rather than an observed market. For a closed per-route
+ * tariff the fit recovers the documented distance benchmark. Both facts are
+ * recorded here so the model is never mistaken for a pricing source.
+ */
+export function trainingMetadata({ trainRows, validationRows, testRows }) {
+  return {
+    ridge: 1e-6,
+    featureSet: 'fare-fair-v1',
+    trainRows,
+    validationRows,
+    testRows,
+    distanceBasis: 'published_per_km_rate_or_2.00_benchmark',
+    targetBasis: 'synthetic_trips_generated_from_published_routes',
+    caveat:
+      'Samples are generated from the published fare table, so the fit reproduces the tariff (or, for closed tables, its documented distance benchmark). It is an analytics artifact: fares are always priced from the published matrix, never from this model.',
+  };
+}
+
+/**
  * Fit y = intercept + sum(coef_i * x_i) with ridge regularisation.
  * Returns { coefficients: {intercept, ...}, residualStddev }.
  */

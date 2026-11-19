@@ -8,7 +8,13 @@ import {
   VEHICLE_CATALOG,
   VEHICLE_BY_ID,
 } from './data/vehicle-catalog.js';
-import { buildFeatures, computeMetrics, fitLinearRegression } from './lib/ml.js';
+import {
+  buildFeatures,
+  computeMetrics,
+  fitLinearRegression,
+  trainingMetadata,
+} from './lib/ml.js';
+import { deriveDistanceKm, DISTANCE_BENCHMARK_PER_KM } from './lib/fare.js';
 import { mulberry32, pick, weighted } from './lib/mulberry32.js';
 
 const MODEL_KEY = 'fare-fair-linear';
@@ -347,7 +353,12 @@ export async function seed(db, { now = new Date(), tripDays = 21, log = () => {}
         const recordedAt = pickRecordedAt(day, now, random);
         const regularFare = Number(route.regular_fare);
         const discountedFare = Number(route.discounted_fare);
-        const distanceKm = derivedDistanceKm(regularFare, minRegular, perKm);
+        const distanceKm = deriveDistanceKm(
+          regularFare,
+          minRegular,
+          perKm,
+          Number(matrixVehicle.baseDistanceKm),
+        );
         const passengers =
           Number(policy.min_passengers) +
           Math.floor(random() * (Number(policy.max_passengers) - Number(policy.min_passengers) + 1));
@@ -498,13 +509,21 @@ export async function seed(db, { now = new Date(), tripDays = 21, log = () => {}
           );
         }
 
+        // The feature basis must match the basis the distance was derived
+        // with. SCO 2020-012 has no per-km column, so `perKm` is null and the
+        // documented benchmark rate stands in for it -- in the seed, in
+        // fn_predict_fare, and in deriveDistanceKm alike.
+        const featurePerKmRate =
+          Number(perKm) > 0 ? Number(perKm) : DISTANCE_BENCHMARK_PER_KM;
         const features = buildFeatures({
           distanceKm,
           passengers,
           seatUnits,
           baseFare: Number(matrixVehicle.baseFare),
-          perKmRate: Number(matrixVehicle.perKmRate),
-          distanceComponent: Math.max(distanceKm - Number(matrixVehicle.baseDistanceKm), 0) * Number(matrixVehicle.perKmRate),
+          perKmRate: featurePerKmRate,
+          distanceComponent:
+            Math.max(distanceKm - Number(matrixVehicle.baseDistanceKm), 0) *
+            featurePerKmRate,
           discountCode,
         });
         const split =
@@ -587,13 +606,13 @@ export async function seed(db, { now = new Date(), tripDays = 21, log = () => {}
         fitted.algorithm,
         arrayLiteral(fitted.featureNames),
         JSON.stringify(fitted.coefficients),
-        JSON.stringify({
-          ridge: 1e-6,
-          featureSet: 'fare-fair-v1',
-          trainRows: trainSamples.length,
-          validationRows: validationSamples.length,
-          testRows: testSamples.length,
-        }),
+        JSON.stringify(
+          trainingMetadata({
+            trainRows: trainSamples.length,
+            validationRows: validationSamples.length,
+            testRows: testSamples.length,
+          }),
+        ),
         JSON.stringify(metrics),
         fitted.residualStddev,
         trainSamples.length,
@@ -759,12 +778,6 @@ function normalizeKey(value) {
     .replace(/[^a-z0-9]+/g, ' ')
     .trim()
     .replace(/\s+/g, ' ');
-}
-
-function derivedDistanceKm(regularFare, minimumFare, perKmRate) {
-  const extra = Math.max(0, regularFare - minimumFare);
-  const km = 1 + extra / perKmRate;
-  return Math.round(km * 10) / 10;
 }
 
 function pickRecordedAt(day, now, random) {

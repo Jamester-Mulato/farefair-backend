@@ -510,6 +510,36 @@ export function fareRoutes(db) {
     }),
   );
 
+  // Published fare seed. This is what a client downloads to price a ride
+  // without an app release; it is public and immutable per version.
+  router.get(
+    '/cities/:cityId/seed',
+    asyncHandler(async (req, res) => {
+      const cityId = String(req.params.cityId);
+      const vehicleId = String(req.query.vehicleId ?? 'tricycle').trim();
+      const { rows } = await db.query(
+        `SELECT version, sha256, payload, published_at
+           FROM seed_artifacts
+          WHERE city_id = $1 AND vehicle_type_id = $2 AND status = 'published'
+          LIMIT 1`,
+        [cityId, vehicleId],
+      );
+      if (!rows.length) {
+        throw new ApiError(
+          404,
+          'SEED_NOT_FOUND',
+          `No published fare seed exists for ${cityId}/${vehicleId}.`,
+        );
+      }
+      res.json({
+        version: rows[0].version,
+        sha256: rows[0].sha256,
+        publishedAt: iso(rows[0].published_at),
+        payload: rows[0].payload,
+      });
+    }),
+  );
+
   return router;
 }
 

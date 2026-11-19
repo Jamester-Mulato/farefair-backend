@@ -401,11 +401,110 @@ CREATE TABLE audit_events (
   entity_type TEXT NOT NULL DEFAULT '',
   entity_id   TEXT,
   city_id     TEXT REFERENCES cities(id) ON DELETE SET NULL,
-  detail      JSONB NOT NULL DEFAULT '{}'::jsonb
+  detail      JSONB NOT NULL DEFAULT '{}'::jsonb,
+  -- Accountability: the record must be able to reconstruct the change, not
+  -- just name it. Stored as the exact row images before and after.
+  before_data JSONB,
+  after_data  JSONB,
+  reason      TEXT NOT NULL DEFAULT ''
 );
 
 CREATE INDEX audit_events_occurred_idx ON audit_events (occurred_at DESC);
 CREATE INDEX audit_events_city_idx ON audit_events (city_id);
+
+-- Append-only: the application never updates or deletes an audit row.
+CREATE OR REPLACE FUNCTION audit_events_immutable() RETURNS trigger AS $$
+BEGIN
+  RAISE EXCEPTION 'audit_events is append-only';
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER audit_events_no_update
+  BEFORE UPDATE OR DELETE ON audit_events
+  FOR EACH ROW EXECUTE FUNCTION audit_events_immutable();
+
+-- ---------------------------------------------------------------------------
+-- Fare seeds: a validated, hashed, versioned export of one city's matrix
+-- ---------------------------------------------------------------------------
+CREATE TABLE seed_artifacts (
+  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  city_id           TEXT NOT NULL REFERENCES cities(id) ON DELETE CASCADE,
+  vehicle_type_id   TEXT NOT NULL REFERENCES vehicle_types(id) ON DELETE CASCADE,
+  matrix_version_id UUID REFERENCES fare_matrix_versions(id) ON DELETE SET NULL,
+  ordinance_id      UUID REFERENCES ordinances(id) ON DELETE SET NULL,
+  version           INTEGER NOT NULL CHECK (version > 0),
+  status            TEXT NOT NULL DEFAULT 'draft'
+                    CHECK (status IN ('draft', 'published', 'superseded', 'revoked')),
+  sha256            TEXT NOT NULL,
+  payload           JSONB NOT NULL,
+  validation        JSONB NOT NULL DEFAULT '[]'::jsonb,
+  created_by        UUID REFERENCES admin_users(id) ON DELETE SET NULL,
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
+  published_at      TIMESTAMPTZ,
+  UNIQUE (city_id, vehicle_type_id, version)
+);
+
+CREATE INDEX seed_artifacts_city_idx ON seed_artifacts (city_id, vehicle_type_id, version DESC);
+
+CREATE TABLE seed_events (
+  id                   UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  artifact_id          UUID NOT NULL REFERENCES seed_artifacts(id) ON DELETE RESTRICT,
+  action               TEXT NOT NULL
+                       CHECK (action IN ('compile', 'publish', 'rollback', 'revoke')),
+  previous_artifact_id UUID REFERENCES seed_artifacts(id) ON DELETE SET NULL,
+  actor_id             UUID REFERENCES admin_users(id) ON DELETE SET NULL,
+  actor_name           TEXT NOT NULL DEFAULT 'System',
+  reason               TEXT NOT NULL DEFAULT '',
+  occurred_at          TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX seed_events_artifact_idx ON seed_events (artifact_id, occurred_at DESC);
+
+-- Exactly one published artifact per city + vehicle.
+CREATE UNIQUE INDEX seed_artifacts_one_published
+  ON seed_artifacts (city_id, vehicle_type_id)
+  WHERE status = 'published';
+
+-- ---------------------------------------------------------------------------
+-- Ordinance ingestion: an uploaded document becomes a comparable row set
+-- ---------------------------------------------------------------------------
+CREATE TABLE ordinance_uploads (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  city_id         TEXT NOT NULL REFERENCES cities(id) ON DELETE CASCADE,
+  vehicle_type_id TEXT NOT NULL REFERENCES vehicle_types(id) ON DELETE CASCADE,
+  filename        TEXT NOT NULL DEFAULT '',
+  kind            TEXT NOT NULL DEFAULT '',
+  sha256          TEXT NOT NULL DEFAULT '',
+  bytes           INTEGER NOT NULL DEFAULT 0,
+  pages           INTEGER,
+  status          TEXT NOT NULL DEFAULT 'parsed'
+                  CHECK (status IN ('parsed', 'ocr', 'scan', 'error', 'applied')),
+  row_count       INTEGER NOT NULL DEFAULT 0,
+  diff            JSONB NOT NULL DEFAULT '{}'::jsonb,
+  ocr_text        JSONB NOT NULL DEFAULT '[]'::jsonb,
+  warning         TEXT NOT NULL DEFAULT '',
+  uploaded_by     UUID REFERENCES admin_users(id) ON DELETE SET NULL,
+  uploaded_at     TIMESTAMPTZ NOT NULL DEFAULT now(),
+  applied_at      TIMESTAMPTZ,
+  applied_by      UUID REFERENCES admin_users(id) ON DELETE SET NULL
+);
+
+CREATE INDEX ordinance_uploads_city_idx
+  ON ordinance_uploads (city_id, vehicle_type_id, uploaded_at DESC);
+
+CREATE TABLE ordinance_rows (
+  upload_id   UUID NOT NULL REFERENCES ordinance_uploads(id) ON DELETE CASCADE,
+  row_number  SMALLINT NOT NULL CHECK (row_number > 0),
+  from_label  TEXT NOT NULL DEFAULT '',
+  to_label    TEXT NOT NULL DEFAULT '',
+  regular     NUMERIC(10,2) NOT NULL CHECK (regular >= 0),
+  discounted  NUMERIC(10,2),
+  remark      TEXT NOT NULL DEFAULT '',
+  page        INTEGER,
+  confidence  NUMERIC(4,3),
+  PRIMARY KEY (upload_id, row_number)
+);
+
 
 -- ---------------------------------------------------------------------------
 -- Trip records + GPS breadcrumbs
@@ -435,8 +534,17 @@ CREATE TABLE trips (
   flag_reason         TEXT NOT NULL DEFAULT '',
   recorded_via        recorded_via NOT NULL DEFAULT 'fare_estimate',
   recorded_at         TIMESTAMPTZ NOT NULL,
-  created_at          TIMESTAMPTZ NOT NULL DEFAULT now()
+  created_at          TIMESTAMPTZ NOT NULL DEFAULT now(),
+  -- Client sync: the trip as the phone knew it.
+  client_trip_id      TEXT,
+  device_id           TEXT,
+  seed_version        INTEGER,
+  fare_paid           NUMERIC(10,2) CHECK (fare_paid IS NULL OR fare_paid >= 0)
 );
+
+CREATE UNIQUE INDEX trips_client_id_idx
+  ON trips (client_trip_id) WHERE client_trip_id IS NOT NULL;
+CREATE INDEX trips_device_idx ON trips (device_id, recorded_at DESC);
 
 CREATE INDEX trips_city_recorded_idx ON trips (city_id, recorded_at DESC);
 CREATE INDEX trips_vehicle_idx ON trips (vehicle_type_id);
@@ -778,6 +886,7 @@ DECLARE
   v_discount     INTEGER;
   v_billable     NUMERIC;
   v_distance_comp NUMERIC;
+  v_rate         NUMERIC;
 BEGIN
   SELECT * INTO cf
   FROM fn_calculate_fare(p_city_id, p_vehicle_id, p_distance_km, p_passengers, p_pakyaw, p_discount_code);
@@ -795,8 +904,14 @@ BEGIN
   END IF;
 
   v_discount := CASE WHEN p_discount_code <> 'none' THEN 1 ELSE 0 END;
-  v_distance_comp := cf.distance_component;
-  v_billable := CASE WHEN cf.per_km_rate = 0 THEN 0 ELSE v_distance_comp / cf.per_km_rate END;
+
+  -- A closed per-route table (Cabadbaran SCO 2020-012) has no per-kilometre
+  -- column, so fare features would all collapse to constants and the model
+  -- would extrapolate nonsense. Fall back to the same benchmark rate the
+  -- distance was derived with; it never changes a published fare.
+  v_rate := CASE WHEN cf.per_km_rate > 0 THEN cf.per_km_rate ELSE 2.00 END;
+  v_billable := GREATEST(p_distance_km - cf.base_distance_km, 0);
+  v_distance_comp := v_billable * v_rate;
   v_sigma := COALESCE(v_sigma, 0);
 
   v_features := jsonb_build_object(
@@ -804,7 +919,7 @@ BEGIN
     'passengers', p_passengers,
     'seat_units', cf.seat_units,
     'base_fare', cf.base_fare,
-    'per_km_rate', cf.per_km_rate,
+    'per_km_rate', v_rate,
     'billable_distance_km', v_billable,
     'base_fare_x_seat', cf.base_fare * cf.seat_units,
     'per_km_x_distance_x_seat', v_distance_comp * cf.seat_units,

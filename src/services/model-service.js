@@ -6,6 +6,7 @@ import {
   computeMetrics,
   fitLinearRegression,
   predictWithCoefficients,
+  trainingMetadata,
 } from '../lib/ml.js';
 import { asJson, serializeModelVersion } from '../lib/serialize.js';
 
@@ -101,13 +102,13 @@ export async function trainFareModel(
         fitted.algorithm,
         `{${FEATURE_NAMES.join(',')}}`,
         JSON.stringify(fitted.coefficients),
-        JSON.stringify({
-          ridge: 1e-6,
-          featureSet: 'fare-fair-v1',
-          trainRows: trainSamples.length,
-          validationRows: validationSamples.length,
-          testRows: testSamples.length,
-        }),
+        JSON.stringify(
+          trainingMetadata({
+            trainRows: trainSamples.length,
+            validationRows: validationSamples.length,
+            testRows: testSamples.length,
+          }),
+        ),
         JSON.stringify(metrics),
         fitted.residualStddev,
         trainSamples.length,

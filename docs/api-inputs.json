@@ -441,6 +441,19 @@
       }
     },
     {
+      "id": "trip-analysis",
+      "method": "GET",
+      "path": "/v1/trips/{tripId}/analysis",
+      "expect": 200,
+      "pathParams": {
+        "tripId": {
+          "from": "create-trip",
+          "field": "id",
+          "example": "d9cab424-e233-4f99-98b2-38213ed6ed31"
+        }
+      }
+    },
+    {
       "id": "flag-trip",
       "method": "PATCH",
       "path": "/v1/trips/{tripId}/status",

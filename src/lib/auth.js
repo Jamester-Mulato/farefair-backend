@@ -133,8 +133,9 @@ export function canEditFares(user, cityId) {
 export async function recordAudit(db, entry) {
   await db.query(
     `INSERT INTO audit_events
-       (actor_id, actor_name, role, action, entity_type, entity_id, city_id, detail)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8::jsonb)`,
+       (actor_id, actor_name, role, action, entity_type, entity_id, city_id, detail,
+        before_data, after_data, reason)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8::jsonb,$9::jsonb,$10::jsonb,$11)`,
     [
       entry.actorId ?? null,
       entry.actorName ?? 'System',
@@ -144,6 +145,9 @@ export async function recordAudit(db, entry) {
       entry.entityId ?? null,
       entry.cityId ?? null,
       JSON.stringify(entry.detail ?? {}),
+      entry.before === undefined ? null : JSON.stringify(entry.before),
+      entry.after === undefined ? null : JSON.stringify(entry.after),
+      entry.reason ?? '',
     ],
   );
 }

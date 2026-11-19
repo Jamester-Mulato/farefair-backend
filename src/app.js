@@ -6,6 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { errorHandler, notFoundHandler } from './lib/errors.js';
+import { basicAuthGate, isBrowserSurface } from './lib/gate.js';
 import { int } from './lib/serialize.js';
 import { catalogRoutes } from './routes/catalog.js';
 import { fareRoutes } from './routes/fares.js';
@@ -17,13 +18,34 @@ import { adminRoutes } from './routes/admin.js';
 const SERVICE_NAME = 'farefair-api';
 const SERVICE_VERSION = '1.0.0';
 const here = path.dirname(fileURLToPath(import.meta.url));
-const adminDir = path.resolve(here, '..', '..', 'web', 'admin');
+// The console and the Flutter asset datasets live outside `backend/`, so a
+// hosted image can point at wherever it copied them instead of relying on the
+// local repository layout.
+const adminDir = process.env.ADMIN_DIR
+  ? path.resolve(process.env.ADMIN_DIR)
+  : path.resolve(here, '..', '..', 'web', 'admin');
 
 export async function createApp(db, { openapiPath } = {}) {
   const app = express();
   app.disable('x-powered-by');
+  // Tunnels and managed hosts terminate TLS in front of the process, so the
+  // client address and protocol arrive in X-Forwarded-* headers.
+  if (process.env.TRUST_PROXY !== 'false') {
+    app.set('trust proxy', process.env.TRUST_PROXY ?? 'loopback, linklocal, uniquelocal');
+  }
   app.use(cors());
   app.use(express.json({ limit: '2mb' }));
+
+  // One shared credential in front of everything a browser can reach. Unset
+  // locally, set for any deployment with a public URL.
+  const gate = basicAuthGate();
+  app.use((req, res, next) => {
+    if (!isBrowserSurface(req.path)) {
+      next();
+      return;
+    }
+    gate(req, res, next);
+  });
 
   app.get(
     '/health',
@@ -97,6 +119,7 @@ export async function createApp(db, { openapiPath } = {}) {
           train: 'POST /v1/fare/models/train',
           trips: '/v1/trips',
           tripCsv: '/v1/trips.csv',
+          tripAnalysis: '/v1/trips/:tripId/analysis',
           analytics: '/v1/analytics/overview',
           fareAnalytics: '/v1/analytics/fares',
           anomalies: '/v1/anomalies',

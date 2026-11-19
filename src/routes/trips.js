@@ -4,6 +4,8 @@ import { z } from 'zod';
 import { ApiError, asyncHandler } from '../lib/errors.js';
 import { parseBody, parseQuery, registerUuidParams } from '../lib/validate.js';
 import { buildOfficialFare, lookupOfficialFare } from '../lib/fare.js';
+import { analyzeTrip } from '../services/trip-analysis-service.js';
+import { analyzeOvercharge } from '../services/overcharge-service.js';
 import {
   asJson,
   int,
@@ -20,6 +22,32 @@ import {
 const discountCodes = ['none', 'student', 'senior', 'pwd'];
 const tripStatuses = ['completed', 'flagged', 'disputed'];
 const recordedViaValues = ['fare_estimate', 'live_trip_recording', 'import'];
+
+const syncTripSchema = z.object({
+  clientTripId: z.string().min(8).max(80),
+  origin: z.string().min(1).max(200),
+  destination: z.string().min(1).max(200),
+  distanceKm: z.number().min(0).max(1000),
+  durationSeconds: z.number().int().min(0).max(86_400),
+  passengers: z.number().int().min(1).max(10),
+  isPakyaw: z.boolean().default(false),
+  discounted: z.boolean().default(false),
+  fareMin: z.number().min(0).max(100_000),
+  fareMax: z.number().min(0).max(100_000),
+  farePaid: z.number().min(0).max(100_000).nullable().optional(),
+  fareRows: z.array(z.number().int().min(1).max(500)).max(10).default([]),
+  recordedAt: z.string().max(40).optional(),
+  seedVersion: z.number().int().min(0).optional(),
+  points: z.array(z.tuple([z.number(), z.number(), z.number().optional()])).max(600).default([]),
+});
+
+const syncSchema = z.object({
+  deviceId: z.string().min(8).max(80),
+  appVersion: z.string().max(40).default(''),
+  seedVersion: z.number().int().min(0).default(0),
+  cityId: z.string().min(1).max(80).default('cabadbaran'),
+  trips: z.array(syncTripSchema).max(200).default([]),
+});
 
 const filterSchema = z.object({
   cityId: z.string().min(1).optional(),
@@ -136,6 +164,60 @@ export function tripRoutes(db) {
     asyncHandler(async (req, res) => {
       const trip = await getTripDetail(db, req.params.tripId);
       res.json(trip);
+    }),
+  );
+
+  router.get(
+    '/trips/:tripId/analysis',
+    asyncHandler(async (req, res) => {
+      const trip = await getTripDetail(db, req.params.tripId);
+      const analysis = await analyzeTrip(trip, {
+        force: req.query.refresh === 'true',
+      });
+      res.setHeader('Cache-Control', 'no-store');
+      res.json(analysis);
+    }),
+  );
+
+  // Overcharge assessment: the amount the passenger actually paid against the
+  // amount the published matrix requires for the same origin and destination.
+  router.get(
+    '/trips/:tripId/overcharge',
+    asyncHandler(async (req, res) => {
+      const query = parseQuery(
+        z.object({
+          paid: z.coerce.number().min(0).max(100000),
+          refresh: z.enum(['true', 'false']).optional(),
+        }),
+        req,
+      );
+      const trip = await getTripDetail(db, req.params.tripId);
+      const analysis = await analyzeOvercharge(db, trip, {
+        paid: query.paid,
+        refresh: query.refresh === 'true',
+      });
+      res.setHeader('Cache-Control', 'no-store');
+      res.json(analysis);
+    }),
+  );
+
+  router.post(
+    '/trips/:tripId/overcharge',
+    asyncHandler(async (req, res) => {
+      const input = parseBody(
+        z.object({
+          paid: z.coerce.number().min(0).max(100000),
+          disableLlm: z.boolean().default(false),
+        }),
+        req,
+      );
+      const trip = await getTripDetail(db, req.params.tripId);
+      const analysis = await analyzeOvercharge(db, trip, {
+        paid: input.paid,
+        disableLlm: input.disableLlm,
+      });
+      res.setHeader('Cache-Control', 'no-store');
+      res.json(analysis);
     }),
   );
 
@@ -459,6 +541,131 @@ export function tripRoutes(db) {
 
       const detail = await getTripDetail(db, req.params.tripId);
       res.json(detail);
+    }),
+  );
+
+  // Bidirectional sync: the client pushes saved trips and, in the same
+  // response, learns whether a newer fare seed exists. Trips are append-only
+  // and idempotent per client trip id.
+  router.post(
+    '/sync',
+    asyncHandler(async (req, res) => {
+      const input = parseBody(syncSchema, req);
+
+      const context = await db.query(
+        `SELECT mv.id AS matrix_version_id, mv.version AS matrix_version,
+                fp.id AS policy_version_id
+           FROM fare_matrix_versions mv
+           JOIN fare_policy_versions fp ON fp.city_id = mv.city_id AND fp.status = 'active'
+          WHERE mv.city_id = $1 AND mv.status = 'active'
+          LIMIT 1`,
+        [input.cityId],
+      );
+      if (!context.rows.length) {
+        throw new ApiError(
+          404,
+          'CITY_NOT_SEEDED',
+          `No active fare matrix for "${input.cityId}".`,
+        );
+      }
+      const ctx = context.rows[0];
+      const discountByCode = {
+        none: 'none',
+        discounted: 'student',
+      };
+
+      let accepted = 0;
+      let duplicates = 0;
+
+      await db.transaction(async (tx) => {
+        for (const trip of input.trips) {
+          const inserted = await tx.query(
+            `INSERT INTO trips
+               (reference, city_id, vehicle_type_id, matrix_version_id,
+                policy_version_id, origin, destination, distance_km,
+                duration_seconds, passengers, is_pakyaw, discount_code,
+                exact_fare, fare_min, fare_max, fare_source, route_row_number,
+                status, recorded_via, recorded_at, client_trip_id, device_id,
+                seed_version, fare_paid)
+             VALUES ($1,$2,'tricycle',$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,
+                     'client_sync',$15,'completed','live_trip_recording',$16,$17,$18,$19,$20)
+             ON CONFLICT (client_trip_id) WHERE client_trip_id IS NOT NULL
+             DO NOTHING
+             RETURNING id`,
+            [
+              `SYNC-${trip.clientTripId}`,
+              input.cityId,
+              ctx.matrix_version_id,
+              ctx.policy_version_id,
+              trip.origin,
+              trip.destination,
+              trip.distanceKm,
+              trip.durationSeconds,
+              trip.passengers,
+              trip.isPakyaw,
+              trip.discounted ? 'student' : 'none',
+              trip.farePaid ?? trip.fareMin,
+              trip.fareMin,
+              trip.fareMax,
+              trip.fareRows.length ? trip.fareRows[0] : null,
+              new Date(trip.recordedAt ?? Date.now()),
+              trip.clientTripId,
+              input.deviceId,
+              trip.seedVersion ?? input.seedVersion,
+              trip.farePaid ?? null,
+            ],
+          );
+
+          if (!inserted.rows.length) {
+            duplicates += 1;
+            continue;
+          }
+          accepted += 1;
+
+          const tripId = inserted.rows[0].id;
+          const points = trip.points.slice(0, 500);
+          for (let index = 0; index < points.length; index += 1) {
+            const [lat, lng, ms] = points[index];
+            await tx.query(
+              `INSERT INTO trip_points (trip_id, seq, recorded_at, lat, lng)
+               VALUES ($1,$2,$3,$4,$5)
+               ON CONFLICT (trip_id, seq) DO NOTHING`,
+              [
+                tripId,
+                index,
+                new Date(Number(ms ?? 0) || Date.now()),
+                lat,
+                lng,
+              ],
+            );
+          }
+        }
+      });
+
+      const seedRow = await db.query(
+        `SELECT version, sha256, payload
+           FROM seed_artifacts
+          WHERE city_id = $1 AND vehicle_type_id = 'tricycle' AND status = 'published'
+          LIMIT 1`,
+        [input.cityId],
+      );
+      const seed = seedRow.rows.length
+        ? {
+            version: seedRow.rows[0].version,
+            sha256: seedRow.rows[0].sha256,
+            payload:
+              input.seedVersion < seedRow.rows[0].version
+                ? seedRow.rows[0].payload
+                : null,
+          }
+        : null;
+
+      res.json({ accepted, duplicates, seed });
+      console.log(
+        `[sync] device=${input.deviceId} trips=${input.trips.length} ` +
+          `accepted=${accepted} duplicates=${duplicates} ` +
+          `seed=${seed ? seed.version : 'none'} clientSeed=${input.seedVersion}`,
+      );
     }),
   );
 

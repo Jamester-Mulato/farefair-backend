@@ -1,4 +1,45 @@
 {
+  "legalStatus": {
+    "state": "reseeded_from_posted_ordinance_tariff",
+    "checkedOn": "2026-10-28",
+    "instrument": "Special City Ordinance No. 2020-012",
+    "instrumentStatus": "declared valid by Sangguniang Panlalawigan Resolution 2020-res-402",
+    "enacted": "2020-07-22",
+    "approvedByMayor": "2020-08-07",
+    "provenance": "This fixture is rebuilt from the CSTMTF posting of 17 July 2026, which reproduces SCO 2020-012 row for row. The earlier P13.00/P11.00 DOCX was a board issuance that was never posted, and the ordinance that created the issuing board was voided on 2026-10-06.",
+    "postedTariff": {
+      "posted": "2026-07-17",
+      "publisher": "Cabadbaran City Security and Traffic Management Task Force",
+      "basisPrintedOnDocument": "SPECIAL CITY ORDINANCE NO. 2020-012",
+      "minimumRegularFare": 9.0,
+      "minimumRateCallout": 10.0,
+      "matchesOrdinance": true,
+      "table": "ml/data/fares/cabadbaran_sco2020-012_fares.json -> posted_tariff_aug_2026"
+    },
+    "minimumRateCallout": "The posting prints a separate yellow 'MINIMUM RATE P10.00' callout beside the penalty table, P1.00 above the P9.00 it prints for within-Poblacion and from the terminal. It is not in SCO 2020-012 and the posting does not explain it. This fixture uses P9.00, the amount in the route table.",
+    "discount": {
+      "rate": 0.2,
+      "basis": "RA 9442, RA 9994, RA 10754, RA 11314",
+      "note": "The ordinance and the posting print no discount column. Discounted fares here are 20% off the posted regular fare, rounded to centavos.",
+      "minimumDiscountedFare": 7.2
+    },
+    "droppedDestinations": [
+      {
+        "destination": "Sanghan (Compact)",
+        "reason": "Sanghan (Compact) -- no row in SCO 2020-012 or the posted tariff",
+        "note": "These sitios appear only in the never-posted 24 September 2026 board matrix. Neither SCO 2020-012 nor the 17 July 2026 posting gives them a fare, so no lawful amount exists to seed."
+      },
+      {
+        "destination": "Sanghan (Purok 7,8,9)",
+        "reason": "Sanghan (Purok 7,8,9) -- no row in SCO 2020-012 or the posted tariff",
+        "note": "These sitios appear only in the never-posted 24 September 2026 board matrix. Neither SCO 2020-012 nor the 17 July 2026 posting gives them a fare, so no lawful amount exists to seed."
+      }
+    ],
+    "removedMechanism": "The P2.00-per-kilometre-beyond-Poblacion add-on and the CTFRB attribution came from the never-posted board matrix and are removed. SCO 2020-012 is a closed flat per-route table.",
+    "verifierProblem": "Do not describe these fares as verified by the Cabadbaran City Tricycle Fare Regulatory Board. That Board was created by City Ordinance No. 2026-011, which the province declared invalid as ultra vires on 2026-10-06.",
+    "sunsetClause": "SCO 2020-012 Section 4 repeals the ordinance automatically on a DOH/IATF normalcy declaration and restores City Ordinance No. 2009-17. Read literally, the 2020 matrix may already have lapsed; no Cabadbaran-specific normalcy declaration was located. The 2009-17 amounts are not published.",
+    "tracking": "ml/data/fares/agusan_del_norte_fares.json"
+  },
   "city": {
     "id": "cabadbaran",
     "displayName": "Cabadbaran City, Caraga",
@@ -13,9 +54,9 @@
     "timezone": "Asia/Manila",
     "provenance": {
       "provisional": false,
-      "source": "Cabadbaran City Tricycle Fare Regulatory Board — Official rates effective 24 September 2026",
-      "lastVerified": "2026-09-24",
-      "verifiedBy": "Cabadbaran City Tricycle Fare Regulatory Board"
+      "source": "Cabadbaran City Security and Traffic Management Task Force posting, 17 July 2026",
+      "lastVerified": "2026-07-17",
+      "verifiedBy": "Cabadbaran City Security and Traffic Management Task Force"
     }
   },
   "farePolicy": {
@@ -27,36 +68,36 @@
     "pakyawSeatCap": 4
   },
   "fareMatrix": {
-    "effectiveFrom": "2026-09-24",
+    "effectiveFrom": "2026-07-17",
     "provisional": false,
-    "source": "Cabadbaran City Tricycle Fare Matrix — Official rates effective 24 September 2026",
-    "notes": "Published per-passenger fares for tricycles. Rates apply both ways unless a different origin is named. Discounted fare is 20% off regular for students, senior citizens and PWDs with a valid ID. Add ₱2.00 per kilometer or fraction of a kilometer beyond the Poblacion area.",
-    "minimumRegularFare": 13,
-    "minimumDiscountedFare": 11,
-    "perKmBeyondPoblacion": 2,
+    "source": "Cabadbaran City Security and Traffic Management Task Force posting, 17 July 2026, headed SPECIAL CITY ORDINANCE NO. 2020-012",
+    "notes": "Per-passenger fares from the city's 17 July 2026 posting, which reproduces Special City Ordinance No. 2020-012 row for row. The ordinance is a closed flat per-route table; there is no per-kilometre add-on. Fares apply both ways. The discounted fare is 20% off the regular fare for students, senior citizens and PWDs. The posting also prints a separate 'MINIMUM RATE P10.00' callout that is P1.00 above its own P9.00 Poblacion rows; it is not part of the ordinance and is not used here.",
+    "minimumRegularFare": 9,
+    "minimumDiscountedFare": 7.2,
+    "perKmBeyondPoblacion": null,
     "vehicleId": "tricycle",
     "vehicle": {
-      "baseFare": 13,
+      "baseFare": 9,
       "baseDistanceKm": 1,
-      "perKmRate": 2,
-      "minFare": 13,
+      "perKmRate": 0,
+      "minFare": 9,
       "maxCustomary": 75,
       "typicalCapacity": 4,
-      "regulationMatrix": "Official Cabadbaran City tricycle fare matrix effective 24 September 2026"
+      "regulationMatrix": "Special City Ordinance No. 2020-012, as posted by the CSTMTF on 17 July 2026"
     }
   },
   "ordinance": {
-    "externalId": "cabadbaran-tricycle-fare-matrix-2026",
-    "title": "Cabadbaran City Tricycle Fare Matrix",
+    "externalId": "cabadbaran-sco-2020-012",
+    "title": "Special City Ordinance No. 2020-012",
     "municipality": "Cabadbaran City, Agusan del Norte",
-    "ordinanceNumber": "",
+    "ordinanceNumber": "Special City Ordinance No. 2020-012",
     "status": "enacted",
-    "dateEnacted": "2026-09-24",
-    "summary": "Official per-passenger tricycle fares for Poblacion and barangay routes, issued by the Cabadbaran City Tricycle Fare Regulatory Board and effective 24 September 2026. Fares apply both ways unless a different origin is named.",
+    "dateEnacted": "2020-07-22",
+    "summary": "Tricycle-for-hire fare schedule for Cabadbaran City, enacted 22 July 2020 and approved 7 August 2020. It fixes P9.00 within Poblacion and from the Land Transport Terminal, plus a closed per-route table from P9.00 to P70.00. The 17 July 2026 CSTMTF posting reproduces the table row for row.",
     "vehicleApplicability": "Tricycle",
-    "baseFare": 13,
-    "succeedingKmRate": 2,
-    "discountTerms": "20% discount for students, senior citizens and persons with disability presenting a valid ID. Minimum fare ₱13 regular / ₱11 discounted."
+    "baseFare": 9,
+    "succeedingKmRate": 0,
+    "discountTerms": "No discount column is printed in the ordinance or the posting. The 20% student/senior/PWD discount is applied from statute (RA 9442, RA 9994, RA 10754, RA 11314): P7.20 on the P9.00 minimum."
   },
   "demoRoute": {
     "originName": "Poblacion",
@@ -519,22 +560,6 @@
       ]
     },
     {
-      "key": "sanghan compact",
-      "label": "Sanghan (Compact)",
-      "aliases": [
-        "sanghan compact"
-      ]
-    },
-    {
-      "key": "sanghan purok 7 8 9",
-      "label": "Sanghan (Purok 7,8,9)",
-      "aliases": [
-        "9",
-        "sanghan purok 7",
-        "sanghan purok 7 8 9"
-      ]
-    },
-    {
       "key": "secuanda tolosa",
       "label": "Secuanda, Tolosa",
       "aliases": [
@@ -609,681 +634,727 @@
       "row": 1,
       "from": "Anywhere in Poblacion",
       "to": "Anywhere in Poblacion",
-      "regular": 13,
-      "discounted": 11,
+      "regular": 9.0,
+      "discounted": 7.2,
       "remark": "Minimum/ local ply",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance row 1 (within Poblacion)"
     },
     {
       "row": 2,
       "from": "Poblacion",
       "to": "Land Transport Terminal",
-      "regular": 13,
-      "discounted": 11,
+      "regular": 9.0,
+      "discounted": 7.2,
       "remark": "Same both ways",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance row 2 (CCLTT - Poblacion)"
     },
     {
       "row": 3,
       "from": "Poblacion or Terminal",
       "to": "Antonio Luna",
-      "regular": 40,
-      "discounted": 32,
+      "regular": 35.0,
+      "discounted": 28.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 3 (Luna)"
     },
     {
       "row": 4,
       "from": "Poblacion or Terminal",
       "to": "Bayabas",
-      "regular": 50,
-      "discounted": 40,
+      "regular": 35.0,
+      "discounted": 28.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 4 (Bayabas)"
     },
     {
       "row": 5,
       "from": "Poblacion",
       "to": "Bay-ang",
-      "regular": 30,
-      "discounted": 24,
+      "regular": 20.0,
+      "discounted": 16.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 5 (Bay-ang)"
     },
     {
       "row": 6,
       "from": "Poblacion or Terminal",
       "to": "Bugho, Bay-Ang",
-      "regular": 40,
-      "discounted": 32,
+      "regular": 40.0,
+      "discounted": 32.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 5 (Bugho)"
     },
     {
       "row": 7,
       "from": "Poblacion or Terminal",
       "to": "Bung-Aw, Bay-Ang",
-      "regular": 40,
-      "discounted": 32,
+      "regular": 35.0,
+      "discounted": 28.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 5 (Bung-aw)"
     },
     {
       "row": 8,
       "from": "Poblacion or Terminal",
       "to": "Dal-As, Bay-Ang",
-      "regular": 45,
-      "discounted": 36,
+      "regular": 35.0,
+      "discounted": 28.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 5 (Dal-as)"
     },
     {
       "row": 9,
       "from": "Poblacion or Terminal",
       "to": "Caasinan",
-      "regular": 20,
-      "discounted": 16,
+      "regular": 15.0,
+      "discounted": 12.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 6 (Caasinan)"
     },
     {
       "row": 10,
       "from": "Poblacion or Terminal",
       "to": "Cabinet",
-      "regular": 20,
-      "discounted": 16,
+      "regular": 15.0,
+      "discounted": 12.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 7 (Cabinet)"
     },
     {
       "row": 11,
       "from": "Poblacion or Terminal",
       "to": "Calamba Proper",
-      "regular": 50,
-      "discounted": 40,
+      "regular": 40.0,
+      "discounted": 32.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 8 (Calamba Proper)"
     },
     {
       "row": 12,
       "from": "Poblacion or Terminal",
       "to": "Calulutay, Calamba",
-      "regular": 50,
-      "discounted": 40,
+      "regular": 40.0,
+      "discounted": 32.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 8 (Calulutay)"
     },
     {
       "row": 13,
       "from": "Poblacion or Terminal",
       "to": "Malico, Calamba",
-      "regular": 60,
-      "discounted": 48,
+      "regular": 50.0,
+      "discounted": 40.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 8 (Malico)"
     },
     {
       "row": 14,
       "from": "CALAMBA",
       "to": "Crossing National Highway",
-      "regular": 40,
-      "discounted": 32,
+      "regular": 40.0,
+      "discounted": 32.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 8 (Calamba - Crossing National Highway)"
     },
     {
       "row": 15,
       "from": "Poblacion or Terminal",
       "to": "Calibunan",
-      "regular": 15,
-      "discounted": 12,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 9 (Calibunan)"
     },
     {
       "row": 16,
       "from": "Poblacion or Terminal",
       "to": "Maybo, Calibunan",
-      "regular": 20,
-      "discounted": 16,
+      "regular": 12.0,
+      "discounted": 9.6,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 9 (Maybo)"
     },
     {
       "row": 17,
       "from": "Poblacion or Terminal",
       "to": "Maybo, Calibunan (Via Malingin)",
-      "regular": 20,
-      "discounted": 16,
+      "regular": 12.0,
+      "discounted": 9.6,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 9 (Maybo via Malingin)"
     },
     {
       "row": 18,
       "from": "Poblacion or Terminal",
       "to": "Hinagdanan, Comagascas",
-      "regular": 15,
-      "discounted": 12,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Hinagdanan)"
     },
     {
       "row": 19,
       "from": "Poblacion or Terminal",
       "to": "Comagascas (Proper)",
-      "regular": 20,
-      "discounted": 16,
+      "regular": 20.0,
+      "discounted": 16.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Comagascas Proper), dual 15.00/20.00"
     },
     {
       "row": 20,
       "from": "Poblacion or Terminal",
       "to": "Maraput, Comagascas",
-      "regular": 30,
-      "discounted": 24,
+      "regular": 30.0,
+      "discounted": 24.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Maraput), dual 20.00/30.00"
     },
     {
       "row": 21,
       "from": "Poblacion or Terminal",
       "to": "Hacienda, Comagascas",
-      "regular": 30,
-      "discounted": 24,
+      "regular": 30.0,
+      "discounted": 24.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Hacienda), dual 20.00/30.00"
     },
     {
       "row": 22,
       "from": "Poblacion or Terminal",
       "to": "Anangilan (Valentine), Comagascas",
-      "regular": 35,
-      "discounted": 28,
+      "regular": 30.0,
+      "discounted": 24.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Anangilan Valentine)"
     },
     {
       "row": 23,
       "from": "Poblacion or Terminal",
       "to": "Anangilan (Kikay), Comagascas",
-      "regular": 35,
-      "discounted": 28,
+      "regular": 30.0,
+      "discounted": 24.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Anangilan Kikay)"
     },
     {
       "row": 24,
       "from": "Poblacion or Terminal",
       "to": "Concepcion Proper",
-      "regular": 60,
-      "discounted": 48,
+      "regular": 50.0,
+      "discounted": 40.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 11 (Concepcion Proper)"
     },
     {
       "row": 25,
       "from": "Poblacion or Terminal",
       "to": "Little Leyte, Concepcion",
-      "regular": 60,
-      "discounted": 48,
+      "regular": 50.0,
+      "discounted": 40.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 11 (Little Leyte)"
     },
     {
       "row": 26,
       "from": "Poblacion or Terminal",
       "to": "Bungogon, Del Pilar",
-      "regular": 40,
-      "discounted": 32,
+      "regular": 30.0,
+      "discounted": 24.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Bungogon)"
     },
     {
       "row": 27,
       "from": "Poblacion or Terminal",
       "to": "Del Pilar Purok 1 & 2",
-      "regular": 50,
-      "discounted": 40,
+      "regular": 35.0,
+      "discounted": 28.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 12 (Del Pilar Purok 1 & 2)"
     },
     {
       "row": 28,
       "from": "Land Transport Terminal",
       "to": "Sitio Pirada, Del Pilar",
-      "regular": 75,
-      "discounted": 60,
+      "regular": 50.0,
+      "discounted": 40.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 12 (Pirada; no origin printed)"
     },
     {
       "row": 29,
       "from": "Poblacion or Terminal",
       "to": "Katugasan (Purok 1, 2, 3, 4)",
-      "regular": 35,
-      "discounted": 28,
+      "regular": 30.0,
+      "discounted": 24.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 13 (Katugasan Purok 1 & 2)"
     },
     {
       "row": 30,
       "from": "Poblacion or Terminal",
       "to": "Purok 5 (Pahit Dal-As), Katugasan",
-      "regular": 40,
-      "discounted": 32,
+      "regular": 30.0,
+      "discounted": 24.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 13 (Purok 5 / Pahit Dal-as)"
     },
     {
       "row": 31,
       "from": "Poblacion or Terminal",
       "to": "Kauswagan (PROPER/ UPPER/ LOWER)",
-      "regular": 15,
-      "discounted": 12,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "Same rate for all three",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 14 (Kauswagan)"
     },
     {
       "row": 32,
       "from": "Poblacion or Terminal",
       "to": "Sitio Sinunog, Kauswagan",
-      "regular": 20,
-      "discounted": 16,
+      "regular": 15.0,
+      "discounted": 12.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 14 (Sinunog)"
     },
     {
       "row": 33,
       "from": "Poblacion or Terminal",
       "to": "Pongkay/Sinunug, Kauswagan",
-      "regular": 15,
-      "discounted": 12,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 10 (Pongkay/Sinunug)"
     },
     {
       "row": 34,
       "from": "Poblacion or Terminal",
       "to": "La Union Proper",
-      "regular": 30,
-      "discounted": 24,
+      "regular": 20.0,
+      "discounted": 16.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 15 (La Union Proper)"
     },
     {
       "row": 35,
       "from": "Poblacion or Terminal",
       "to": "Bandol, La Union",
-      "regular": 30,
-      "discounted": 24,
+      "regular": 20.0,
+      "discounted": 16.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Bandol)"
     },
     {
       "row": 36,
       "from": "Poblacion or Terminal",
       "to": "Boundary La Union (Bitaog)",
-      "regular": 35,
-      "discounted": 28,
+      "regular": 30.0,
+      "discounted": 24.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Bitaog)"
     },
     {
       "row": 37,
       "from": "Poblacion or Terminal",
       "to": "Maong, La Union",
-      "regular": 40,
-      "discounted": 32,
+      "regular": 30.0,
+      "discounted": 24.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Maong)"
     },
     {
       "row": 38,
       "from": "Poblacion or Terminal",
       "to": "Angel Village, La Union",
-      "regular": 30,
-      "discounted": 24,
+      "regular": 20.0,
+      "discounted": 16.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Angel Village)"
     },
     {
       "row": 39,
       "from": "Poblacion or Terminal",
       "to": "Bukid-Bukid, La Union (Via Malingin)",
-      "regular": 30,
-      "discounted": 24,
+      "regular": 20.0,
+      "discounted": 16.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Bukid-Bukid via Malingin)"
     },
     {
       "row": 40,
       "from": "Poblacion or Terminal",
       "to": "Panlaisan, La Union (Hi-Way)",
-      "regular": 25,
-      "discounted": 20,
+      "regular": 20.0,
+      "discounted": 16.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Panlaisan Hi-way)"
     },
     {
       "row": 41,
       "from": "Poblacion or Terminal",
       "to": "Panlaisan, La Union (Intaq/Raniel)",
-      "regular": 25,
-      "discounted": 20,
+      "regular": 20.0,
+      "discounted": 16.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Panlaisan Intaq/Raniel)"
     },
     {
       "row": 42,
       "from": "Poblacion or Terminal",
       "to": "Panlaisan, La Union (Sulod)",
-      "regular": 30,
-      "discounted": 24,
+      "regular": 20.0,
+      "discounted": 16.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Panlaisan Sulod)"
     },
     {
       "row": 43,
       "from": "Poblacion or Terminal",
       "to": "Abattoir, La Union",
-      "regular": 25,
-      "discounted": 20,
+      "regular": 20.0,
+      "discounted": 16.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 15 (Abattoir)"
     },
     {
       "row": 44,
       "from": "Poblacion or Terminal",
       "to": "Mabini Vice Versa",
-      "regular": 13,
-      "discounted": 11,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "Same both ways",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Mabini, vice versa)"
     },
     {
       "row": 45,
       "from": "Poblacion",
       "to": "Mabini Plains",
-      "regular": 17,
-      "discounted": 14,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "Poblacion origin",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Mabini, vice versa) -- barangay row"
     },
     {
       "row": 46,
       "from": "Land Transport Terminal",
       "to": "Mabini Plains",
-      "regular": 13,
-      "discounted": 11,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "Terminal origin",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Mabini, vice versa) -- barangay row"
     },
     {
       "row": 47,
       "from": "Poblacion",
       "to": "Mabini VCDU",
-      "regular": 20,
-      "discounted": 16,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "Poblacion origin",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Mabini, vice versa) -- barangay row"
     },
     {
       "row": 48,
       "from": "Land Transport Terminal",
       "to": "Mabini VCDU",
-      "regular": 15,
-      "discounted": 12,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "Terminal origin",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Mabini, vice versa) -- barangay row"
     },
     {
       "row": 49,
       "from": "Poblacion or Terminal",
       "to": "Lower Mabini",
-      "regular": 13,
-      "discounted": 11,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Lower Mabini)"
     },
     {
       "row": 50,
       "from": "Poblacion or Terminal",
       "to": "Upper Mabini",
-      "regular": 13,
-      "discounted": 11,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Upper Mabini)"
     },
     {
       "row": 51,
       "from": "Poblacion or Terminal",
       "to": "Pandanon, Mabini",
-      "regular": 15,
-      "discounted": 12,
+      "regular": 15.0,
+      "discounted": 12.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Pandanon)"
     },
     {
       "row": 52,
       "from": "Poblacion or Terminal",
       "to": "Dal-As (Mabini)",
-      "regular": 25,
-      "discounted": 20,
+      "regular": 20.0,
+      "discounted": 16.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Dal-as, Mabini)"
     },
     {
       "row": 53,
       "from": "Poblacion or Terminal",
       "to": "Dinabucan. Mabini",
-      "regular": 25,
-      "discounted": 20,
+      "regular": 20.0,
+      "discounted": 16.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 16 (Dinabucan)"
     },
     {
       "row": 54,
       "from": "Land Transport Terminal",
       "to": "Mahaba Centro",
-      "regular": 75,
-      "discounted": 60,
+      "regular": 70.0,
+      "discounted": 56.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 21 (Mahaba Centro)"
     },
     {
       "row": 55,
       "from": "Poblacion or Terminal",
       "to": "Punta Puting Bato",
-      "regular": 50,
-      "discounted": 40,
+      "regular": 30.0,
+      "discounted": 24.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 17 (Punta Puting Bato)"
     },
     {
       "row": 56,
       "from": "Land Transport Terminal",
       "to": "Puting Bato Centro",
-      "regular": 75,
-      "discounted": 60,
+      "regular": 50.0,
+      "discounted": 40.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 17 (Puting Bato Centro)"
     },
     {
       "row": 57,
       "from": "Poblacion or Terminal",
       "to": "Sanghan Centro",
-      "regular": 30,
-      "discounted": 24,
+      "regular": 20.0,
+      "discounted": 16.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
-    },
-    {
-      "row": 58,
-      "from": "Poblacion or Terminal",
-      "to": "Sanghan (Compact)",
-      "regular": 60,
-      "discounted": 48,
-      "remark": "",
-      "via": "",
-      "bidirectional": true
-    },
-    {
-      "row": 59,
-      "from": "Poblacion or Terminal",
-      "to": "Sanghan (Purok 7,8,9)",
-      "regular": 40,
-      "discounted": 32,
-      "remark": "",
-      "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 18 (Sanghan Centro)"
     },
     {
       "row": 60,
       "from": "Poblacion or Terminal",
       "to": "Soriano",
-      "regular": 25,
-      "discounted": 20,
+      "regular": 20.0,
+      "discounted": 16.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 19 (Soriano)"
     },
     {
       "row": 61,
       "from": "Poblacion or Terminal",
       "to": "Cambisay, Soriano",
-      "regular": 30,
-      "discounted": 24,
+      "regular": 25.0,
+      "discounted": 20.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 20 (Cambisay)"
     },
     {
       "row": 62,
       "from": "Poblacion",
       "to": "Cabadbaran District Hospital, Tolosa",
-      "regular": 13,
-      "discounted": 11,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "Poblacion origin",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 21 (Cabadbaran District Hospital)"
     },
     {
       "row": 63,
       "from": "Land Transport Terminal",
       "to": "Cabadbaran District Hospital, Tolosa",
-      "regular": 15,
-      "discounted": 12,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "Terminal origin",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 21 (Cabadbaran District Hospital)"
     },
     {
       "row": 64,
       "from": "Poblacion or Terminal",
       "to": "Secuanda, Tolosa",
-      "regular": 15,
-      "discounted": 12,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 21 (Secuanda)"
     },
     {
       "row": 65,
       "from": "Poblacion",
       "to": "Catholic Cemetery, Poblacion 4",
-      "regular": 13,
-      "discounted": 11,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "Poblacion origin",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 21 (City Hall / Catholic Cemetery)"
     },
     {
       "row": 66,
       "from": "Land Transport Terminal",
       "to": "Catholic Cemetery, Poblacion 4",
-      "regular": 15,
-      "discounted": 12,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "Terminal origin",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 21 (City Hall / Catholic Cemetery)"
     },
     {
       "row": 67,
       "from": "Poblacion or Terminal",
       "to": "Tolosa Proper",
-      "regular": 15,
-      "discounted": 12,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 21 (Tolosa Proper)"
     },
     {
       "row": 68,
       "from": "Poblacion or Terminal",
       "to": "Tolosa / School Bliss",
-      "regular": 15,
-      "discounted": 12,
+      "regular": 10.0,
+      "discounted": 8.0,
       "remark": "",
       "via": "",
-      "bidirectional": true
+      "bidirectional": true,
+      "basis": "ordinance item 21 (Tolosa / School Bliss)"
     }
   ]
 }

@@ -79,16 +79,17 @@ Every operation keeps the same success contract:
 | 30 | GET | `/v1/trips` | 200 | 200 | PASS |
 | 31 | POST | `/v1/trips` | 201 | 201 | PASS |
 | 32 | GET | `/v1/trips/{tripId}` | 200 | 200 | PASS |
-| 33 | PATCH | `/v1/trips/{tripId}/status` | 200 | 200 | PASS |
-| 34 | GET | `/v1/trips.csv` | 200 | 200 | PASS |
-| 35 | GET | `/v1/analytics/overview` | 200 | 200 | PASS |
-| 36 | GET | `/v1/analytics/fares` | 200 | 200 | PASS |
-| 37 | GET | `/v1/anomalies` | 200 | 200 | PASS |
-| 38 | PATCH | `/v1/anomalies/{anomalyId}/resolve` | 200 | 200 | PASS |
-| 39 | GET | `/v1/audit` | 200 | 200 | PASS |
-| 40 | GET | `/openapi.json` | 200 | 200 | PASS |
-| 41 | GET | `/docs` | 200 | 200 | PASS |
-| 42 | POST | `/v1/auth/logout` | 200 | 200 | PASS |
+| 33 | GET | `/v1/trips/{tripId}/analysis` | 200 | 200 | PASS |
+| 34 | PATCH | `/v1/trips/{tripId}/status` | 200 | 200 | PASS |
+| 35 | GET | `/v1/trips.csv` | 200 | 200 | PASS |
+| 36 | GET | `/v1/analytics/overview` | 200 | 200 | PASS |
+| 37 | GET | `/v1/analytics/fares` | 200 | 200 | PASS |
+| 38 | GET | `/v1/anomalies` | 200 | 200 | PASS |
+| 39 | PATCH | `/v1/anomalies/{anomalyId}/resolve` | 200 | 200 | PASS |
+| 40 | GET | `/v1/audit` | 200 | 200 | PASS |
+| 41 | GET | `/openapi.json` | 200 | 200 | PASS |
+| 42 | GET | `/docs` | 200 | 200 | PASS |
+| 43 | POST | `/v1/auth/logout` | 200 | 200 | PASS |
 
 ## Inputs per operation
 
@@ -341,7 +342,7 @@ _No inputs._
 
 | Field | Value |
 | --- | --- |
-| `path.quoteId` | `15f4b27c-871c-4b05-b236-4e0eeeef7f01` |
+| `path.quoteId` | `494ce95f-1dc4-4477-b105-fc328a6d465d` |
 
 
 ### 23. POST /v1/fare/predict
@@ -396,7 +397,7 @@ _No inputs._
 
 | Field | Value |
 | --- | --- |
-| `path.versionId` | `5df9cefe-d433-4180-bc41-076421586cdd` |
+| `path.versionId` | `659e1eee-bd25-46e1-b31b-f2ffd1793eed` |
 
 
 ### 28. POST /v1/fare/models/train
@@ -419,7 +420,7 @@ _No inputs._
 
 | Field | Value |
 | --- | --- |
-| `path.versionId` | `659e1eee-bd25-46e1-b31b-f2ffd1793eed` |
+| `path.versionId` | `d9b210e8-d0dd-491e-b955-04856c232606` |
 | `body.actorName` | `api-inputs` |
 | `body.role` | `system` |
 
@@ -476,24 +477,34 @@ _No inputs._
 
 | Field | Value |
 | --- | --- |
-| `path.tripId` | `3e0b93e2-0ecb-491a-af65-2b32535b2ee8` |
+| `path.tripId` | `d071746a-438c-44dd-9230-c24d65a46a4a` |
 
 
-### 33. PATCH /v1/trips/{tripId}/status
+### 33. GET /v1/trips/{tripId}/analysis
 
 **Success status:** `200`  
 **Last actual status:** `200` (PASS)
 
 | Field | Value |
 | --- | --- |
-| `path.tripId` | `3e0b93e2-0ecb-491a-af65-2b32535b2ee8` |
+| `path.tripId` | `d071746a-438c-44dd-9230-c24d65a46a4a` |
+
+
+### 34. PATCH /v1/trips/{tripId}/status
+
+**Success status:** `200`  
+**Last actual status:** `200` (PASS)
+
+| Field | Value |
+| --- | --- |
+| `path.tripId` | `d071746a-438c-44dd-9230-c24d65a46a4a` |
 | `body.status` | `flagged` |
 | `body.flagReason` | `API input example` |
 | `body.severity` | `low` |
 | `body.actorName` | `api-inputs` |
 
 
-### 34. GET /v1/trips.csv
+### 35. GET /v1/trips.csv
 
 **Success status:** `200`  
 **Last actual status:** `200` (PASS)
@@ -504,7 +515,7 @@ _No inputs._
 | `query.status` | `completed` |
 
 
-### 35. GET /v1/analytics/overview
+### 36. GET /v1/analytics/overview
 
 **Success status:** `200`  
 **Last actual status:** `200` (PASS)
@@ -515,7 +526,7 @@ _No inputs._
 | `query.days` | `30` |
 
 
-### 36. GET /v1/analytics/fares
+### 37. GET /v1/analytics/fares
 
 **Success status:** `200`  
 **Last actual status:** `200` (PASS)
@@ -526,7 +537,7 @@ _No inputs._
 | `query.days` | `30` |
 
 
-### 37. GET /v1/anomalies
+### 38. GET /v1/anomalies
 
 **Success status:** `200`  
 **Last actual status:** `200` (PASS)
@@ -541,19 +552,19 @@ _No inputs._
 | `query.offset` | `0` |
 
 
-### 38. PATCH /v1/anomalies/{anomalyId}/resolve
+### 39. PATCH /v1/anomalies/{anomalyId}/resolve
 
 **Success status:** `200`  
 **Last actual status:** `200` (PASS)
 
 | Field | Value |
 | --- | --- |
-| `path.anomalyId` | `f9318e32-489b-478c-a067-113ca4089d74` |
+| `path.anomalyId` | `6afd3006-4578-435a-91b2-e7bf8c8989ad` |
 | `body.resolutionNote` | `Verified by API input example` |
 | `body.actorName` | `api-inputs` |
 
 
-### 39. GET /v1/audit
+### 40. GET /v1/audit
 
 **Success status:** `200`  
 **Last actual status:** `200` (PASS)
@@ -566,7 +577,7 @@ _No inputs._
 | `query.offset` | `0` |
 
 
-### 40. GET /openapi.json
+### 41. GET /openapi.json
 
 **Success status:** `200`  
 **Last actual status:** `200` (PASS)
@@ -574,7 +585,7 @@ _No inputs._
 _No inputs._
 
 
-### 41. GET /docs
+### 42. GET /docs
 
 **Success status:** `200`  
 **Last actual status:** `200` (PASS)
@@ -582,7 +593,7 @@ _No inputs._
 _No inputs._
 
 
-### 42. POST /v1/auth/logout
+### 43. POST /v1/auth/logout
 
 **Success status:** `200`  
 **Last actual status:** `200` (PASS)

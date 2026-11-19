@@ -17,6 +17,32 @@ export function roundMoney(value) {
   return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
 }
 
+/**
+ * Benchmark add-on rate, in pesos per kilometre, for matrices that publish a
+ * closed per-route table with no per-kilometre column (Cabadbaran SCO 2020-012).
+ * Such a table cannot yield a distance from its fare, but trip analytics and the
+ * distance model need a usable scale, so the current traditional-PUJ add-on is
+ * used as the reference rate. It never changes the fare: the fare is always the
+ * published row.
+ */
+export const DISTANCE_BENCHMARK_PER_KM = 2.0;
+
+export function deriveDistanceKm(
+  regularFare,
+  baseFare,
+  perKmRate,
+  baseDistanceKm = 1,
+) {
+  const rate =
+    Number.isFinite(perKmRate) && Number(perKmRate) > 0
+      ? Number(perKmRate)
+      : DISTANCE_BENCHMARK_PER_KM;
+  const km =
+    Number(baseDistanceKm) +
+    Math.max(0, Number(regularFare) - Number(baseFare)) / rate;
+  return Math.round(km * 10) / 10;
+}
+
 export async function lookupOfficialFare(
   db,
   cityId,
@@ -57,17 +83,12 @@ export async function lookupOfficialFare(
   const baseFare = Number(row.base_fare);
   const perKm = Number(row.per_km_rate);
   const baseDistance = Number(row.base_distance_km);
-  const derivedDistanceKm =
-    perKm > 0
-      ? Math.round(
-          (baseDistance + Math.max(0, regular - baseFare) / perKm) * 10,
-        ) / 10
-      : baseDistance;
+  const distanceKm = deriveDistanceKm(regular, baseFare, perKm, baseDistance);
 
   return {
     route: lookup.rows[0],
     context: row,
-    derivedDistanceKm,
+    derivedDistanceKm: distanceKm,
   };
 }
 

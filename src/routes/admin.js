@@ -11,6 +11,19 @@ import {
 import { parseBody } from '../lib/validate.js';
 import { blankToNull } from '../lib/fare.js';
 import { serializeFareRoute, serializeMatrixEntry } from '../lib/serialize.js';
+import {
+  compileSeed,
+  listSeeds,
+  publishSeed,
+  rollbackSeed,
+  validateSeed,
+} from '../services/seed-service.js';
+import {
+  applyUpload,
+  createOrdinanceUpload,
+  listUploads,
+  loadUpload,
+} from '../services/ordinance-service.js';
 
 const farePatchSchema = z.object({
   baseFare: z.number().min(0).max(100000),
@@ -20,6 +33,7 @@ const farePatchSchema = z.object({
   maxCustomary: z.number().min(0).max(100000),
   typicalCapacity: z.number().int().min(1).max(30),
   active: z.boolean().default(true),
+  reason: z.string().trim().max(500).optional(),
 });
 
 const fareRouteSchema = z.object({
@@ -30,6 +44,7 @@ const fareRouteSchema = z.object({
   discountedFare: z.number().min(0).max(100000),
   remark: z.string().max(500).optional(),
   bidirectional: z.boolean().default(true),
+  reason: z.string().trim().max(500).optional(),
 });
 
 export function adminRoutes(db) {
@@ -135,7 +150,18 @@ export function adminRoutes(db) {
         entityType: 'fare_matrix_entry',
         entityId: `${matrix.rows[0].id}:${vehicleId}`,
         cityId,
+        reason: input.reason ?? '',
         detail,
+        before: detail.before,
+        after: {
+          baseFare: input.baseFare,
+          baseDistanceKm: input.baseDistanceKm,
+          perKmRate: input.perKmRate,
+          minFare: input.minFare,
+          maxCustomary: input.maxCustomary,
+          typicalCapacity: input.typicalCapacity,
+          active: input.active,
+        },
       });
 
       res.json({
@@ -297,6 +323,25 @@ export function adminRoutes(db) {
             bidirectional: input.bidirectional,
           },
         },
+        reason: input.reason ?? '',
+        before: {
+          fromLabel: previous.from_label,
+          toLabel: previous.to_label,
+          via: previous.via,
+          regularFare: Number(previous.regular_fare),
+          discountedFare: Number(previous.discounted_fare),
+          remark: previous.remark,
+          bidirectional: previous.bidirectional,
+        },
+        after: {
+          fromLabel: input.fromLabel ?? previous.from_label,
+          toLabel: input.toLabel ?? previous.to_label,
+          via: input.via ?? previous.via,
+          regularFare: input.regularFare,
+          discountedFare: input.discountedFare,
+          remark: input.remark ?? previous.remark,
+          bidirectional: input.bidirectional,
+        },
       });
 
       res.json({
@@ -338,6 +383,11 @@ export function adminRoutes(db) {
         );
       });
 
+      const previousFocus = await db.query(
+        `SELECT id FROM cities WHERE is_focus AND id <> $1 LIMIT 1`,
+        [cityId],
+      );
+
       await recordAudit(db, {
         actorId: req.admin.id,
         actorName: req.admin.displayName,
@@ -346,6 +396,11 @@ export function adminRoutes(db) {
         entityType: 'city',
         entityId: cityId,
         cityId,
+        reason: String(req.body?.reason ?? '').trim().slice(0, 500),
+        before: previousFocus.rows.length
+          ? { activeCityId: previousFocus.rows[0].id }
+          : null,
+        after: { activeCityId: cityId },
         detail: {
           summary: `Set ${found.rows[0].display_name} as the live dataset`,
         },
@@ -389,5 +444,238 @@ export function adminRoutes(db) {
     }),
   );
 
+  // -------------------------------------------------------------------------
+  // Fare seed governance
+  // -------------------------------------------------------------------------
+
+  const seedReason = z.string().trim().min(5).max(500);
+
+  router.get(
+    '/admin/cities/:cityId/seeds',
+    requireAuth(db),
+    asyncHandler(async (req, res) => {
+      const { cityId } = req.params;
+      if (!canEditFares(req.admin, cityId) && req.admin.role !== 'viewer') {
+        throw new ApiError(403, 'FORBIDDEN', 'Your account cannot read this city.');
+      }
+      const vehicleId = String(req.query.vehicleId || '').trim() || null;
+      res.json(await listSeeds(db, { cityId, vehicleId }));
+    }),
+  );
+
+  router.post(
+    '/admin/cities/:cityId/seeds/validate',
+    requireAuth(db),
+    asyncHandler(async (req, res) => {
+      const { cityId } = req.params;
+      const input = parseBody(
+        z.object({ vehicleId: z.string().min(1).max(60) }),
+        req,
+      );
+      if (!canEditFares(req.admin, cityId)) {
+        throw new ApiError(403, 'FORBIDDEN', 'Your account cannot edit fares for this city.');
+      }
+      const result = await validateSeed(db, {
+        cityId,
+        vehicleId: input.vehicleId,
+      });
+      res.json({ ok: result.ok, checks: result.checks });
+    }),
+  );
+
+  router.post(
+    '/admin/cities/:cityId/seeds/compile',
+    requireAuth(db),
+    asyncHandler(async (req, res) => {
+      const { cityId } = req.params;
+      const input = parseBody(
+        z.object({
+          vehicleId: z.string().min(1).max(60),
+          reason: seedReason,
+        }),
+        req,
+      );
+      if (!canEditFares(req.admin, cityId)) {
+        throw new ApiError(403, 'FORBIDDEN', 'Your account cannot edit fares for this city.');
+      }
+      const result = await compileSeed(db, {
+        cityId,
+        vehicleId: input.vehicleId,
+        actor: req.admin,
+        reason: input.reason,
+      });
+      res.status(201).json({
+        artifact: result.artifact,
+        checks: result.checks,
+        rows: result.payload.routes.length,
+        sha256: result.artifact.sha256,
+      });
+    }),
+  );
+
+  router.post(
+    '/admin/seeds/:seedId/publish',
+    requireAuth(db),
+    asyncHandler(async (req, res) => {
+      requireRole(req.admin, ['admin']);
+      const input = parseBody(z.object({ reason: seedReason }), req);
+      const result = await publishSeed(db, {
+        seedId: req.params.seedId,
+        actor: req.admin,
+        reason: input.reason,
+      });
+      res.json(result);
+    }),
+  );
+
+  router.post(
+    '/admin/seeds/:seedId/rollback',
+    requireAuth(db),
+    asyncHandler(async (req, res) => {
+      requireRole(req.admin, ['admin']);
+      const input = parseBody(z.object({ reason: seedReason }), req);
+      const result = await rollbackSeed(db, {
+        seedId: req.params.seedId,
+        actor: req.admin,
+        reason: input.reason,
+      });
+      res.json(result);
+    }),
+  );
+
+  // -------------------------------------------------------------------------
+  // Ordinance ingestion
+  // -------------------------------------------------------------------------
+
+  router.post(
+    '/admin/cities/:cityId/ordinances',
+    express.raw({ type: () => true, limit: '30mb' }),
+    requireAuth(db),
+    asyncHandler(async (req, res) => {
+      const { cityId } = req.params;
+      const vehicleId = String(req.query.vehicleId || 'tricycle');
+      const filename = String(req.query.filename || 'ordinance');
+      if (!canEditFares(req.admin, cityId)) {
+        throw new ApiError(403, 'FORBIDDEN', 'Your account cannot edit fares for this city.');
+      }
+      const result = await createOrdinanceUpload(db, {
+        cityId,
+        vehicleId,
+        filename,
+        buffer: Buffer.isBuffer(req.body) ? req.body : Buffer.alloc(0),
+        actor: req.admin,
+      });
+      res.status(201).json({
+        upload: result.upload,
+        diff: result.diff,
+        rows: result.rows.slice(0, 200),
+        ocrPages: result.ocrPages,
+        notice: noticeFor(result.upload),
+      });
+    }),
+  );
+
+  router.get(
+    '/admin/cities/:cityId/ordinances',
+    requireAuth(db),
+    asyncHandler(async (req, res) => {
+      const { cityId } = req.params;
+      const vehicleId = String(req.query.vehicleId || 'tricycle');
+      const uploads = await listUploads(db, { cityId, vehicleId });
+      res.json({ uploads, notice: uploads.length ? noticeFor(uploads[0]) : null });
+    }),
+  );
+
+  router.get(
+    '/admin/ordinance-uploads/:uploadId',
+    requireAuth(db),
+    asyncHandler(async (req, res) => {
+      const { upload, rows } = await loadUpload(db, req.params.uploadId);
+      res.json({ upload, rows });
+    }),
+  );
+
+  router.post(
+    '/admin/ordinance-uploads/:uploadId/apply',
+    requireAuth(db),
+    asyncHandler(async (req, res) => {
+      requireRole(req.admin, ['admin', 'lgu_editor']);
+      const input = parseBody(
+        z.object({
+          reason: seedReason,
+          rows: z
+            .array(
+              z.object({
+                row: z.number().int().min(1).max(500),
+                from: z.string().max(200).optional(),
+                to: z.string().max(200).optional(),
+                regular: z.number().min(0).max(100_000),
+                discounted: z.number().min(0).max(100_000).nullable().optional(),
+                remark: z.string().max(500).optional(),
+              }),
+            )
+            .max(500)
+            .optional(),
+        }),
+        req,
+      );
+      const result = await applyUpload(db, {
+        uploadId: req.params.uploadId,
+        actor: req.admin,
+        reason: input.reason,
+        reviewedRows: input.rows,
+      });
+      res.json(result);
+    }),
+  );
+
   return router;
+}
+
+function noticeFor(upload) {
+  if (!upload) return null;
+  if (upload.status === 'ocr') {
+    return {
+      kind: 'ocr',
+      text:
+        `${upload.filename} is a scan. OCR read ${upload.pages ?? 0} page(s), ` +
+        'but a scanned matrix is not applied automatically — review the pages ' +
+        'and confirm the amounts.',
+    };
+  }
+  if (upload.status === 'scan') {
+    return {
+      kind: 'scan',
+      text:
+        `${upload.filename} is a scan with no text layer. ` +
+        'Transcribe the table or upload the typed document before applying it.',
+    };
+  }
+  if (upload.status === 'error') {
+    return {
+      kind: 'error',
+      text: upload.warning || 'No fare table could be read from that file.',
+    };
+  }
+  if (upload.status === 'applied') {
+    return {
+      kind: 'applied',
+      text: `${upload.filename} has been applied to the matrix. Compile and publish a new seed.`,
+    };
+  }
+  const diff = upload.diff || {};
+  const changed = (diff.changed || []).length;
+  const missing = (diff.missingInMatrix || []).length;
+  if (changed || missing) {
+    return {
+      kind: 'stale',
+      text:
+        `${upload.filename} does not match the active matrix: ` +
+        `${changed} row(s) changed, ${missing} new. Apply it or update the matrix.`,
+    };
+  }
+  return {
+    kind: 'match',
+    text: `${upload.filename} matches the active matrix.`,
+  };
 }

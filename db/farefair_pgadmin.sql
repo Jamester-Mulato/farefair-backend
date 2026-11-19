@@ -807,6 +807,7 @@ DECLARE
   v_discount     INTEGER;
   v_billable     NUMERIC;
   v_distance_comp NUMERIC;
+  v_rate         NUMERIC;
 BEGIN
   SELECT * INTO cf
   FROM fn_calculate_fare(p_city_id, p_vehicle_id, p_distance_km, p_passengers, p_pakyaw, p_discount_code);
@@ -824,8 +825,14 @@ BEGIN
   END IF;
 
   v_discount := CASE WHEN p_discount_code <> 'none' THEN 1 ELSE 0 END;
-  v_distance_comp := cf.distance_component;
-  v_billable := CASE WHEN cf.per_km_rate = 0 THEN 0 ELSE v_distance_comp / cf.per_km_rate END;
+
+  -- A closed per-route table (Cabadbaran SCO 2020-012) has no per-kilometre
+  -- column, so fare features would all collapse to constants and the model
+  -- would extrapolate nonsense. Fall back to the same benchmark rate the
+  -- distance was derived with; it never changes a published fare.
+  v_rate := CASE WHEN cf.per_km_rate > 0 THEN cf.per_km_rate ELSE 2.00 END;
+  v_billable := GREATEST(p_distance_km - cf.base_distance_km, 0);
+  v_distance_comp := v_billable * v_rate;
   v_sigma := COALESCE(v_sigma, 0);
 
   v_features := jsonb_build_object(
@@ -833,7 +840,7 @@ BEGIN
     'passengers', p_passengers,
     'seat_units', cf.seat_units,
     'base_fare', cf.base_fare,
-    'per_km_rate', cf.per_km_rate,
+    'per_km_rate', v_rate,
     'billable_distance_km', v_billable,
     'base_fare_x_seat', cf.base_fare * cf.seat_units,
     'per_km_x_distance_x_seat', v_distance_comp * cf.seat_units,

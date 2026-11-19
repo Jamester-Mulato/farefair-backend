@@ -72,10 +72,10 @@ test('meta exposes focus city and seeded counts', async () => {
   assert.equal(response.status, 200);
   assert.equal(body.activeCityId, 'cabadbaran');
   assert.equal(body.counts.cities, 1);
-  assert.equal(body.counts.vehicles, 9);
+  assert.equal(body.counts.vehicles, 11);
   assert.equal(body.counts.ordinances, 1);
   assert.equal(body.counts.fare_matrix_entries, 1);
-  assert.equal(body.counts.fare_routes, 68);
+  assert.equal(body.counts.fare_routes, 66);
   assert.ok(body.counts.trips > 100);
   assert.ok(body.counts.active_models >= 1);
   assert.equal(body.endpoints.estimate, 'POST /v1/fare/estimate');
@@ -93,7 +93,7 @@ test('cities catalog keeps Cabadbaran as the focus city', async () => {
   assert.equal(focus.provisional, false);
   assert.equal(focus.activeVehicleCount, 1);
   assert.equal(focus.ordinanceCount, 1);
-  assert.equal(focus.fareRouteCount, 68);
+  assert.equal(focus.fareRouteCount, 66);
 });
 
 test('city detail mirrors the Cabadbaran official dataset', async () => {
@@ -108,9 +108,9 @@ test('city detail mirrors the Cabadbaran official dataset', async () => {
   assert.equal(body.simulatorCorridor.length, 5);
   assert.equal(body.fareMatrix.entries.length, 1);
   const tricycle = body.vehicles.find((vehicle) => vehicle.vehicleId === 'tricycle');
-  assert.equal(tricycle.baseFare, 13);
+  assert.equal(tricycle.baseFare, 9);
   assert.equal(tricycle.baseDistanceKm, 1);
-  assert.equal(tricycle.perKmRate, 2);
+  assert.equal(tricycle.perKmRate, 0);
   assert.equal(tricycle.maxCustomary, 75);
 });
 
@@ -118,12 +118,12 @@ test('calendar dates keep the enacted day without timezone drift', async () => {
   const { response, body } = await api('/v1/cities/cabadbaran');
   assert.equal(response.status, 200);
   const enacted = body.ordinances.find(
-    (ordinance) => ordinance.title === 'Cabadbaran City Tricycle Fare Matrix',
+    (ordinance) => ordinance.title === 'Special City Ordinance No. 2020-012',
   );
-  assert.ok(enacted, 'expected the Cabadbaran fare matrix ordinance');
-  assert.equal(enacted.dateEnacted, '2026-09-24');
-  assert.equal(enacted.effectiveFrom, '2026-09-24');
-  assert.equal(enacted.dateEnactedLabel, '2026-09-24');
+  assert.ok(enacted, 'expected the Cabadbaran tricycle ordinance');
+  assert.equal(enacted.dateEnacted, '2020-07-22');
+  assert.equal(enacted.effectiveFrom, '2026-07-17');
+  assert.equal(enacted.dateEnactedLabel, '2020-07-22');
 });
 
 
@@ -135,33 +135,33 @@ test('active fare matrix is versioned and complete', async () => {
   assert.equal(body.provisional, false);
   assert.equal(body.entries.length, 1);
   const tricycle = body.entries.find((entry) => entry.vehicleId === 'tricycle');
-  assert.equal(tricycle.baseFare, 13);
+  assert.equal(tricycle.baseFare, 9);
   assert.equal(tricycle.baseDistanceKm, 1);
-  assert.equal(tricycle.perKmRate, 2);
-  assert.equal(tricycle.minFare, 13);
+  assert.equal(tricycle.perKmRate, 0);
+  assert.equal(tricycle.minFare, 9);
   assert.equal(tricycle.maxCustomary, 75);
 });
 
-test('official fare routes expose all 68 published rows', async () => {
+test('official fare routes expose all 66 published rows', async () => {
   const { response, body } = await api('/v1/cities/cabadbaran/fare-routes');
   assert.equal(response.status, 200);
   assert.equal(body.cityId, 'cabadbaran');
-  assert.equal(body.count, 68);
-  assert.equal(body.effectiveFrom, '2026-09-24');
+  assert.equal(body.count, 66);
+  assert.equal(body.effectiveFrom, '2026-07-17');
   assert.equal(body.provisional, false);
-  assert.equal(body.data.length, 68);
+  assert.equal(body.data.length, 66);
   assert.ok(body.data.every((route) => route.vehicleId === 'tricycle'));
 
   const first = body.data.find((route) => route.rowNumber === 1);
   assert.equal(first.from, 'Anywhere in Poblacion');
-  assert.equal(first.regularFare, 13);
-  assert.equal(first.discountedFare, 11);
+  assert.equal(first.regularFare, 9);
+  assert.equal(first.discountedFare, 7.2);
 
   const bayabas = body.data.find((route) => route.rowNumber === 4);
   assert.equal(bayabas.from, 'Poblacion or Terminal');
   assert.equal(bayabas.to, 'Bayabas');
-  assert.equal(bayabas.regularFare, 50);
-  assert.equal(bayabas.discountedFare, 40);
+  assert.equal(bayabas.regularFare, 35);
+  assert.equal(bayabas.discountedFare, 28);
   assert.equal(bayabas.bidirectional, true);
 
   const searched = await api('/v1/cities/cabadbaran/fare-routes?search=Bayabas');
@@ -182,7 +182,9 @@ test('the global fare-route alias defaults to the focus city', async () => {
   assert.equal(body.data[0].rowNumber, 4);
 });
 
-test('fare engine matches the Cabadbaran distance formula', async () => {
+test('a closed-table matrix falls back to its minimum when only a distance is given', async () => {
+  // SCO 2020-012 has no per-kilometre column. Without an origin/destination pair
+  // the only lawful amount is the minimum fare; distance cannot add anything.
   const { response, body } = await api('/v1/fare/estimate', {
     method: 'POST',
     body: JSON.stringify({
@@ -196,13 +198,13 @@ test('fare engine matches the Cabadbaran distance formula', async () => {
   });
   assert.equal(response.status, 200);
   assert.equal(body.fareSource, 'distance_matrix');
-  assert.equal(body.fare.exact, 28.48);
-  assert.equal(body.fare.min, 28);
-  assert.equal(body.fare.max, 33);
-  assert.equal(body.breakdown.baseRate, 17.8);
+  assert.equal(body.fare.exact, 14.4);
+  assert.equal(body.fare.min, 14);
+  assert.equal(body.fare.max, 19);
+  assert.equal(body.breakdown.baseRate, 9);
   assert.equal(body.breakdown.seatUnits, 2);
-  assert.equal(body.breakdown.subtotal, 35.6);
-  assert.equal(body.breakdown.discountAmount, 7.12);
+  assert.equal(body.breakdown.subtotal, 18);
+  assert.equal(body.breakdown.discountAmount, 3.6);
   assert.equal(body.provisional, false);
 });
 
@@ -221,14 +223,14 @@ test('a published origin/destination pair wins over the distance formula', async
   assert.equal(body.fareSource, 'official_matrix');
   assert.equal(body.routeRowNumber, 4);
   assert.equal(body.distanceKmSource, 'derived_from_published_fare');
-  assert.equal(body.distanceKm, 19.5);
+  assert.equal(body.distanceKm, 14);
   assert.equal(body.route.from, 'Poblacion or Terminal');
   assert.equal(body.route.to, 'Bayabas');
-  assert.equal(body.route.regularFare, 50);
-  assert.equal(body.route.discountedFare, 40);
-  assert.equal(body.fare.exact, 50);
-  assert.equal(body.fare.min, 50);
-  assert.equal(body.fare.max, 50);
+  assert.equal(body.route.regularFare, 35);
+  assert.equal(body.route.discountedFare, 28);
+  assert.equal(body.fare.exact, 35);
+  assert.equal(body.fare.min, 35);
+  assert.equal(body.fare.max, 35);
 
   const discounted = await api('/v1/fare/estimate', {
     method: 'POST',
@@ -243,11 +245,11 @@ test('a published origin/destination pair wins over the distance formula', async
   });
   assert.equal(discounted.status, 200);
   assert.equal(discounted.body.routeRowNumber, 28);
-  assert.equal(discounted.body.route.regularFare, 75);
-  assert.equal(discounted.body.route.discountedFare, 60);
-  assert.equal(discounted.body.fare.exact, 180);
-  assert.equal(discounted.body.breakdown.subtotal, 225);
-  assert.equal(discounted.body.breakdown.discountAmount, 45);
+  assert.equal(discounted.body.route.regularFare, 50);
+  assert.equal(discounted.body.route.discountedFare, 40);
+  assert.equal(discounted.body.fare.exact, 120);
+  assert.equal(discounted.body.breakdown.subtotal, 150);
+  assert.equal(discounted.body.breakdown.discountAmount, 30);
 
   const reversed = await api('/v1/fare/estimate', {
     method: 'POST',
@@ -262,7 +264,7 @@ test('a published origin/destination pair wins over the distance formula', async
   assert.equal(reversed.status, 200);
   assert.equal(reversed.body.routeRowNumber, 4);
   assert.equal(reversed.body.route.reversed, true);
-  assert.equal(reversed.body.fare.exact, 50);
+  assert.equal(reversed.body.fare.exact, 35);
 });
 
 test('an unpublished pair still needs a distance', async () => {
@@ -294,7 +296,7 @@ test('pakyaw uses the policy seat cap', async () => {
   });
   assert.equal(response.status, 200);
   assert.equal(body.breakdown.seatUnits, 4);
-  assert.equal(body.fare.exact, 56.96);
+  assert.equal(body.fare.exact, 28.8);
 });
 
 test('minimum fare floor is applied', async () => {
@@ -309,9 +311,9 @@ test('minimum fare floor is applied', async () => {
     }),
   });
   assert.equal(response.status, 200);
-  assert.equal(body.fare.exact, 13);
-  assert.equal(body.fare.min, 13);
-  assert.equal(body.fare.max, 18);
+  assert.equal(body.fare.exact, 9);
+  assert.equal(body.fare.min, 9);
+  assert.equal(body.fare.max, 14);
 });
 
 test('estimate rejects unknown vehicles and malformed bodies', async () => {
@@ -351,7 +353,7 @@ test('persisted estimates can be fetched as quotes', async () => {
   assert.equal(estimate.response.status, 200);
   assert.ok(estimate.body.quoteId);
   assert.equal(estimate.body.fareSource, 'official_matrix');
-  assert.equal(estimate.body.fare.exact, 100);
+  assert.equal(estimate.body.fare.exact, 70);
 
   const quote = await api(`/v1/fare/quotes/${estimate.body.quoteId}`);
   assert.equal(quote.response.status, 200);
@@ -376,7 +378,11 @@ test('ML prediction returns a model version and interval', async () => {
   assert.equal(response.status, 200);
   assert.equal(body.model.key, 'fare-fair-linear');
   assert.equal(body.model.version, 1);
-  assert.ok(body.prediction.fare > 25 && body.prediction.fare < 45);
+  // SCO 2020-012 has no per-km column, so the model's feature basis is the
+  // documented benchmark: P9.00 for the first km plus P2.00/km, x2 seats, less
+  // the 20% student discount. The model reproduces the tariff scale exactly --
+  // it is a consistency baseline, not a market forecast.
+  assert.equal(body.prediction.fare, 22.08);
   assert.ok(body.prediction.lowerBound <= body.prediction.fare);
   assert.ok(body.prediction.upperBound >= body.prediction.fare);
   assert.ok(body.prediction.confidence >= 0 && body.prediction.confidence <= 1);
@@ -392,7 +398,15 @@ test('model registry lists the trained baseline', async () => {
   assert.ok(model.activeVersionId);
   const active = model.versions.find((version) => version.isActive);
   assert.equal(active.version, 1);
+  // The baseline is fitted on trips generated from the published table, so it
+  // reproduces that table. For a closed-table tariff the fit recovers the
+  // documented distance benchmark, not an observed market relationship.
   assert.ok(active.metrics.train.r2 > 0.9);
+  assert.equal(
+    active.hyperparameters.distanceBasis,
+    'published_per_km_rate_or_2.00_benchmark',
+  );
+  assert.match(active.hyperparameters.caveat, /analytics artifact/);
 });
 
 test('training creates and activates a new model version', async () => {
@@ -489,8 +503,8 @@ test('recording a trip prices an official route server-side', async () => {
   assert.match(created.body.reference, /^FF-\d+$/);
   assert.equal(created.body.fareSource, 'official_matrix');
   assert.equal(created.body.routeRowNumber, 4);
-  assert.equal(created.body.distanceKm, 19.5);
-  assert.equal(created.body.fare.exact, 100);
+  assert.equal(created.body.distanceKm, 14);
+  assert.equal(created.body.fare.exact, 70);
   assert.equal(created.body.points.length, 3);
   assert.equal(created.body.quotes.length, 1);
   assert.equal(created.body.quotes[0].fareSource, 'official_matrix');
@@ -769,3 +783,57 @@ test('invalid IDs, enum values and malformed JSON return 400', async () => {
   assert.equal(badJson.status, 400);
   assert.equal(badJson.body.error.code, 'INVALID_JSON');
 });
+
+test('trip analysis explains a recorded trip from its stored facts', async () => {
+  const list = await api('/v1/trips?limit=1');
+  assert.equal(list.status, 200);
+  const trip = list.body.data[0];
+
+  const { status, body } = await api(`/v1/trips/${trip.id}/analysis`);
+  assert.equal(status, 200);
+  assert.equal(body.tripId, trip.id);
+  assert.equal(body.reference, trip.reference);
+
+  // The provider is opt-in, so a test run always starts in rules mode.
+  assert.equal(body.engine.mode, 'rules');
+  assert.equal(body.engine.model, null);
+
+  assert.ok(['clear', 'watch', 'review', 'serious'].includes(body.verdict.risk));
+  assert.ok(body.verdict.headline.length > 0);
+  assert.ok(body.verdict.summary.length > 0);
+  assert.ok(body.verdict.confidence > 0 && body.verdict.confidence <= 0.9);
+  assert.ok(
+    ['none', 'monitor', 'verify_record', 'contact_operator', 'escalate'].includes(
+      body.verdict.recommendedAction,
+    ),
+  );
+
+  assert.equal(body.facts.trip.reference, trip.reference);
+  assert.equal(body.facts.fare.estimate, trip.fare.exact);
+  assert.equal(typeof body.facts.gps.points, 'number');
+  assert.ok(Array.isArray(body.findings));
+  assert.ok(Array.isArray(body.basis));
+  assert.match(body.disclaimer, /published matrix/);
+
+  // Findings must cite real paths in the packet, never prose-only claims.
+  for (const finding of body.findings) {
+    assert.ok(finding.evidence.length > 0, `${finding.code} has no evidence`);
+    for (const item of finding.evidence) {
+      assert.notEqual(resolvePath(body.facts, item.path), undefined, item.path);
+    }
+  }
+});
+
+test('trip analysis is 404 for an unknown trip', async () => {
+  const missing = await api(
+    '/v1/trips/00000000-0000-4000-8000-000000000000/analysis',
+  );
+  assert.equal(missing.status, 404);
+  assert.equal(missing.body.error.code, 'TRIP_NOT_FOUND');
+});
+
+function resolvePath(value, pathName) {
+  return pathName
+    .split('.')
+    .reduce((current, key) => (current == null ? undefined : current[key]), value);
+}

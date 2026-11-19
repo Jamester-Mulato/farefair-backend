@@ -139,11 +139,20 @@ export async function applySchema(db, sql) {
   await db.exec(sql);
 }
 
+/**
+ * True only when the dedicated schema actually exists.
+ *
+ * The old check asked "can I select from cities?", which treats a dropped
+ * connection, a cold start or a permission error as "there is no schema".
+ * The caller responds to that by dropping and recreating the schema, so on a
+ * hosted database a single transient failure would wipe the fare matrix,
+ * the seeds and the audit trail. Ask the catalogue instead.
+ */
 export async function schemaExists(db) {
-  try {
-    await db.query('SELECT 1 FROM cities LIMIT 1');
-    return true;
-  } catch {
-    return false;
-  }
+  const result = await db.query(
+    `SELECT 1 FROM information_schema.schemata
+      WHERE schema_name = 'farefair'
+      LIMIT 1`,
+  );
+  return result.rows.length > 0;
 }

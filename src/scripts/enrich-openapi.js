@@ -293,6 +293,188 @@ if (!spec.paths['/v1/fare/routes']) {
   };
 }
 
+if (!spec.paths['/v1/trips/{tripId}/analysis']) {
+  const analysisTripId =
+    resolvedById.get('create-trip')?.responseSample?.id ??
+    resolvedById.get('trip')?.pathParams?.tripId ??
+    '3e0b93e2-0ecb-491a-af65-2b32535b2ee8';
+  spec.paths['/v1/trips/{tripId}/analysis'] = {
+    get: {
+      tags: ['Trips'],
+      summary: 'Deterministic trip analysis with an optional model narrative',
+      description:
+        'Runs the rule engine on one recorded trip and returns its verdict, facts and ' +
+        'findings. When FAREFAIR_LLM_* is configured the server asks an ' +
+        'OpenAI-compatible provider to re-word the narrative; the model may only ' +
+        'rank the existing findings, and any number it writes must already exist in ' +
+        'the packet or be rejected. Without a provider the endpoint returns the ' +
+        'rule-based analysis and makes no network call. Fare amounts always come ' +
+        'from the published matrix, never from the model.',
+      parameters: [
+        {
+          name: 'tripId',
+          in: 'path',
+          required: true,
+          example: analysisTripId,
+          schema: { type: 'string', format: 'uuid', example: analysisTripId },
+        },
+      ],
+      responses: {
+        200: {
+          description: 'Trip analysis',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  tripId: { type: 'string', format: 'uuid' },
+                  reference: { type: 'string' },
+                  generatedAt: { type: 'string', format: 'date-time' },
+                  engine: {
+                    type: 'object',
+                    properties: {
+                      mode: { type: 'string', enum: ['rules', 'llm'] },
+                      model: { type: ['string', 'null'] },
+                      latencyMs: { type: 'integer', minimum: 0 },
+                      note: { type: ['string', 'null'] },
+                      rejected: { type: ['string', 'null'] },
+                    },
+                  },
+                  verdict: {
+                    type: 'object',
+                    properties: {
+                      risk: {
+                        type: 'string',
+                        enum: ['clear', 'watch', 'review', 'serious'],
+                      },
+                      headline: { type: 'string' },
+                      summary: { type: 'string' },
+                      confidence: { type: 'number', minimum: 0, maximum: 1 },
+                      recommendedAction: {
+                        type: 'string',
+                        enum: ['none', 'monitor', 'verify_record', 'escalate'],
+                      },
+                    },
+                  },
+                  facts: { type: 'object' },
+                  findings: {
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      properties: {
+                        code: { type: 'string' },
+                        label: { type: 'string' },
+                        severity: {
+                          type: 'string',
+                          enum: ['low', 'medium', 'high'],
+                        },
+                        detail: { type: 'string' },
+                        informational: { type: 'boolean' },
+                        evidence: {
+                          type: 'array',
+                          items: {
+                            type: 'object',
+                            properties: {
+                              path: { type: 'string' },
+                              value: {},
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                  checks: { type: 'array', items: { type: 'string' } },
+                  basis: { type: 'array', items: { type: 'string' } },
+                  disclaimer: { type: 'string' },
+                },
+              },
+              example: {
+                tripId: analysisTripId,
+                reference: 'FF-5072',
+                generatedAt: '2026-10-29T08:05:00.000Z',
+                engine: {
+                  mode: 'rules',
+                  model: null,
+                  latencyMs: 0,
+                  note: 'FAREFAIR_LLM_BASE_URL is not set',
+                  rejected: null,
+                },
+                verdict: {
+                  risk: 'clear',
+                  headline:
+                    'The record is consistent with published row 4.',
+                  summary:
+                    'No rule fired. The amount of \u20b135.00 matches the Poblacion to Bayabas row and the breadcrumb trail is continuous.',
+                  confidence: 0.85,
+                  recommendedAction: 'none',
+                },
+                facts: {
+                  trip: {
+                    reference: 'FF-5072',
+                    cityId: 'cabadbaran',
+                    cityName: 'Cabadbaran City, Caraga',
+                    vehicleId: 'tricycle',
+                    vehicleName: 'Tricycle',
+                    origin: 'Poblacion',
+                    destination: 'Bayabas',
+                    distanceKm: 4.2,
+                    durationMinutes: 15,
+                    passengers: 2,
+                    pakyaw: false,
+                    discountCode: 'none',
+                    status: 'completed',
+                    flagReason: '',
+                    recordedVia: 'live_trip_recording',
+                    recordedAt: '2026-10-29T08:00:00.000Z',
+                  },
+                  fare: {
+                    currency: 'PHP',
+                    estimate: 35,
+                    rangeMin: 35,
+                    rangeMax: 35,
+                    bandWidth: 0,
+                    source: 'official_matrix',
+                    routeRow: 4,
+                    published: true,
+                    aboveBand: false,
+                    belowBand: false,
+                  },
+                  gps: {
+                    points: 6,
+                    hasBreadcrumbs: true,
+                    pathKm: 4.3,
+                    straightKm: 3.9,
+                    detourRatio: 1.1,
+                    maxGapMeters: 210,
+                    gapsOver400m: 0,
+                    avgSpeedKph: 17.2,
+                    maxSpeedKph: 28.4,
+                    spanMinutes: 15,
+                  },
+                  anomalies: [],
+                  prediction: null,
+                },
+                findings: [],
+                checks: [],
+                basis: [
+                  'fare: published row 4',
+                  'matrix band: 35.00 \u2013 35.00 PHP',
+                  'distance: 4.20 km declared',
+                  'gps: 6 breadcrumbs',
+                ],
+                disclaimer:
+                  'Fare amounts come from the published matrix; this analysis only describes the recorded trip.',
+              },
+            },
+          },
+        },
+        404: { $ref: '#/components/responses/Error' },
+      },
+    },
+  };
+}
+
+
 if (!spec.paths['/v1/admin/cities/{cityId}/fare-routes/{rowNumber}']) {
   spec.paths['/v1/admin/cities/{cityId}/fare-routes/{rowNumber}'] = {
     put: {
@@ -405,6 +587,22 @@ tripsOperation.description =
 /* -------------------------------------------------------------------------
  * 3. Apply examples from the resolved matrix.
  * ---------------------------------------------------------------------- */
+// A path/query entry in api-inputs.json may still be an unresolved
+// `{ from, field, example }` reference when the live run has not covered the
+// operation yet. Fall back to its documented example instead of embedding the
+// descriptor object in the spec.
+function exampleValue(value) {
+  if (
+    value &&
+    typeof value === 'object' &&
+    typeof value.from === 'string' &&
+    Object.hasOwn(value, 'example')
+  ) {
+    return value.example;
+  }
+  return value;
+}
+
 for (const operation of matrix.operations) {
   const target = spec.paths[operation.path]?.[operation.method.toLowerCase()];
   if (!target) continue;
@@ -415,10 +613,10 @@ for (const operation of matrix.operations) {
   const body = resolvedOperation?.body ?? operation.body;
 
   for (const [name, value] of Object.entries(pathParams)) {
-    setParameter(target, name, value, 'path');
+    setParameter(target, name, exampleValue(value), 'path');
   }
   for (const [name, value] of Object.entries(query)) {
-    setParameter(target, name, value, 'query');
+    setParameter(target, name, exampleValue(value), 'query');
   }
   if (body !== undefined) applyBody(target, body);
 }
