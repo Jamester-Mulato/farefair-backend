@@ -37,9 +37,10 @@ services:
         sync: false
       - key: SEED_PASSWORD_SAM
         sync: false
-      # Gate for /admin, /docs, /openapi.json and /v1/auth/*.
-      - key: ADMIN_BASIC_AUTH
-        sync: false
+      # Optional browser gate for /admin, /docs, /openapi.json and /v1/auth/*.
+      # Left out on purpose: the console is already protected by the account
+      # sign-in, and the browser prompt reappears on every API call in some
+      # browsers. Set ADMIN_BASIC_AUTH=user:password to turn it back on.
       # Both directories ship inside this repository, at its root.
       - key: ASSETS_DIR
         value: /opt/render/project/src/assets/data
