@@ -1,0 +1,244 @@
+/* =====================================================================
+   FareFair Admin — responsive rules.
+
+   Loaded last on purpose. styles.css grew several overlapping breakpoint
+   blocks, and they contradict each other: a `max-width: 430px` rule makes
+   the KPI grid one column, then a later `max-width: 1240px` rule puts it
+   back to two. The result was a layout that behaved by accident.
+
+   Everything that decides how the shell arranges itself now lives here, in
+   ascending-width order, so one place answers "what happens at 390px?".
+   ===================================================================== */
+
+/* ---- base ----------------------------------------------------------- */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+/* `clip` keeps the aurora canvases from creating a sideways scroll without
+   turning <body> into a scroll container (which would break the sticky bar). */
+body {
+  overflow-x: clip;
+}
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.table-wrap {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+/* The account block belongs at the bottom of the rail, not wherever the nav
+   happens to end. */
+.sidebar-user {
+  margin-top: auto;
+}
+/* A "badge" sometimes holds a full sentence (ordinance notes). As an
+   inline-flex pill it stays on one line and drags the page sideways. */
+.badge-plain {
+  display: inline-block;
+  max-width: 100%;
+  white-space: normal;
+  border-radius: 12px;
+  padding: 8px 12px;
+  line-height: 1.5;
+}
+.topbar-titles {
+  min-width: 0;
+}
+.topbar-titles h1 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- narrow phones: one column, no badge clutter --------------------- */
+@media (max-width: 380px) {
+  .grid-kpi {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  #data-source-pill {
+    display: none !important;
+  }
+}
+
+/* ---- phones ---------------------------------------------------------- */
+@media (max-width: 680px) {
+  /* The bar is its own floating card; keep it compact and give the title the
+     room the command-palette pill was stealing. */
+  .topbar {
+    margin: 8px 10px 0;
+    padding: 8px 10px;
+    gap: 8px;
+    min-height: 0;
+    border-radius: 16px;
+  }
+  .topbar-titles {
+    flex: 1 1 auto;
+  }
+  .topbar-titles h1 {
+    font-size: 0.98rem;
+  }
+  .topbar-actions {
+    flex: none;
+    gap: 6px;
+  }
+  /* "Jump to ⌘K" is meaningless on a touch device; the drawer already
+     carries every route. */
+  #cmdk-trigger {
+    display: none !important;
+  }
+  #data-source-pill {
+    max-width: 44vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .page {
+    padding: 16px 14px 56px;
+  }
+
+  /* Hero: the desktop 40px headline wraps to three lines on a phone. */
+  .page-head {
+    padding: 22px 18px !important;
+    border-radius: 20px;
+    gap: 14px;
+  }
+  .page-head h2 {
+    font-size: clamp(24px, 6.8vw, 30px) !important;
+    line-height: 1.14;
+  }
+  .page-head p {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .page-head::after {
+    width: 190px;
+    height: 190px;
+    right: -72px;
+    top: -84px;
+  }
+  .page-head .page-actions {
+    width: 100%;
+  }
+
+  /* Tiles stay two-up down to 381px, so tighten them instead of stacking. */
+  .kpi {
+    min-height: 0 !important;
+    padding: 15px 16px !important;
+  }
+  .kpi-label {
+    font-size: 9.5px !important;
+    line-height: 1.3;
+  }
+  .kpi-value {
+    font-size: 26px !important;
+    margin-top: 8px;
+  }
+  .kpi-note {
+    font-size: 11px !important;
+    line-height: 1.4;
+  }
+
+  .card-head {
+    padding: 16px 16px 0;
+  }
+  .card-body {
+    padding: 14px 16px 18px;
+  }
+
+  .btn {
+    min-height: 42px;
+  }
+
+  /* Pipeline: a horizontal strip with 200px steps cannot fit 390px, so it
+     becomes a vertical list and the connectors follow the dots. */
+  .pipe {
+    flex-direction: column;
+    align-items: stretch;
+    overflow: visible;
+    padding: 12px 14px;
+  }
+  .pipe-step {
+    min-width: 0;
+  }
+  .pipe-line {
+    flex: none;
+    width: 2px;
+    height: 14px;
+    min-width: 0;
+    margin: 2px 0 2px 12px;
+  }
+
+  /* Login */
+  .login-panel {
+    padding: 16px 14px;
+  }
+  .login-card {
+    padding: 22px 18px;
+    border-radius: 18px;
+  }
+
+  /* Command palette */
+  .cmdk {
+    padding-top: 8vh;
+  }
+  .cmdk-panel {
+    width: 94vw;
+    border-radius: 16px;
+  }
+  .cmdk-foot {
+    display: none;
+  }
+}
+
+/* ---- tablets and drawer shells --------------------------------------- */
+@media (max-width: 1024px) {
+  /* The drawer must sit above the glass topbar, otherwise its brand and its
+     close button are painted underneath it and the panel looks empty. */
+  .sidebar {
+    z-index: 60;
+    padding-top: max(18px, env(safe-area-inset-top));
+  }
+  .sidebar-backdrop {
+    z-index: 55;
+  }
+  .sidebar-brand {
+    gap: 10px;
+    padding-bottom: 18px;
+  }
+  /* Pin the account block to the bottom of the panel instead of letting it
+     float wherever the nav ends. */
+  .sidebar-user {
+    margin-top: auto;
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+  }
+  .drawer-close {
+    display: grid;
+    margin-left: auto;
+  }
+  .nav-item {
+    min-height: 44px;
+  }
+  /* Stop the page behind the drawer from scrolling. */
+  body.sidebar-open {
+    overflow: hidden;
+  }
+}
+
+/* ---- desktop --------------------------------------------------------- */
+@media (min-width: 1025px) {
+  /* The sidebar is permanent, so a drawer toggle is dead weight. */
+  #menu-btn {
+    display: none !important;
+  }
+  .sidebar {
+    position: sticky;
+    top: 0;
+  }
+  .page {
+    padding-bottom: 96px;
+  }
+}
