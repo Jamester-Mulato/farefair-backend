@@ -1,0 +1,216 @@
+/* =====================================================================
+   Shell — top app bar instead of a left rail.
+
+   The console's DOM is unchanged: #sidebar is still the same element with
+   the same nav buttons, review block and account block, so every handler
+   keeps working. What changes is the geometry — on desktop the rail turns
+   into a full-width sticky app bar and the canvas runs edge to edge; on
+   phones it becomes a slide-down sheet instead of a slide-in drawer.
+
+   Loaded last, after the page-level sheets.
+   ===================================================================== */
+
+:root {
+  --appbar-h: 62px;
+}
+
+/* ---- desktop: horizontal bar ---------------------------------------- */
+@media (min-width: 1025px) {
+  .app-shell {
+    display: block;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    padding: 0 26px;
+    min-height: var(--appbar-h);
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 0;
+    overflow: visible;
+    box-shadow: 0 20px 50px -40px rgba(4, 12, 8, 0.9);
+  }
+
+  .sidebar-brand {
+    flex: none;
+    padding: 0;
+    gap: 10px;
+  }
+  .sidebar-brand::after {
+    display: none;
+  }
+  .sidebar-word {
+    font-size: 1rem;
+  }
+  .sidebar-sub {
+    display: none;
+  }
+  .drawer-close {
+    display: none;
+  }
+
+  /* The nav becomes a horizontal set of tabs. */
+  .sidebar-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .sidebar-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .nav-label {
+    display: none;
+  }
+  .nav-item {
+    width: auto;
+    height: 38px;
+    margin: 0 1px;
+    padding: 0 13px;
+    border-radius: 11px;
+    flex: none;
+    gap: 8px;
+  }
+  .nav-item > span:not(.icon) {
+    display: inline;
+    opacity: 1;
+  }
+  .nav-item .icon {
+    width: 17px;
+    height: 17px;
+  }
+  .nav-item.active {
+    transform: none;
+    box-shadow: inset 0 0 0 1px rgba(240, 180, 122, 0.45);
+  }
+  .nav-count {
+    margin-left: 2px;
+  }
+
+  /* Review callout and account move to the right edge of the bar. */
+  .sidebar-review {
+    display: none;
+  }
+  .sidebar-user {
+    margin: 0 0 0 auto;
+    padding: 0;
+    border-top: 0;
+    flex: none;
+    gap: 9px;
+  }
+  .sidebar-user .avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 11px;
+  }
+  .sidebar-user-who strong {
+    font-size: 12px;
+  }
+  .sidebar-user-who span {
+    display: none;
+  }
+
+  .main {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  /* The contextual bar sits under the app bar and keeps its own actions. */
+  .topbar {
+    top: var(--appbar-h);
+    margin: 0;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    box-shadow: none;
+  }
+
+  .page {
+    max-width: 1320px;
+    padding-top: 26px;
+  }
+}
+
+/* ---- phones: slide-down sheet --------------------------------------- */
+@media (max-width: 1024px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    max-height: 86svh;
+    padding: 14px 14px 20px;
+    border-radius: 0 0 24px 24px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transform: translateY(-102%);
+    transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 60;
+    overflow-y: auto;
+    box-shadow: 0 40px 80px -40px rgba(4, 12, 8, 0.9);
+  }
+  body.sidebar-open .sidebar {
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .sidebar {
+    pointer-events: none;
+  }
+
+  .sidebar-brand {
+    padding-bottom: 14px;
+  }
+  .sidebar-sub {
+    display: block;
+  }
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .nav-label {
+    display: block;
+  }
+  .nav-item {
+    width: auto;
+    height: 46px;
+    margin: 2px 0;
+    padding: 0 12px;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+  .sidebar-user {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .sidebar-user-who span {
+    display: block;
+  }
+}
+
+/* ---- narrow desktop: keep the bar calm ------------------------------- */
+@media (min-width: 1025px) and (max-width: 1240px) {
+  .nav-item {
+    padding: 0 9px;
+    font-size: 12.5px;
+  }
+  .nav-item > span:not(.icon) {
+    font-size: 12px;
+  }
+}
