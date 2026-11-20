@@ -1,0 +1,322 @@
+/* =====================================================================
+   FareFair Admin — iOS layer.
+
+   Loaded after every other sheet, additive only: it changes how things
+   feel (surfaces, type, motion, controls) and never where they live, so
+   the verified responsive layout cannot regress.
+
+   Language: translucent materials, hairline borders, one spring curve,
+   press feedback on every control, large radii, and motion that has a
+   reason (entrances, state changes, success).
+   ===================================================================== */
+
+:root {
+  /* SF on Apple hardware, Segoe Variable elsewhere. */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text",
+    "Segoe UI", system-ui, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+
+  --ios-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ios-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ios-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --ios-hairline: rgba(21, 33, 29, 0.075);
+  --ios-glass: rgba(255, 255, 255, 0.72);
+  --ios-glass-strong: rgba(255, 255, 255, 0.88);
+  --ios-inner: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --ios-lift: 0 1px 2px rgba(16, 32, 24, 0.06), 0 18px 44px -30px rgba(16, 32, 24, 0.5);
+  --ios-lift-high: 0 2px 6px rgba(16, 32, 24, 0.08), 0 34px 70px -40px rgba(16, 32, 24, 0.55);
+}
+
+::selection {
+  background: rgba(23, 48, 77, 0.16);
+}
+
+/* ---- materials ------------------------------------------------------- */
+.card {
+  background: var(--ios-glass) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(180%);
+  backdrop-filter: blur(26px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.62) !important;
+  border-radius: 22px !important;
+  box-shadow: var(--ios-inner), var(--ios-lift) !important;
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .card { background: var(--ios-glass-strong) !important; }
+}
+
+.kpi {
+  border-radius: 22px !important;
+  box-shadow: var(--ios-inner), 0 18px 40px -28px rgba(8, 22, 13, 0.75) !important;
+}
+.kpi::before {
+  /* a soft top sheen, like a physical tile */
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 46%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+.kpi > * { position: relative; z-index: 1; }
+
+.topbar {
+  background: rgba(255, 255, 255, 0.66) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  backdrop-filter: blur(30px) saturate(180%);
+  box-shadow: var(--ios-inner), 0 20px 44px -38px rgba(16, 32, 24, 0.7) !important;
+}
+body.is-scrolled .topbar {
+  background: rgba(255, 255, 255, 0.86) !important;
+}
+
+.sidebar {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+
+.page-head {
+  border-radius: 26px !important;
+  box-shadow: var(--ios-inner), 0 24px 60px -46px rgba(16, 32, 24, 0.7);
+}
+
+/* ---- type ------------------------------------------------------------ */
+.page-head h2 {
+  letter-spacing: -0.028em !important;
+}
+.card-head h3,
+.topbar-titles h1 {
+  letter-spacing: -0.018em;
+}
+.kpi-value {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+
+/* ---- controls -------------------------------------------------------- */
+.btn,
+.account-btn,
+.icon-btn,
+.nav-item,
+.pill {
+  transition: transform 180ms var(--ios-bounce), background-color 200ms var(--ios-ease),
+    border-color 200ms var(--ios-ease), box-shadow 200ms var(--ios-ease), color 200ms var(--ios-ease);
+}
+.btn:not(.btn-sm) {
+  min-height: 44px;
+  border-radius: 14px;
+}
+.btn {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.18) inset, 0 10px 24px -16px rgba(23, 48, 77, 0.9);
+}
+.btn:active,
+.icon-btn:active,
+.account-btn:active,
+.nav-item:active,
+.pill:active {
+  transform: scale(0.965);
+}
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--ios-inner), var(--ios-lift-high) !important;
+  }
+  .kpi:hover {
+    transform: translateY(-4px) !important;
+  }
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+select {
+  min-height: 46px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  border-color: var(--ios-hairline);
+  transition: border-color 180ms var(--ios-ease), box-shadow 180ms var(--ios-ease),
+    background-color 180ms var(--ios-ease);
+}
+input:focus,
+select:focus {
+  background: #fff;
+  border-color: rgba(23, 48, 77, 0.45);
+  box-shadow: 0 0 0 4px rgba(23, 48, 77, 0.1);
+  outline: none;
+}
+
+.nav-item {
+  border-radius: 13px;
+  transition: background-color 200ms var(--ios-ease), transform 220ms var(--ios-spring),
+    color 200ms var(--ios-ease);
+}
+.nav-item.active {
+  transform: translateX(2px);
+}
+.nav-item .icon {
+  transition: transform 240ms var(--ios-bounce);
+}
+.nav-item:active .icon {
+  transform: scale(0.88);
+}
+
+.icon {
+  stroke-width: 1.65;
+}
+
+/* ---- motion ---------------------------------------------------------- */
+@keyframes iosPageIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes iosRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+#page.ios-enter {
+  animation: iosPageIn 460ms var(--ios-spring) both;
+}
+#page.ios-enter > * {
+  animation: iosRise 560ms var(--ios-spring) both;
+}
+#page.ios-enter > *:nth-child(1) { animation-delay: 20ms; }
+#page.ios-enter > *:nth-child(2) { animation-delay: 60ms; }
+#page.ios-enter > *:nth-child(3) { animation-delay: 100ms; }
+#page.ios-enter > *:nth-child(4) { animation-delay: 140ms; }
+#page.ios-enter > *:nth-child(5) { animation-delay: 180ms; }
+#page.ios-enter > *:nth-child(n + 6) { animation-delay: 220ms; }
+
+/* A value that just changed gets a quick, quiet emphasis. */
+@keyframes iosTick {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.045); }
+  100% { transform: scale(1); }
+}
+.ios-tick {
+  animation: iosTick 420ms var(--ios-bounce);
+}
+
+/* ---- toasts ---------------------------------------------------------- */
+.toast {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-left-width: 0;
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
+  box-shadow: 0 18px 40px -26px rgba(8, 18, 13, 0.85);
+  animation: iosRise 420ms var(--ios-spring) both;
+}
+
+/* ---- modal: a sheet on phones --------------------------------------- */
+.modal {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 40px 90px -50px rgba(8, 18, 13, 0.9);
+}
+.modal::backdrop {
+  background: rgba(12, 20, 15, 0.42);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+@media (max-width: 680px) {
+  .modal {
+    position: fixed;
+    inset: auto 0 0 0;
+    width: 100%;
+    max-width: none;
+    max-height: 88svh;
+    margin: 0;
+    border-radius: 24px 24px 0 0;
+    border-bottom: 0;
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+  @starting-style {
+    .modal[open] {
+      transform: translateY(100%);
+      opacity: 0.6;
+    }
+  }
+  .modal[open] {
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 420ms var(--ios-spring), opacity 300ms var(--ios-ease);
+  }
+}
+
+/* ---- scrollbars ------------------------------------------------------ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(21, 33, 29, 0.22) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(21, 33, 29, 0.2);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(21, 33, 29, 0.3);
+  background-clip: content-box;
+}
+
+/* ---- Lottie mounts --------------------------------------------------- */
+.ios-lottie {
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.ios-lottie svg {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+.pill.has-lottie::before {
+  display: none;
+}
+.empty .ios-lottie {
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 4px;
+}
+.pill .ios-lottie {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+/* ---- reduced motion -------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  #page.ios-enter,
+  #page.ios-enter > *,
+  .toast,
+  .ios-tick {
+    animation: none !important;
+  }
+  .btn:active,
+  .icon-btn:active,
+  .nav-item:active,
+  .card:hover,
+  .kpi:hover {
+    transform: none !important;
+  }
+}
