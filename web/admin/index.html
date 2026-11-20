@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="css/ios.css?v=1">
   <link rel="stylesheet" href="css/overview.css?v=1">
   <link rel="stylesheet" href="css/shell.css?v=1">
+  <link rel="stylesheet" href="css/login-v2.css?v=1">
 
 
 </head>
@@ -52,70 +53,32 @@
 
   <!-- ============================ LOGIN ============================ -->
   <div id="login-view" class="login-view">
-    <div class="login-shell">
-      <section class="login-brand" aria-label="About FareFair">
-        <div class="brand-top">
+    <div class="login-shell login-v2">
+      <div class="lv-aurora" aria-hidden="true">
+        <span class="lv-blob lv-blob-a"></span>
+        <span class="lv-blob lv-blob-b"></span>
+        <span class="lv-mesh"></span>
+      </div>
+
+      <header class="lv-top">
+        <div class="lv-brand">
           <svg class="brand-mark brand-mark-lg" viewBox="0 0 40 40" aria-hidden="true">
             <rect width="40" height="40" rx="12" fill="#ABD0AF"/>
             <path d="M11 29c0-5.5 5.5-5 5.5-10S12 12.5 12 9" fill="none" stroke="#16331C" stroke-width="3" stroke-linecap="round"/>
             <circle cx="27" cy="12" r="3.4" fill="#16331C"/>
             <path d="M27 15.5V29" stroke="#16331C" stroke-width="3" stroke-linecap="round"/>
           </svg>
-          <span class="brand-word">FareFair</span>
-          <span class="brand-suffix">Admin Console</span>
+          <span class="lv-brand-word">FareFair</span>
+          <span class="lv-brand-suffix">Admin Console</span>
         </div>
+        <span class="lv-top-meta">Cabadbaran City · transport office</span>
+      </header>
 
-        <div class="brand-copy">
-          <p class="eyebrow eyebrow-light">Mindanao informal transit</p>
-          <h2>Fare data that<br>stays <em>fair.</em></h2>
-          <p class="brand-lede">One console for the Cabadbaran City tricycle fare matrix, the LGU ordinance behind it and the trips recorded against it — built to keep commuters and drivers on the same page.</p>
-        </div>
-
-        <div class="brand-stats">
-          <div><strong>1</strong><span>city dataset</span></div>
-          <div><strong>68</strong><span>published fare routes</span></div>
-          <div><strong>20%</strong><span>statutory discount</span></div>
-        </div>
-
-        <div class="fare-preview" aria-hidden="true">
-          <div class="fare-preview-head">
-            <span class="dot"></span>
-            <span>Sample published fare</span>
-            <span class="fare-preview-city">Cabadbaran</span>
-          </div>
-          <div class="fare-preview-body">
-            <div>
-              <p class="fare-preview-route">Poblacion → Bayabas</p>
-              <p class="fare-preview-meta">Tricycle · 1 passenger · official matrix</p>
-            </div>
-            <div class="fare-preview-amount">₱50<span>· ₱40 discounted</span></div>
-          </div>
-        </div>
-
-        <svg class="brand-route" viewBox="0 0 520 180" aria-hidden="true">
-          <path d="M-10 150 C 90 150, 90 60, 200 60 S 330 150, 420 120 S 500 40, 540 40" fill="none" stroke="rgba(171,208,175,.35)" stroke-width="1.5" stroke-dasharray="4 7"/>
-          <circle cx="200" cy="60" r="5" fill="#ABD0AF"/>
-          <circle cx="420" cy="120" r="5" fill="#FFB781"/>
-        </svg>
-
-        <p class="brand-foot">Official Cabadbaran City fare matrix · effective 24 September 2026</p>
-      </section>
-
-      <section class="login-panel">
-        <div class="login-card">
-          <div class="mobile-brand">
-            <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
-              <rect width="40" height="40" rx="12" fill="#DCEBDE"/>
-              <path d="M11 29c0-5.5 5.5-5 5.5-10S12 12.5 12 9" fill="none" stroke="#23422A" stroke-width="3" stroke-linecap="round"/>
-              <circle cx="27" cy="12" r="3.4" fill="#23422A"/>
-              <path d="M27 15.5V29" stroke="#23422A" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-            <span>FareFair</span>
-          </div>
-
-          <p class="eyebrow">Administrator access</p>
-          <h1>Sign in to the console</h1>
-          <p class="login-sub">Use your FareFair staff credentials. Sessions expire after 30 minutes of inactivity.</p>
+      <main class="lv-stage">
+        <section class="lv-card" aria-labelledby="lv-title">
+          <span class="lv-eyebrow">Administrator access</span>
+          <h1 id="lv-title">Welcome back</h1>
+          <p class="lv-sub">Sign in to the fare console. Sessions expire after 30 minutes of inactivity.</p>
 
           <form id="login-form" novalidate autocomplete="off">
             <div class="form-group">
@@ -163,16 +126,35 @@
             </div>
             <p class="demo-note">Passwords are scrypt hashes in PostgreSQL: <code>farefair</code> on a local reset, <code>SEED_DEMO_PASSWORD</code> on a hosted instance. Sign in with the full email, or the part before the <code>@</code>.</p>
           </details>
+        </section>
 
-          <p class="login-foot">FareFair · fair fare estimates for Mindanao informal transit</p>
-        </div>
+        <aside class="lv-aside" aria-hidden="true">
+          <div class="lv-ticket">
+            <div class="lv-ticket-top">
+              <span class="lv-dot"></span>
+              <span>Sample published fare</span>
+              <span class="lv-ticket-city">Cabadbaran</span>
+            </div>
+            <p class="lv-route">Poblacion → Bayabas</p>
+            <p class="lv-route-meta">Tricycle · 1 passenger · official matrix</p>
+            <p class="lv-amount">₱50 <span>· ₱40 discounted</span></p>
+            <div class="lv-ticket-rule"></div>
+            <p class="lv-ticket-note">Every amount on this console traces back to an ordinance.</p>
+          </div>
 
-        <div class="login-trust" aria-label="Console safeguards">
-          <span>Scrypt password hashes</span>
-          <span>Role-scoped sessions</span>
-          <span>PostgreSQL audit trail</span>
-        </div>
-      </section>
+          <ul class="lv-facts">
+            <li><strong>1</strong><span>city dataset</span></li>
+            <li><strong>68</strong><span>fare routes</span></li>
+            <li><strong>20%</strong><span>statutory discount</span></li>
+          </ul>
+        </aside>
+      </main>
+
+      <footer class="lv-foot">
+        <span>Scrypt password hashes</span>
+        <span>Role-scoped sessions</span>
+        <span>PostgreSQL audit trail</span>
+      </footer>
     </div>
   </div>
 
