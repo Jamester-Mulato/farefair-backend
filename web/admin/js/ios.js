@@ -99,9 +99,12 @@
       if (changed) {
         lastRoute = route;
         if (!reduceMotion) animatePage();
-        Array.prototype.forEach.call(page.querySelectorAll('.kpi-value'), function (el) {
-          if (!el.dataset.iosCounted) countUp(el);
-        });
+        Array.prototype.forEach.call(
+          page.querySelectorAll('.kpi-value, .ov-stat strong, .ov-review-number'),
+          function (el) {
+            if (!el.dataset.iosCounted) countUp(el);
+          },
+        );
       }
 
       Array.prototype.forEach.call(page.querySelectorAll('.empty:not([data-ios-orb])'), function (el) {

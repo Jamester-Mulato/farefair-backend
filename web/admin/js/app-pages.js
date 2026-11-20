@@ -548,75 +548,115 @@
       '</div>';
     });
 
+    const readinessOk = readinessItems.filter(function (item) { return item.ok; }).length;
+    const readinessPct = Math.round((readinessOk / Math.max(1, readinessItems.length)) * 100);
+    const bandPct = trips.length
+      ? Math.round((Math.max(0, trips.length - flagged) / trips.length) * 100)
+      : 100;
+    const ring = function (pct, cls) {
+      const circumference = 2 * Math.PI * 52;
+      const filled = (Math.max(0, Math.min(100, pct)) / 100) * circumference;
+      return '<svg class="ov-ring ' + cls + '" viewBox="0 0 120 120" aria-hidden="true">' +
+        '<circle class="ov-ring-track" cx="60" cy="60" r="52"/>' +
+        '<circle class="ov-ring-fill" cx="60" cy="60" r="52" ' +
+          'stroke-dasharray="' + filled.toFixed(1) + ' ' + circumference.toFixed(1) + '"/></svg>';
+    };
+
+    let recentCards = '';
+    trips.slice(0, 6).forEach(function (trip) {
+      recentCards += '<div class="ov-trip">' +
+        '<div class="ov-trip-time"><strong>' + esc(Data.formatTime(trip.timestamp)) + '</strong>' +
+          '<span>' + esc(Data.km(trip.distanceKm)) + '</span></div>' +
+        '<div class="ov-trip-main"><strong>' + esc(trip.origin) + ' → ' + esc(trip.destination) + '</strong>' +
+          '<span>' + esc(trip.vehicleName) + ' · ' + esc(cityShort({ displayName: trip.cityName })) + '</span></div>' +
+        '<div class="ov-trip-fare">' + esc(Data.peso(trip.estimate, 2)) + '</div>' +
+        '<div class="ov-trip-state">' + tripStatusBadge(trip.status) + '</div>' +
+        '<button type="button" class="ov-trip-btn" data-trip-view="' + esc(trip.id) + '">View</button>' +
+      '</div>';
+    });
+
     const html =
-      '<div class="page-head">' +
-        '<div><h2>' + greeting + ', ' + esc(firstName) + '</h2>' +
-        '<p>Here is how ' + esc(activeName) + ' is looking this week.</p></div>' +
-        '<div class="page-actions">' +
-          '<button type="button" class="btn btn-outline" id="overview-routes">' + icon('route') + ' ' + routeCount + ' fare routes</button>' +
-          '<button type="button" class="btn btn-primary" id="overview-trips">' + icon('route') + ' Trip records</button>' +
-        '</div>' +
-      '</div>' +
-      '<div class="grid-kpi">' +
-        FF.kpiCard({
-          label: 'City dataset', value: cities.length, unit: 'live', iconName: 'city',
-          note: icon('pin') + ' ' + esc(activeName) + ' is the live dataset', noteTone: 'ok',
-        }) +
-        FF.kpiCard({
-          label: 'Official fare routes', value: routeCount, unit: 'published', iconName: 'fare',
-          note: icon('doc') + ' Cabadbaran tricycle matrix', tone: 'blue',
-        }) +
-        FF.kpiCard({
-          label: 'Active vehicles', value: activeVehicles, unit: 'in service', iconName: 'route', tone: 'amber',
-          note: icon('trend') + ' ' + classes + ' vehicle class' + (classes === 1 ? '' : 'es') + ' in the catalog', noteTone: 'warn',
-        }) +
-        FF.kpiCard({
-          label: 'Trips this week', value: trips.length, unit: 'records', iconName: 'route',
-          note: icon('trend') + ' Avg ' + esc(Data.peso(avg, 2)) + ' per estimate', noteTone: 'ok',
-          spark: days.map(function (day) { return day.count; }),
-        }) +
-      '</div>' +
-      '<div class="grid-2">' +
-        '<div class="card">' +
-          '<div class="card-head"><div><h3>Trip volume</h3><p>Estimates recorded per day · last 7 days</p></div>' +
-            '<span class="pill pill-quiet">' + trips.length + ' total</span></div>' +
-          '<div class="chart-body">' + tripChartSvg(trips) + '</div>' +
-          '<div class="chart-legend">' +
-            '<span><i class="legend-dot"></i> Recorded trips</span>' +
-            '<span class="chart-peak">Peak <strong>' + peakDay.count + '</strong> · ' + DAY_NAMES[peakDay.date.getDay()] + ' ' + peakDay.date.getDate() + '</span>' +
-            '<span class="spacer"></span>' +
-            '<span class="chart-flag' + (flagged ? '' : ' clear') + '">' + icon(flagged ? 'alert' : 'check') +
-              (flagged ? flagged + ' need review' : 'All within range') + '</span>' +
+      '<section class="ov-hero">' +
+        '<div class="ov-hero-top">' +
+          '<div class="ov-hero-copy">' +
+            '<span class="ov-eyebrow">' + esc(activeName) + ' · fare oversight</span>' +
+            '<h2>' + greeting + ', ' + esc(firstName) + '</h2>' +
+            '<p>' + routeCount + ' official routes · ' + trips.length + ' trips recorded · ' +
+              (flagged ? flagged + ' awaiting review' : 'all within the customary band') + '</p>' +
+          '</div>' +
+          '<div class="ov-hero-actions">' +
+            '<button type="button" class="ov-btn ov-btn-ghost" id="overview-routes">' + icon('route') + routeCount + ' fare routes</button>' +
+            '<button type="button" class="ov-btn ov-btn-solid" id="overview-trips">' + icon('route') + ' Trip records</button>' +
           '</div>' +
         '</div>' +
-        '<div class="card">' +
-          '<div class="card-head"><div><h3>Fare snapshot</h3><p>Base fare · ' + esc(activeName) + '</p></div>' +
-            '<span class="badge badge-neutral badge-plain">' + vehicles.length + ' vehicle' + (vehicles.length === 1 ? '' : 's') + '</span></div>' +
-          '<div class="card-body">' +
+        '<div class="ov-hero-chart">' + tripChartSvg(trips) + '</div>' +
+        '<div class="ov-hero-foot">' +
+          '<span><i class="ov-dot"></i> Recorded trips</span>' +
+          '<span>Peak <strong>' + peakDay.count + '</strong> · ' + DAY_NAMES[peakDay.date.getDay()] + ' ' + peakDay.date.getDate() + '</span>' +
+          '<span class="ov-foot-flag' + (flagged ? '' : ' clear') + '">' + icon(flagged ? 'alert' : 'check') +
+            (flagged ? flagged + ' need review' : 'All within range') + '</span>' +
+        '</div>' +
+      '</section>' +
+
+      '<div class="ov-strip">' +
+        '<div class="ov-stat"><span>City dataset</span><strong>' + cities.length + '</strong><small>' + esc(activeName) + '</small></div>' +
+        '<div class="ov-stat"><span>Fare routes</span><strong>' + routeCount + '</strong><small>published</small></div>' +
+        '<div class="ov-stat"><span>Vehicles</span><strong>' + activeVehicles + '</strong><small>' + classes + ' class' + (classes === 1 ? '' : 'es') + '</small></div>' +
+        '<div class="ov-stat"><span>Trips</span><strong>' + trips.length + '</strong><small>avg ' + esc(Data.peso(avg, 2)) + '</small></div>' +
+      '</div>' +
+
+      '<div class="ov-bento">' +
+        '<section class="ov-card ov-span-5">' +
+          '<header class="ov-card-head"><div><span class="ov-label">Fare snapshot</span>' +
+            '<h3>' + esc(activeName) + '</h3></div>' +
+            '<span class="pill pill-quiet">' + vehicles.length + ' vehicle' + (vehicles.length === 1 ? '' : 's') + '</span></header>' +
+          '<div class="ov-fare-body">' +
             (vehicles.length
-              ? '<div class="bars">' + bars + '</div>' + fareMeta
-              : '<p class="muted" style="font-size:.78rem">No vehicles configured for this city.</p>') +
-            '<hr class="divider">' +
-            '<div class="row"><button type="button" class="btn btn-outline btn-sm" id="overview-fares">Open fare matrix</button>' +
-              '<span class="muted" style="font-size:.69rem">Per-km rates and caps live in the editor.</span></div>' +
+              ? '<div class="ov-bars">' + bars + '</div>' + fareMeta
+              : '<p class="ov-muted">No vehicles configured for this city.</p>') +
+            '<div class="ov-meter">' +
+              '<div class="ov-meter-track"><span style="width:' + bandPct + '%"></span></div>' +
+              '<div class="ov-meter-copy"><strong>' + bandPct + '%</strong> of recorded trips sit inside the customary band</div>' +
+            '</div>' +
           '</div>' +
-        '</div>' +
-      '</div>' +
-      '<div class="grid-2 section-gap">' +
-        '<div class="card">' +
-          '<div class="card-head"><div><h3>Recent trip records</h3><p>Latest estimates from ' + esc(activeName) + '</p></div>' +
-            '<button type="button" class="btn btn-ghost btn-sm" id="overview-all-trips">View all</button></div>' +
-          (recentRows
-            ? '<div class="table-wrap"><table class="data-table table-stack"><thead><tr>' +
-                '<th>Trip</th><th>Route</th><th>Vehicle</th><th class="num">Estimate</th><th>Status</th><th></th>' +
-              '</tr></thead><tbody>' + recentRows + '</tbody></table></div>'
+          '<footer class="ov-card-foot"><button type="button" class="btn btn-outline btn-sm" id="overview-fares">Open fare matrix</button>' +
+            '<span class="ov-muted">Per-km rates and caps live in the editor.</span></footer>' +
+        '</section>' +
+
+        '<section class="ov-card ov-span-4">' +
+          '<header class="ov-card-head"><div><span class="ov-label">Readiness</span><h3>Ordinance chain</h3></div>' +
+            (provisional ? badge('warn', provisional + ' provisional') : badge('ok', 'All verified')) + '</header>' +
+          '<div class="ov-gauge">' + ring(readinessPct, 'ov-ring-sage') +
+            '<div class="ov-gauge-copy"><strong>' + readinessPct + '%</strong><span>' + readinessOk + ' of ' + readinessItems.length + ' checks</span></div>' +
+          '</div>' +
+          '<div class="ov-checks">' + readiness + '</div>' +
+        '</section>' +
+
+        '<section class="ov-card ov-span-3 ov-review">' +
+          '<span class="ov-label">Review queue</span>' +
+          '<div class="ov-review-number">' + flagged + '</div>' +
+          '<p class="ov-muted">' + (flagged ? 'trips sit outside the customary band and need a second look.' : 'Nothing waiting. Every recorded fare sits inside the band.') + '</p>' +
+          '<button type="button" class="btn btn-primary btn-sm" id="overview-all-trips">' + (flagged ? 'Open trip records' : 'Browse trips') + '</button>' +
+          '<div class="ov-split">' +
+            '<div><span>Inside band</span><strong>' + Math.max(0, trips.length - flagged) + '</strong></div>' +
+            '<div><span>Flagged</span><strong>' + flagged + '</strong></div>' +
+            '<div><span>Avg fare</span><strong>' + esc(Data.peso(avg, 2)) + '</strong></div>' +
+          '</div>' +
+        '</section>' +
+
+        '<section class="ov-card ov-span-8">' +
+          '<header class="ov-card-head"><div><span class="ov-label">Latest activity</span><h3>Recent trip records</h3></div>' +
+            '<button type="button" class="btn btn-ghost btn-sm" id="overview-see-all">View all</button></header>' +
+          (recentCards ? '<div class="ov-trips">' + recentCards + '</div>'
             : FF.emptyState('route', 'No trips recorded yet', 'Trip estimates will appear here once passengers record fares.')) +
-        '</div>' +
-        '<div class="card">' +
-          '<div class="card-head"><div><h3>Dataset readiness</h3><p>Active vehicles and verification state</p></div>' +
-            (provisional ? badge('warn', provisional + ' provisional') : badge('ok', 'All verified')) + '</div>' +
-          '<div class="card-body"><div class="city-list">' + cityRows + '</div>' + readiness + '</div>' +
-        '</div>' +
+        '</section>' +
+
+        '<section class="ov-card ov-span-4">' +
+          '<header class="ov-card-head"><div><span class="ov-label">Coverage</span><h3>City datasets</h3></div>' +
+            '<span class="pill pill-live pill-dot">Live</span></header>' +
+          '<div class="card-body ov-cities">' + cityRows + '</div>' +
+          '<footer class="ov-card-foot"><button type="button" class="btn btn-ghost btn-sm" id="overview-cities">Open city datasets</button></footer>' +
+        '</section>' +
       '</div>';
 
     FF.dom.page.innerHTML = html;
@@ -627,6 +667,10 @@
     if (tripsButton) tripsButton.addEventListener('click', function () { FF.navigate('trips'); });
     const allTrips = FF.byId('overview-all-trips');
     if (allTrips) allTrips.addEventListener('click', function () { FF.navigate('trips'); });
+    const seeAll = FF.byId('overview-see-all');
+    if (seeAll) seeAll.addEventListener('click', function () { FF.navigate('trips'); });
+    const cityButton = FF.byId('overview-cities');
+    if (cityButton) cityButton.addEventListener('click', function () { FF.navigate('cities'); });
     const faresButton = FF.byId('overview-fares');
     if (faresButton) faresButton.addEventListener('click', function () {
       FF.ensureFareSelection();
