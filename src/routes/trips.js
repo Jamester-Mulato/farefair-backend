@@ -576,6 +576,11 @@ export function tripRoutes(db) {
 
       let accepted = 0;
       let duplicates = 0;
+      // Every trip in this request that is now safely stored, whether this call
+      // inserted it or an earlier attempt already did. The client uses these
+      // ids to clear only what the server actually holds, so a partial or
+      // interrupted sync can never drop a ride that never landed.
+      const acknowledged = [];
 
       await db.transaction(async (tx) => {
         for (const trip of input.trips) {
@@ -618,9 +623,11 @@ export function tripRoutes(db) {
 
           if (!inserted.rows.length) {
             duplicates += 1;
+            acknowledged.push(trip.clientTripId);
             continue;
           }
           accepted += 1;
+          acknowledged.push(trip.clientTripId);
 
           const tripId = inserted.rows[0].id;
           const points = trip.points.slice(0, 500);
@@ -660,7 +667,7 @@ export function tripRoutes(db) {
           }
         : null;
 
-      res.json({ accepted, duplicates, seed });
+      res.json({ accepted, duplicates, acknowledged, seed });
       console.log(
         `[sync] device=${input.deviceId} trips=${input.trips.length} ` +
           `accepted=${accepted} duplicates=${duplicates} ` +

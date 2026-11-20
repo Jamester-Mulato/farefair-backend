@@ -241,6 +241,7 @@ test('sync accepts a trip once and ignores the retry', async () => {
   assert.equal(first.status, 200, first.text);
   assert.equal(first.body.accepted, 1);
   assert.equal(first.body.duplicates, 0);
+  assert.deepEqual(first.body.acknowledged, ['device-trip-0001']);
   assert.equal(first.body.seed.version, 1);
   assert.ok(first.body.seed.payload, 'a stale client receives the seed payload');
 
@@ -251,6 +252,7 @@ test('sync accepts a trip once and ignores the retry', async () => {
   assert.equal(second.status, 200, second.text);
   assert.equal(second.body.accepted, 0);
   assert.equal(second.body.duplicates, 1);
+  assert.deepEqual(second.body.acknowledged, ['device-trip-0001']);
   assert.equal(second.body.seed.payload, null, 'an up-to-date client gets no payload');
 
   const stored = await db.query(
