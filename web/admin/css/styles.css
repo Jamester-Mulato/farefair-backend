@@ -178,6 +178,7 @@ img, svg { display: block; }
   box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.55);
 }
 .brand-mark-lg { width: 44px; height: 44px; border-radius: 13px; }
+img.brand-mark { object-fit: cover; background: #1B5B3E; }
 
 .brand-word {
   font-family: var(--font-display);
