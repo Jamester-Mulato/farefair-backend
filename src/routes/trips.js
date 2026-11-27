@@ -49,6 +49,14 @@ const syncSchema = z.object({
   trips: z.array(syncTripSchema).max(200).default([]),
 });
 
+/// Which of the device's local trip ids the database already holds. The client
+/// polls this before sending, so a trip that already landed is never queued
+/// again.
+const tripStatusSchema = z.object({
+  deviceId: z.string().min(8).max(80).optional(),
+  clientTripIds: z.array(z.string().min(1).max(120)).max(200).default([]),
+});
+
 const filterSchema = z.object({
   cityId: z.string().min(1).optional(),
   vehicleId: z.string().min(1).optional(),
@@ -541,6 +549,34 @@ export function tripRoutes(db) {
 
       const detail = await getTripDetail(db, req.params.tripId);
       res.json(detail);
+    }),
+  );
+
+  // Which of the supplied client trip ids already exist. Used by the app's
+  // half-second reconciler: only ids reported missing are queued for sync.
+  router.post(
+    '/trips/status',
+    asyncHandler(async (req, res) => {
+      const input = parseBody(tripStatusSchema, req);
+      const ids = [...new Set(input.clientTripIds)];
+
+      if (!ids.length) {
+        res.json({ existing: [], missing: [] });
+        return;
+      }
+
+      const found = await db.query(
+        `SELECT client_trip_id
+           FROM trips
+          WHERE client_trip_id = ANY($1::text[])`,
+        [ids],
+      );
+      const existing = found.rows.map((row) => row.client_trip_id);
+      const existingSet = new Set(existing);
+      res.json({
+        existing,
+        missing: ids.filter((id) => !existingSet.has(id)),
+      });
     }),
   );
 
